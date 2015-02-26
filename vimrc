@@ -1,5 +1,5 @@
 set nocompatible
-let leader=" "
+let mapleader=" "
 filetype off
 syntax on
 
@@ -18,7 +18,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
 Plugin 'Raimondi/delimitMate'
-Plugin 'godlygeek/tabular' 
+Plugin 'godlygeek/tabular'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -55,10 +55,8 @@ set shiftwidth=4
 set noswapfile
 set nowritebackup
 set hlsearch
-nnoremap <esc> :noh<return><esc>
 set ignorecase
 set smartcase
-map <C-n> :NERDTreeToggle<CR>
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -74,6 +72,8 @@ endfunc
 
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
 noremap <C-m> :call NumberToggle()<CR>
+nnoremap <esc> :noh<return><esc>
+map <C-n> :NERDTreeToggle<CR>
 
 :au FocusLost * :set number
 :au FocusGained * :set relativenumber
