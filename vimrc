@@ -19,6 +19,10 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'godlygeek/tabular' 
+" tim pope is great, isn't he?
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-endwise'
 
 call vundle#end()
 
