@@ -12,6 +12,5 @@ Fair warning: The installation will silently overwrite your existing dotfiles.
 #### VIM setup
 
 Run ```:PluginInstall``` in VIM to fetch and install the plugins.
-
-<Leader> is bound to the spacebar, which may not be immediately evident from
+&lt;Leader&gt; is bound to the spacebar, which may not be immediately evident from
 glancing at the vimrc.
