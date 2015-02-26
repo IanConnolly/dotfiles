@@ -18,6 +18,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'godlygeek/tabular' 
 
 call vundle#end()
 
@@ -90,3 +91,10 @@ command Wq wq
 command WQ wq
 command W w
 command Q q
+
+if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:<CR>
+    vmap <Leader>a: :Tabularize /:<CR>
+endif
