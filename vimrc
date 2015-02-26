@@ -6,7 +6,6 @@ syntax on
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-
 Plugin 'gmarik/Vundle'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
@@ -18,7 +17,7 @@ Plugin 'whatyouhide/vim-gotham'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
-
+Plugin 'Raimondi/delimitMate'
 
 call vundle#end()
 
@@ -32,6 +31,8 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+
+let delimitMate_expand_cr = 1
 filetype plugin indent on
 set laststatus=2
 set background=dark
