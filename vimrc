@@ -19,6 +19,7 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'godlygeek/tabular'
+Plugin 'mhinz/vim-startify'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -37,7 +38,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-let delimitMate_expand_cr = 1
 filetype plugin indent on
 set laststatus=2
 set background=dark
