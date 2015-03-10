@@ -17,8 +17,10 @@ Plugin 'whatyouhide/vim-gotham'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/rust.vim'
-Plugin 'Raimondi/delimitMate'
 Plugin 'godlygeek/tabular'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'haya14busa/vim-easyoperator-line'
 Plugin 'mhinz/vim-startify'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
@@ -73,7 +75,7 @@ function! TrimWhitespace()
 endfunc
 
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
-noremap <C-m> :call NumberToggle()<CR>
+noremap <Leader>num  :call NumberToggle()<CR>
 nnoremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
 
@@ -93,6 +95,51 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
+function! DisableIfNonCounted(move) range
+    if v:count
+        return a:move
+    else
+        " You can make this do something annoying like:
+           " echoerr "Count required!"
+           " sleep 2
+        return ""
+    endif
+endfunction
+
+function! SetDisablingOfBasicMotionsIfNonCounted(on)
+    let keys_to_disable = get(g:, "keys_to_disable_if_not_preceded_by_count", ["j", "k", "l", "h", "gj", "gk"])
+    if a:on
+        for key in keys_to_disable
+            execute "noremap <expr> <silent> " . key . " DisableIfNonCounted('" . key . "')"
+        endfor
+        let g:keys_to_disable_if_not_preceded_by_count = keys_to_disable
+        let g:is_non_counted_basic_motions_disabled = 1
+    else
+        for key in keys_to_disable
+            try
+                execute "unmap " . key
+            catch /E31:/
+            endtry
+        endfor
+        let g:is_non_counted_basic_motions_disabled = 0
+    endif
+endfunction
+
+function! ToggleDisablingOfBasicMotionsIfNonCounted()
+    let is_disabled = get(g:, "is_non_counted_basic_motions_disabled", 0)
+    if is_disabled
+        call SetDisablingOfBasicMotionsIfNonCounted(0)
+    else
+        call SetDisablingOfBasicMotionsIfNonCounted(1)
+    endif
+endfunction
+
+command! ToggleDisablingOfNonCountedBasicMotions :call ToggleDisablingOfBasicMotionsIfNonCounted()
+command! DisableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(1)
+command! EnableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(0)
+
+DisableNonCountedBasicMotions
+
 command Wq wq
 command WQ wq
 command W w
@@ -104,3 +151,5 @@ if exists(":Tabularize")
     nmap <Leader>a: :Tabularize /:<CR>
     vmap <Leader>a: :Tabularize /:<CR>
 endif
+highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
