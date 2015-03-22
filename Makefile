@@ -11,6 +11,12 @@ install: vim tmux
 
 vim: 
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
+	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	vim -c PluginInstall -c quitall
+	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
+	mkdir -p ~/.vim/ftdetect
+	ln -s ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
+
 
 tmux:
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf

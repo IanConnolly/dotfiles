@@ -22,12 +22,18 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'haya14busa/vim-easyoperator-line'
 Plugin 'mhinz/vim-startify'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-endwise'
 
 call vundle#end()
+
+filetype plugin indent on
+
 
 if executable('ag')
   " Use ag over grep
@@ -40,7 +46,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-filetype plugin indent on
 set laststatus=2
 set background=dark
 let g:airline_theme='gotham'
@@ -74,6 +79,10 @@ function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
 
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
+let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
 noremap <Leader>num  :call NumberToggle()<CR>
 nnoremap <esc> :noh<return><esc>
@@ -138,7 +147,6 @@ command! ToggleDisablingOfNonCountedBasicMotions :call ToggleDisablingOfBasicMot
 command! DisableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(1)
 command! EnableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(0)
 
-DisableNonCountedBasicMotions
 
 command Wq wq
 command WQ wq
