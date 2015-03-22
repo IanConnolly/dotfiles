@@ -87,6 +87,7 @@ nnoremap <Leader>rtw :call TrimWhitespace()<CR>
 noremap <Leader>num  :call NumberToggle()<CR>
 nnoremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
+noremap <Leader>pwd :lcd %:p:h<CR>
 
 :au FocusLost * :set number
 :au FocusGained * :set relativenumber
