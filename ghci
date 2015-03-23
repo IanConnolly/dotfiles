@@ -1,0 +1,4 @@
+:def ho \x -> return $ ":!hoogle \"" ++ x ++ "\" | head"
+:def hoogle \x -> return $ ":!hoogle \"" ++ x ++ "\""
+:def doc \x -> return $ ":!hoogle --info \"" ++ x ++ "\""
+:set prompt "\ESC[33mλ> \ESC[m"

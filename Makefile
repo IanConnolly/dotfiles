@@ -6,9 +6,10 @@ all:
 	@printf "\tvim\t\t - install vim\n"
 	@printf "\ttmux\t\t - install tmux\n"
 	@printf "\tgit\t\t - install git\n"
+	@printf "\tghci\t\t - install ghci\n"
 	@printf "\thelp\t\t - print this message\n"
 
-install: vim tmux git
+install: vim tmux git ghci
 
 vim:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
@@ -24,5 +25,8 @@ tmux:
 
 git:
 	ln -sf $(ROOT_DIR)/gitconfig $(HOME)/.gitconfig
+
+ghci:
+	ln -sf $(ROOT_DIR)/ghci $(HOME)/.ghci
 
 help: all
