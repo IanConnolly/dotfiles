@@ -7,9 +7,10 @@ all:
 	@printf "\ttmux\t\t - install tmux\n"
 	@printf "\tgit\t\t - install git\n"
 	@printf "\tghci\t\t - install ghci\n"
+	@printf "\tzsh\t\t - install zsh\n"
 	@printf "\thelp\t\t - print this message\n"
 
-install: vim tmux git ghci
+install: zsh vim tmux git ghci
 
 vim:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
@@ -19,7 +20,6 @@ vim:
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
 
-
 tmux:
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
@@ -28,5 +28,8 @@ git:
 
 ghci:
 	ln -sf $(ROOT_DIR)/ghci $(HOME)/.ghci
+
+zsh:
+	ln -sf $(ROOT_DIR)/zshrc $(HOME)/.zshrc
 
 help: all
