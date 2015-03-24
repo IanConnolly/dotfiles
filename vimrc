@@ -1,7 +1,5 @@
 set nocompatible
-let mapleader=" "
 filetype off
-syntax on
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -46,24 +44,33 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+let mapleader=" "
+syntax on
 set laststatus=2
 set background=dark
 let g:airline_theme='gotham'
 let g:solarized_termtrans=1
 colorscheme gotham
 highlight clear SignColumn
-
+set autoread
 set pastetoggle=<F2>
 set cursorline
 set relativenumber
 set expandtab
+set smarttab
 set tabstop=4
 set shiftwidth=4
 set noswapfile
 set nowritebackup
 set hlsearch
+set incsearch
 set ignorecase
 set smartcase
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -83,11 +90,11 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
-nnoremap <Leader>rtw :call TrimWhitespace()<CR>
+noremap <Leader>rtw :call TrimWhitespace()<CR>
 noremap <Leader>num  :call NumberToggle()<CR>
-nnoremap <esc> :noh<return><esc>
-map <C-n> :NERDTreeToggle<CR>
 noremap <Leader>pwd :lcd %:p:h<CR>
+noremap <esc> :noh<return><esc>
+map <C-n> :NERDTreeToggle<CR>
 
 :au FocusLost * :set number
 :au FocusGained * :set relativenumber
@@ -104,50 +111,6 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-
-function! DisableIfNonCounted(move) range
-    if v:count
-        return a:move
-    else
-        " You can make this do something annoying like:
-           " echoerr "Count required!"
-           " sleep 2
-        return ""
-    endif
-endfunction
-
-function! SetDisablingOfBasicMotionsIfNonCounted(on)
-    let keys_to_disable = get(g:, "keys_to_disable_if_not_preceded_by_count", ["j", "k", "l", "h", "gj", "gk"])
-    if a:on
-        for key in keys_to_disable
-            execute "noremap <expr> <silent> " . key . " DisableIfNonCounted('" . key . "')"
-        endfor
-        let g:keys_to_disable_if_not_preceded_by_count = keys_to_disable
-        let g:is_non_counted_basic_motions_disabled = 1
-    else
-        for key in keys_to_disable
-            try
-                execute "unmap " . key
-            catch /E31:/
-            endtry
-        endfor
-        let g:is_non_counted_basic_motions_disabled = 0
-    endif
-endfunction
-
-function! ToggleDisablingOfBasicMotionsIfNonCounted()
-    let is_disabled = get(g:, "is_non_counted_basic_motions_disabled", 0)
-    if is_disabled
-        call SetDisablingOfBasicMotionsIfNonCounted(0)
-    else
-        call SetDisablingOfBasicMotionsIfNonCounted(1)
-    endif
-endfunction
-
-command! ToggleDisablingOfNonCountedBasicMotions :call ToggleDisablingOfBasicMotionsIfNonCounted()
-command! DisableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(1)
-command! EnableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(0)
-
 
 command Wq wq
 command WQ wq
