@@ -6,19 +6,20 @@
 [color]
     ui = auto
 [color "branch"]
-    current = yellow reverse
+    current = green
     local = yellow
-    remote = green
+    remote = cyan 
 [color "diff"]
     meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-    whitespace = red reverse
+    frag = cyan bold
+    old = red reverse
+    new = green reverse
+    whitespace = white reverse
 [color "status"]
     added = yellow
     changed = green
     untracked = cyan
+    branch = cyan
 [alias]
     amend = commit -a --amend
     conf = config --global -e
