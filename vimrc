@@ -23,6 +23,7 @@ Plugin 'mhinz/vim-startify'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'sjl/gundo.vim'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -93,7 +94,8 @@ let g:UltiSnipsEditSplit="vertical"
 noremap <Leader>rtw :call TrimWhitespace()<CR>
 noremap <Leader>num  :call NumberToggle()<CR>
 noremap <Leader>pwd :lcd %:p:h<CR>
-noremap <esc> :noh<return><esc>
+noremap <Leader>un :GundoToggle<CR>
+nnoremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
 
 :au FocusLost * :set number
