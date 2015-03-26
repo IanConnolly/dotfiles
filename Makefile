@@ -21,6 +21,9 @@ vim:
 	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
+	ln -sf ~/.vim ~/.nvim
+	ln -sf ~/.vimrc ~/.nvimrc
+	pip install nvim
 
 tmux:
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
