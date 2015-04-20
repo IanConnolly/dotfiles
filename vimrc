@@ -1,6 +1,7 @@
 set nocompatible
 filetype off
 
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -10,12 +11,15 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rking/ag.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'whatyouhide/vim-gotham'
+Plugin 'chriskempson/base16-vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'majutsushi/tagbar'
+Plugin 'chrisbra/NrrwRgn'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'wting/rust.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'Lokaltog/vim-easymotion'
@@ -25,12 +29,19 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'sjl/gundo.vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'rizzatti/dash.vim'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
+
+let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 
 filetype plugin indent on
 
@@ -50,9 +61,9 @@ let mapleader=" "
 syntax on
 set laststatus=2
 set background=dark
-let g:airline_theme='gotham'
+let g:airline_theme='base16'
 let g:solarized_termtrans=1
-colorscheme gotham
+colorscheme base16-default
 highlight clear SignColumn
 set autoread
 set pastetoggle=<F2>
@@ -72,7 +83,10 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
+set splitright
 
+set tags=./tags,tags;
+let g:easytag_dynamic_files = 1
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -92,11 +106,13 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
-noremap <Leader>rtw :call TrimWhitespace()<CR>
-noremap <Leader>num  :call NumberToggle()<CR>
-noremap <Leader>pwd :lcd %:p:h<CR>
-noremap <Leader>un :GundoToggle<CR>
-nnoremap <esc> :noh<return><esc>
+nnoremap <Leader>rtw :call TrimWhitespace()<CR>
+nnoremap <Leader>num  :call NumberToggle()<CR>
+nnoremap <Leader>pwd :lcd %:p:h<CR>
+nnoremap <Leader>un :GundoToggle<CR>
+nnoremap <Leader>t :CtrlPTag<CR>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+noremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
 
 :au FocusLost * :set number
