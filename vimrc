@@ -85,7 +85,7 @@ set t_vb=
 set tm=500
 set splitright
 
-set tags=./tags;
+set tags=./.tags;
 let g:easytags_dynamic_files = 1
 
 function! NumberToggle()
