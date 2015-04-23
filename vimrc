@@ -85,8 +85,8 @@ set t_vb=
 set tm=500
 set splitright
 
-set tags=./tags,tags;
-let g:easytag_dynamic_files = 1
+set tags=./tags;
+let g:easytags_dynamic_files = 1 
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -112,6 +112,7 @@ nnoremap <Leader>pwd :lcd %:p:h<CR>
 nnoremap <Leader>un :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
+nmap <silent> <Leader>d <Plug>DashSearch
 noremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
 
