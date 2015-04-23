@@ -86,7 +86,7 @@ set tm=500
 set splitright
 
 set tags=./tags;
-let g:easytags_dynamic_files = 1 
+let g:easytags_dynamic_files = 1
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -109,7 +109,7 @@ let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
 nnoremap <Leader>num  :call NumberToggle()<CR>
 nnoremap <Leader>pwd :lcd %:p:h<CR>
-nnoremap <Leader>un :GundoToggle<CR>
+nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
