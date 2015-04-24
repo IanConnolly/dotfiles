@@ -108,7 +108,7 @@ let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
-nnoremap <Leader>num  :call NumberToggle()<CR>
+nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>pwd :lcd %:p:h<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
