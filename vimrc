@@ -147,10 +147,5 @@ endif
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
-if has('nvim')
-    set ttimeout
-    set ttimeoutlen=-1
-endif
-
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
