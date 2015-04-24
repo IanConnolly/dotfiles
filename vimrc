@@ -31,6 +31,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'sjl/gundo.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'rizzatti/dash.vim'
+Plugin 'vim-ruby/vim-ruby'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -66,7 +67,7 @@ let g:solarized_termtrans=1
 colorscheme base16-default
 highlight clear SignColumn
 set autoread
-set pastetoggle=<F2>
+set pastetoggle=<c-v>
 set cursorline
 set relativenumber
 set expandtab
@@ -145,3 +146,11 @@ if exists(":Tabularize")
 endif
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
+
+if has('nvim')
+    set ttimeout
+    set ttimeoutlen=-1
+endif
+
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
