@@ -103,6 +103,12 @@ function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
 
+function RailsTags()
+    let paths = system("bundle show --paths")
+    let fixed = substitute(paths, "\n", " ", "g")
+    :execute "UpdateTags --languages=ruby,html,javascript . " . fixed
+endfunction
+
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
@@ -110,6 +116,7 @@ let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>rtw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>pwd :lcd %:p:h<CR>
+nnoremap <Leader>tag :call RailsTags()<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>

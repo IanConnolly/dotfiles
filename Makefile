@@ -8,9 +8,10 @@ all:
 	@printf "\tgit\t\t - install git\n"
 	@printf "\tghci\t\t - install ghci\n"
 	@printf "\tzsh\t\t - install zsh\n"
+	@printf "\tctags\t\t - install ctags\n"
 	@printf "\thelp\t\t - print this message\n"
 
-install: zsh vim tmux git ghci
+install: zsh vim tmux git ghc tags
 
 vim:
 	rm -rf ~/.vim
@@ -31,10 +32,13 @@ tmux:
 git:
 	ln -sf $(ROOT_DIR)/gitconfig $(HOME)/.gitconfig
 
-ghci:
+ghc:
 	ln -sf $(ROOT_DIR)/ghci $(HOME)/.ghci
 
 zsh:
 	ln -sf $(ROOT_DIR)/zshrc $(HOME)/.zshrc
+
+tags:
+	ln -sf $(ROOT_DIR)/ctags $(HOME)/.ctags
 
 help: all
