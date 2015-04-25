@@ -10,8 +10,5 @@ export KEYTIMEOUT=1
 
 export PATH="$HOME/Library/Haskell/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.rvm/bin:$PATH"
 
-alias vim=nvim
-alias v=nvim
 alias nv=nvim
 alias nvi=nvim
-alias vi=nvim
