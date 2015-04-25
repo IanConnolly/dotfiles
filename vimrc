@@ -5,7 +5,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle'
+Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -15,7 +15,6 @@ Plugin 'bling/vim-airline'
 Plugin 'whatyouhide/vim-gotham'
 Plugin 'chriskempson/base16-vim'
 Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
 Plugin 'majutsushi/tagbar'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'airblade/vim-gitgutter'
@@ -45,7 +44,6 @@ call vundle#end()
 let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 
 filetype plugin indent on
-
 
 if executable('ag')
   " Use ag over grep
@@ -87,7 +85,6 @@ set tm=500
 set splitright
 
 set tags=./.tags;
-let g:easytags_dynamic_files = 1
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -103,26 +100,21 @@ function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
 
-function RailsTags()
-    let paths = system("bundle show --paths")
-    let fixed = substitute(paths, "\n", " ", "g")
-    :execute "UpdateTags --languages=ruby,html,javascript . " . fixed
-endfunction
-
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
-nnoremap <Leader>rtw :call TrimWhitespace()<CR>
+nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>pwd :lcd %:p:h<CR>
-nnoremap <Leader>tag :call RailsTags()<CR>
+nnoremap <Leader>rt :execute "!rtags"<CR>
+nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
 noremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
+map <C-b> :TagbarToggle<CR>
 
 :au FocusLost * :set number
 :au FocusGained * :set relativenumber

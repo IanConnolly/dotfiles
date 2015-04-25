@@ -37,6 +37,7 @@ ghc:
 
 zsh:
 	ln -sf $(ROOT_DIR)/zshrc $(HOME)/.zshrc
+	ln -sf $(ROOT_DIR)/zshenv $(HOME)/.zshenv
 
 tags:
 	ln -sf $(ROOT_DIR)/ctags $(HOME)/.ctags
