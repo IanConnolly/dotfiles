@@ -78,6 +78,7 @@ set laststatus=2
 set background=dark
 set autoread
 set pastetoggle=<F2> " paste mode for clipboard pasted
+set backspace=indent,eol,start
 set cursorline
 set relativenumber
 set expandtab
@@ -97,6 +98,7 @@ set tm=500
 set splitright
 set splitbelow
 set scrolloff=10
+set sidescrolloff=10
 set tags=./.tags;
 set ttyfast
 set listchars=tab:›\ ,eol:¬,trail:⋅
