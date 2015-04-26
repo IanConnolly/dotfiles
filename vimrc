@@ -5,42 +5,51 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'kien/ctrlp.vim'
-Plugin 'rking/ag.vim'
-Plugin 'bling/vim-airline'
-Plugin 'whatyouhide/vim-gotham'
-Plugin 'chriskempson/base16-vim'
-Plugin 'xolox/vim-misc'
-Plugin 'majutsushi/tagbar'
-Plugin 'chrisbra/NrrwRgn'
-Plugin 'airblade/vim-gitgutter'
+
+" Vim layout + window related fun
+Plugin 'scrooloose/nerdtree'         " File tree
+Plugin 'Xuyuanp/nerdtree-git-plugin' " Show git statuses beside files in above
+Plugin 'kien/ctrlp.vim'              " Fuzzy search
+Plugin 'majutsushi/tagbar'           " Overview of ctags in current file
+Plugin 'mhinz/vim-startify'          " Helpful start page for vim
+Plugin 'bling/vim-airline'           " Lightweight status bar
+Plugin 'sjl/gundo.vim'               " View undo history as tree
+
+" Integrations
+Plugin 'airblade/vim-gitgutter' " Show git diff icons in gutter
+Plugin 'rizzatti/dash.vim'      " Integrate with Dash.app
+Plugin 'tpope/vim-rails'        " Helpful rails related shortcuts
+Plugin 'tpope/vim-rake'         " The general ruby bits of vim-rails
+Plugin 'tpope/vim-fugitive'     " Git command wrappers
+Plugin 'rking/ag.vim'           " integrate with ag, a faster grep
+
+" Typing/Autocomplete support
+Plugin 'scrooloose/syntastic'   " Syntax errors!
+Plugin 'jiangmiao/auto-pairs'   " Automatically pair quotes, braces etc.
+Plugin 'Valloric/YouCompleteMe' " Dropdown with autocompletion
+Plugin 'SirVer/ultisnips'       " Snippets engine
+Plugin 'honza/vim-snippets'     " Lots of built-in snippets for ultisnips
+Plugin 'marijnh/tern_for_vim'   " Integrate with tern for JS omnifunc
+Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
+
+" Movement/Text-alteration
+Plugin 'Lokaltog/vim-easymotion' " Awesome motion movement without numbers
+Plugin 'tpope/vim-surround'      " Easily deal with surrounding quotes, braces
+Plugin 'tpope/vim-commentary'    " Comment/uncomment textobjs
+Plugin 'tpope/vim-unimpaired'    " Collection of paired commands
+Plugin 'chrisbra/NrrwRgn'        " Work on highlighted blocks w/ global regex
+Plugin 'godlygeek/tabular'       " Align blocks on chars
+
+" Colors
+Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
+Plugin 'chriskempson/base16-vim' " pastel-y theme
+
+" Languages
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'godlygeek/tabular'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'haya14busa/vim-easyoperator-line'
-Plugin 'mhinz/vim-startify'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'sjl/gundo.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'rizzatti/dash.vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'marijnh/tern_for_vim'
 Plugin 'othree/html5.vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'pangloss/vim-javascript'
-" tim pope is great, isn't he?
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
 
 call vundle#end()
 
