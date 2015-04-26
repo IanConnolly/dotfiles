@@ -8,7 +8,7 @@
 [color "branch"]
     current = green
     local = yellow
-    remote = cyan 
+    remote = cyan
 [color "diff"]
     meta = yellow bold
     frag = cyan bold

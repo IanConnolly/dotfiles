@@ -1,7 +1,6 @@
 set nocompatible
 filetype off
 
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -32,6 +31,8 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'rizzatti/dash.vim'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'marijnh/tern_for_vim'
+Plugin 'othree/html5.vim'
+Plugin 'pangloss/vim-javascript'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -39,6 +40,7 @@ Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
 
 call vundle#end()
 
@@ -84,8 +86,12 @@ set novisualbell
 set t_vb=
 set tm=500
 set splitright
-
+set splitbelow
+set scrolloff=10
 set tags=./.tags;
+set ttyfast
+set listchars=tab:›\ ,eol:¬,trail:⋅
+set list
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -107,43 +113,27 @@ let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
-nnoremap <Leader>pwd :lcd %:p:h<CR>
+nnoremap <Leader>li :set list!<CR>
+nnoremap <Leader>pwd :echo expand("%:p:h")<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
 noremap <esc> :noh<return><esc>
 map <C-n> :NERDTreeToggle<CR>
 map <C-b> :TagbarToggle<CR>
 
-:au FocusLost * :set number
-:au FocusGained * :set relativenumber
-
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
-
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
 
 command Wq wq
 command WQ wq
 command W w
 command Q q
 
-if exists(":Tabularize")
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    nmap <Leader>a: :Tabularize /:<CR>
-    vmap <Leader>a: :Tabularize /:<CR>
-endif
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
