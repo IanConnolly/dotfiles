@@ -103,6 +103,7 @@ set tags=./.tags;
 set ttyfast
 set listchars=tab:›\ ,eol:¬,trail:⋅
 set list
+set encoding=utf-8
 
 function! NumberToggle()
     if (&relativenumber == 1)
