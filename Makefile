@@ -13,18 +13,21 @@ all:
 
 install: zsh vim tmux git ghc tags
 
-vim:
+vim: vimlinks
 	rm -rf ~/.vim
-	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
 	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-	brew update && brew install the_silver_searcher
+	brew update && brew install the_silver_searcher && brew install ctags
 	vim -c PluginInstall -c quitall
 	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
+	cd ~/.vim/bundle/tern_for_vim && npm install
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
+	pip install neovim
+
+vimlinks:
+	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
 	ln -sf ~/.vim ~/.nvim
 	ln -sf ~/.vimrc ~/.nvimrc
-	pip install nvim
 
 tmux:
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf

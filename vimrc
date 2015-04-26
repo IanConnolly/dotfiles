@@ -31,6 +31,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'rizzatti/dash.vim'
 Plugin 'vim-ruby/vim-ruby'
+Plugin 'marijnh/tern_for_vim'
 " tim pope is great, isn't he?
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
@@ -148,3 +149,4 @@ match OverLength /\%81v.\+/
 
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+autocmd FileType javascript setlocal omnifunc=tern#Complete
