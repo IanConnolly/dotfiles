@@ -4,6 +4,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" Manage Vundle with Vundle
 Plugin 'gmarik/Vundle.vim'
 
 " Vim layout + window related fun
@@ -53,31 +54,30 @@ Plugin 'pangloss/vim-javascript'
 
 call vundle#end()
 
-let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
-
 filetype plugin indent on
 
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
 
-let mapleader=" "
-syntax on
-set laststatus=2
-set background=dark
+" Config for themes/colors/plugins
 let g:airline_theme='base16'
-let g:solarized_termtrans=1
+let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
 highlight clear SignColumn
+
+let mapleader=" " " Space for leader is so much more satisfying
+syntax on
+
+set laststatus=2
+set background=dark
 set autoread
-set pastetoggle=<c-v>
+set pastetoggle=<F2> " paste mode for clipboard pasted
 set cursorline
 set relativenumber
 set expandtab
@@ -134,18 +134,38 @@ nmap <Leader>a: :Tabularize /:<CR>
 vmap <Leader>a: :Tabularize /:<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
 noremap <esc> :noh<return><esc>
-map <C-n> :NERDTreeToggle<CR>
-map <C-b> :TagbarToggle<CR>
+map <F3> :NERDTreeToggle<CR>
+map <F4> :TagbarToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+imap <F4> <ESC>:TagbarToggle<CR>
 
-
+" Because shift is hard to let go of okay
 command Wq wq
 command WQ wq
 command W w
 command Q q
 
+" Highlight > 80 chars
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+" use tern for omnifunc which is used by YouCompleteMe for suggestions
 autocmd FileType javascript setlocal omnifunc=tern#Complete
+
+" Otherwise vim will get nasty escape codes
+if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
+  map <Esc>OP <F1>
+  map <Esc>OQ <F2>
+  map <Esc>OR <F3>
+  map <Esc>OS <F4>
+  map <Esc>[16~ <F5>
+  map <Esc>[17~ <F6>
+  map <Esc>[18~ <F7>
+  map <Esc>[19~ <F8>
+  map <Esc>[20~ <F9>
+  map <Esc>[21~ <F10>
+  map <Esc>[23~ <F11>
+  map <Esc>[24~ <F12>
+endif
