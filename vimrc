@@ -87,6 +87,7 @@ set expandtab
 set smarttab
 set tabstop=4
 set shiftwidth=4
+set shiftround
 set noswapfile
 set nowritebackup
 set hlsearch
@@ -106,6 +107,9 @@ set ttyfast
 set listchars=tab:›\ ,eol:¬,trail:⋅
 set list
 set encoding=utf-8
+set whichwrap+=<,>,h,l
+set wildmenu
+set wildmode=longest:list,full
 
 function! NumberToggle()
     if (&relativenumber == 1)
