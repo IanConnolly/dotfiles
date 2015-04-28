@@ -73,21 +73,21 @@ let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
 highlight clear SignColumn
 
-let mapleader=" " " Space for leader is so much more satisfying
+let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 
 set laststatus=2
 set background=dark
 set autoread
-set pastetoggle=<F2> " paste mode for clipboard pasted
-set backspace=indent,eol,start
+set pastetoggle=<F2>                " paste mode for clipboard pasted
+set backspace=indent,eol,start      " backspace everything
 set cursorline
-set relativenumber
+set relativenumber                  " for easier movements
 set expandtab
 set smarttab
 set tabstop=4
 set shiftwidth=4
-set shiftround
+set shiftround                      " 'h' and 'l' will wrap around lines
 set noswapfile
 set nowritebackup
 set hlsearch
@@ -100,15 +100,15 @@ set t_vb=
 set tm=500
 set splitright
 set splitbelow
-set scrolloff=10
+set scrolloff=10                    " keep cursor relatively centered
 set sidescrolloff=10
 set tags=./.tags;
-set ttyfast
-set listchars=tab:›\ ,eol:¬,trail:⋅
+set ttyfast                         " probably already set but /shruggie
+set listchars=tab:›\ ,eol:¬,trail:⋅ " textmate
 set list
 set encoding=utf-8
 set whichwrap+=<,>,h,l
-set wildmenu
+set wildmenu                        " command auto-completion
 set wildmode=longest:list,full
 
 function! NumberToggle()
@@ -144,11 +144,13 @@ vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:<CR>
 vmap <Leader>a: :Tabularize /:<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
+" easily get rid of search highlights
 noremap <esc> :noh<return><esc>
-map <F3> :NERDTreeToggle<CR>
-map <F4> :TagbarToggle<CR>
-imap <F3> <ESC>:NERDTreeToggle<CR>
-imap <F4> <ESC>:TagbarToggle<CR>
+" quick taps for opening extra menus
+map <F3> :TagbarToggle<CR>
+map <F4> :NERDTreeToggle<CR>
+imap <F3> <ESC>:TagbarToggle<CR>
+imap <F4> <ESC>:NERDTreeToggle<CR>
 
 " Because shift is hard to let go of okay
 command Wq wq
