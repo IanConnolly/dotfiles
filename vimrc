@@ -23,6 +23,8 @@ Plugin 'tpope/vim-rails'        " Helpful rails related shortcuts
 Plugin 'tpope/vim-rake'         " The general ruby bits of vim-rails
 Plugin 'tpope/vim-fugitive'     " Git command wrappers
 Plugin 'rking/ag.vim'           " integrate with ag, a faster grep
+Plugin 'justinmk/vim-gtfo'      " Open a tmux pane with got!
+Plugin 'tpope/vim-tbone'        " Access to tmux commands
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -126,11 +128,13 @@ let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>li :set list!<CR>
-nnoremap <Leader>pwd :echo expand("%:p:h")<CR>
+nnoremap <Leader>cwd :echo expand("%:p:h")<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
+vnoremap <Leader>y :Tyank<CR>
+nnoremap <Leader>p :Tput<CR>
 nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:<CR>
