@@ -17,14 +17,15 @@ Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'sjl/gundo.vim'               " View undo history as tree
 
 " Integrations
-Plugin 'airblade/vim-gitgutter' " Show git diff icons in gutter
-Plugin 'rizzatti/dash.vim'      " Integrate with Dash.app
-Plugin 'tpope/vim-rails'        " Helpful rails related shortcuts
-Plugin 'tpope/vim-rake'         " The general ruby bits of vim-rails
-Plugin 'tpope/vim-fugitive'     " Git command wrappers
-Plugin 'rking/ag.vim'           " integrate with ag, a faster grep
-Plugin 'justinmk/vim-gtfo'      " Open a tmux pane with got!
-Plugin 'tpope/vim-tbone'        " Access to tmux commands
+Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
+Plugin 'rizzatti/dash.vim'                  " Integrate with Dash.app
+Plugin 'tpope/vim-rails'                    " Helpful rails related shortcuts
+Plugin 'tpope/vim-rake'                     " The general ruby bits of vim-rails
+Plugin 'tpope/vim-fugitive'                 " Git command wrappers
+Plugin 'rking/ag.vim'                       " integrate with ag, a faster grep
+Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
+Plugin 'tpope/vim-tbone'                    " Access to tmux commands
+Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
