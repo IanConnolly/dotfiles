@@ -43,6 +43,7 @@ Plugin 'tpope/vim-commentary'    " Comment/uncomment textobjs
 Plugin 'tpope/vim-unimpaired'    " Collection of paired commands
 Plugin 'chrisbra/NrrwRgn'        " Work on highlighted blocks w/ global regex
 Plugin 'godlygeek/tabular'       " Align blocks on chars
+Plugin 'kshenoy/vim-signature'   " Show marks in gutter
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
@@ -69,10 +70,9 @@ if executable('ag')
 endif
 
 " Config for themes/colors/plugins
-let g:airline_theme='base16'
 let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
-highlight clear SignColumn
+let g:airline_theme='base16'
 
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -164,6 +164,15 @@ command Q q
 " Highlight > 80 chars
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
+
+highlight SignColumn ctermbg=black
+highlight lineNr ctermbg=black
+let g:SignatureMarkTextHLDynamic = 1
+
+highlight GitGutterAdd ctermbg=black
+highlight GitGutterChange ctermbg=black
+highlight GitGutterDelete ctermbg=black
+highlight GitGutterChangeDelete ctermbg=black
 
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
