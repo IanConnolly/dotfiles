@@ -9,7 +9,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Vim layout + window related fun
 Plugin 'scrooloose/nerdtree'         " File tree
-Plugin 'Xuyuanp/nerdtree-git-plugin' " Show git statuses beside files in above
+Plugin 'ryanoasis/vim-webdevicons'   " Nice icons in NERDTree
 Plugin 'kien/ctrlp.vim'              " Fuzzy search
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current file
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
@@ -73,6 +73,7 @@ endif
 let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
 let g:airline_theme='base16'
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -194,3 +195,6 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
   map <Esc>[23~ <F11>
   map <Esc>[24~ <F12>
 endif
+
+" close vim if only buffer left is NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
