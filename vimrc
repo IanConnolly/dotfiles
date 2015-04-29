@@ -196,5 +196,13 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
   map <Esc>[24~ <F12>
 endif
 
+" Who uses modula2???
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+" spell check git commit messages and markdown files!
+autocmd FileType markdown setlocal spell
+autocmd FileType gitcommit setlocal spell
+" spelling completion
+set complete+=kspell
+
 " close vim if only buffer left is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
