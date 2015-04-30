@@ -76,6 +76,10 @@ let g:airline_theme='base16'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 let g:airline_powerline_fonts = 1
 
+" Get rid of YCM preview window when we tab
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 
