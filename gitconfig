@@ -30,3 +30,5 @@
     update = pull --rebase
     up = pull --rebase
     cm = commit -m
+[push]
+	default = simple
