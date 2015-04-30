@@ -74,6 +74,7 @@ let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
 let g:airline_theme='base16'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+let g:airline_powerline_fonts = 1
 
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -174,6 +175,12 @@ highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
+
+" highlight the line number
+hi CursorLineNR ctermfg=red
+augroup CLNRSet
+    autocmd! ColorScheme * hi CursorLineNR ctermfg=red
+augroup END
 
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
