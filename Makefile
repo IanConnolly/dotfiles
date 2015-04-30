@@ -34,6 +34,7 @@ tmux:
 
 git:
 	ln -sf $(ROOT_DIR)/gitconfig $(HOME)/.gitconfig
+	ln -sf $(ROOT_DIR)/gitignore $(HOME)/.gitignore
 
 ghc:
 	ln -sf $(ROOT_DIR)/ghci $(HOME)/.ghci

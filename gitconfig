@@ -32,3 +32,5 @@
     cm = commit -m
 [push]
 	default = simple
+[core]
+	excludesfile = /Users/ian/.gitignore
