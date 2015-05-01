@@ -117,6 +117,7 @@ set encoding=utf-8
 set whichwrap+=<,>,h,l
 set wildmenu                        " command auto-completion
 set wildmode=longest:list,full
+set lazyredraw
 
 function! NumberToggle()
     if (&relativenumber == 1)
