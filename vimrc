@@ -145,6 +145,7 @@ nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
+vnoremap <Leader>c "*y
 vnoremap <Leader>y :Tyank<CR>
 nnoremap <Leader>p :Tput<CR>
 nmap <Leader>a= :Tabularize /=<CR>
