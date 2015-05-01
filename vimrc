@@ -118,6 +118,7 @@ set whichwrap+=<,>,h,l
 set wildmenu                        " command auto-completion
 set wildmode=longest:list,full
 set lazyredraw
+set mouse=a
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -140,7 +141,6 @@ let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>li :set list!<CR>
-nnoremap <Leader>cwd :echo expand("%:p:h")<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
