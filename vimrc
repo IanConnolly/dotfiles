@@ -192,10 +192,10 @@ hi CursorLineNR ctermfg=red
 augroup ColourSet
     autocmd!
     autocmd ColorScheme * hi CursorLineNR ctermfg=red
-    autocmd ColorScheme * hi GitGutterAdd ctermbg=black
+    autocmd ColorScheme * hi OverLength ctermbg=darkgray guibg=darkgray
     autocmd ColorScheme * hi SignColumn ctermbg=black
     autocmd ColorScheme * hi lineNr ctermbg=black
-    autocmd ColorScheme * hi OverLength ctermbg=darkgray guibg=darkgray
+    autocmd ColorScheme * hi GitGutterAdd ctermbg=black
     autocmd ColorScheme * hi GitGutterChange ctermbg=black
     autocmd ColorScheme * hi GitGutterDelete ctermbg=black
     autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
@@ -212,6 +212,7 @@ augroup FileTypeSettings
     " spell check git commit messages and markdown files!
     autocmd FileType markdown setlocal spell
     autocmd FileType gitcommit setlocal spell
+    autocmd FileType text setlocal spell
 augroup END
 
 " Otherwise vim will get nasty escape codes
