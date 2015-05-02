@@ -77,6 +77,8 @@ endif
 let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
 let g:airline_theme='base16'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 let g:airline_powerline_fonts = 1
 let g:SignatureMarkTextHLDynamic = 1
@@ -125,6 +127,7 @@ set wildmode=longest:list,full
 set lazyredraw
 set mouse=a
 set complete+=kspell
+set hidden
 
 function! NumberToggle()
     if (&relativenumber == 1)
