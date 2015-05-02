@@ -15,6 +15,8 @@ Plugin 'majutsushi/tagbar'           " Overview of ctags in current file
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'sjl/gundo.vim'               " View undo history as tree
+Plugin 'junegunn/goyo.vim'           " Center when typing text, markdown
+Plugin 'junegunn/limelight.vim'      " Focus paragraph when in goyo
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
@@ -48,6 +50,7 @@ Plugin 'kshenoy/vim-signature'   " Show marks in gutter
 " Colors
 Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
 Plugin 'chriskempson/base16-vim' " pastel-y theme
+Plugin 'junegunn/seoul256.vim'   " low contrast theme
 
 " Languages
 Plugin 'kchmck/vim-coffee-script'
@@ -170,7 +173,7 @@ command W w
 command Q q
 
 " Highlight > 80 chars
-highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
+highlight OverLength ctermbg=darkgray guibg=darkgray
 match OverLength /\%81v.\+/
 
 highlight SignColumn ctermbg=black
@@ -216,6 +219,9 @@ autocmd FileType markdown setlocal spell
 autocmd FileType gitcommit setlocal spell
 " spelling completion
 set complete+=kspell
+
+autocmd User GoyoEnter Limelight
+autocmd User GoyoLeave Limelight!
 
 " close vim if only buffer left is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
