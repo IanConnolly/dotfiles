@@ -20,6 +20,7 @@ vim: vimlinks
 	vim -c PluginInstall -c quitall
 	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
 	cd ~/.vim/bundle/tern_for_vim && npm install
+	cd ~/.vim/bundle/vim-xmark && make
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
 	pip install neovim

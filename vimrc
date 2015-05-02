@@ -28,6 +28,7 @@ Plugin 'rking/ag.vim'                       " integrate with ag, a faster grep
 Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
 Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
+Plugin 'junegunn/vim-xmark'                 " Markdown preview
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -78,6 +79,7 @@ colorscheme base16-default
 let g:airline_theme='base16'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 let g:airline_powerline_fonts = 1
+let g:SignatureMarkTextHLDynamic = 1
 
 " Get rid of YCM preview window when we tab
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -122,6 +124,7 @@ set wildmenu                        " command auto-completion
 set wildmode=longest:list,full
 set lazyredraw
 set mouse=a
+set complete+=kspell
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -178,7 +181,6 @@ match OverLength /\%81v.\+/
 
 highlight SignColumn ctermbg=black
 highlight lineNr ctermbg=black
-let g:SignatureMarkTextHLDynamic = 1
 
 highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
@@ -187,14 +189,30 @@ highlight GitGutterChangeDelete ctermbg=black
 
 " highlight the line number
 hi CursorLineNR ctermfg=red
-augroup CLNRSet
-    autocmd! ColorScheme * hi CursorLineNR ctermfg=red
-augroup END
+augroup ColourSet
+    autocmd!
+    autocmd ColorScheme * hi CursorLineNR ctermfg=red
+    autocmd ColorScheme * hi GitGutterAdd ctermbg=black
+    autocmd ColorScheme * hi SignColumn ctermbg=black
+    autocmd ColorScheme * hi lineNr ctermbg=black
+    autocmd ColorScheme * hi OverLength ctermbg=darkgray guibg=darkgray
+    autocmd ColorScheme * hi GitGutterChange ctermbg=black
+    autocmd ColorScheme * hi GitGutterDelete ctermbg=black
+    autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
+ augroup END
 
-autocmd Filetype html setlocal ts=2 sw=2 expandtab
-autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
-" use tern for omnifunc which is used by YouCompleteMe for suggestions
-autocmd FileType javascript setlocal omnifunc=tern#Complete
+augroup FileTypeSettings
+    autocmd!
+    autocmd Filetype html setlocal ts=2 sw=2 expandtab
+    autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+    " use tern for omnifunc which is used by YouCompleteMe for suggestions
+    autocmd FileType javascript setlocal omnifunc=tern#Complete
+    " Who uses modula2???
+    autocmd BufNewFile,BufRead *.md set filetype=markdown
+    " spell check git commit messages and markdown files!
+    autocmd FileType markdown setlocal spell
+    autocmd FileType gitcommit setlocal spell
+augroup END
 
 " Otherwise vim will get nasty escape codes
 if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
@@ -212,16 +230,14 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
   map <Esc>[24~ <F12>
 endif
 
-" Who uses modula2???
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-" spell check git commit messages and markdown files!
-autocmd FileType markdown setlocal spell
-autocmd FileType gitcommit setlocal spell
-" spelling completion
-set complete+=kspell
+augroup GoyoLight
+    autocmd!
+    autocmd User GoyoEnter Limelight
+    autocmd User GoyoLeave Limelight!
+augroup END
 
-autocmd User GoyoEnter Limelight
-autocmd User GoyoLeave Limelight!
-
-" close vim if only buffer left is NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+augroup NERDCleanup
+    autocmd!
+    " close vim if only buffer left is NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+augroup END
