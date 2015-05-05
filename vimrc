@@ -49,6 +49,7 @@ Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
 Plugin 'chrisbra/NrrwRgn'            " Work on blocks w/ global regex
 Plugin 'godlygeek/tabular'           " Align blocks on chars
 Plugin 'kshenoy/vim-signature'       " Show marks in gutter
+Plugin 'wellle/targets.vim'          " New text objs
 Plugin 'kana/vim-textobj-user'       " User-defined text objs
 Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
 Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
