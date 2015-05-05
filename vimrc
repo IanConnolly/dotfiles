@@ -53,6 +53,7 @@ Plugin 'wellle/targets.vim'          " New text objs
 Plugin 'kana/vim-textobj-user'       " User-defined text objs
 Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
 Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
+Plugin 'tpope/vim-jdaddy'            " json text objs
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
