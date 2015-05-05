@@ -40,13 +40,16 @@ Plugin 'marijnh/tern_for_vim'   " Integrate with tern for JS omnifunc
 Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
-Plugin 'Lokaltog/vim-easymotion' " Awesome motion movement without numbers
-Plugin 'tpope/vim-surround'      " Easily deal with surrounding quotes, braces
-Plugin 'tpope/vim-commentary'    " Comment/uncomment textobjs
-Plugin 'tpope/vim-unimpaired'    " Collection of paired commands
-Plugin 'chrisbra/NrrwRgn'        " Work on highlighted blocks w/ global regex
-Plugin 'godlygeek/tabular'       " Align blocks on chars
-Plugin 'kshenoy/vim-signature'   " Show marks in gutter
+Plugin 'Lokaltog/vim-easymotion'     " Awesome motion movement without numbers
+Plugin 'tpope/vim-surround'          " Easily deal with surrounding quotes
+Plugin 'tpope/vim-commentary'        " Comment/uncomment textobjs
+Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
+Plugin 'chrisbra/NrrwRgn'            " Work on blocks w/ global regex
+Plugin 'godlygeek/tabular'           " Align blocks on chars
+Plugin 'kshenoy/vim-signature'       " Show marks in gutter
+Plugin 'kana/vim-textobj-user'       " User-defined text objs
+Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
+Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
@@ -82,6 +85,10 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 let g:airline_powerline_fonts = 1
 let g:SignatureMarkTextHLDynamic = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Get rid of YCM preview window when we tab
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -95,8 +102,7 @@ set background=dark
 set autoread
 set pastetoggle=<F2>                " paste mode for clipboard pasted
 set backspace=indent,eol,start      " backspace everything
-set cursorline
-set relativenumber                  " for easier movements
+set number                          " for easier movements
 set expandtab
 set smarttab
 set tabstop=4
@@ -124,7 +130,6 @@ set encoding=utf-8
 set whichwrap+=<,>,h,l
 set wildmenu                        " command auto-completion
 set wildmode=longest:list,full
-set lazyredraw
 set mouse=a
 set complete+=kspell
 set hidden
