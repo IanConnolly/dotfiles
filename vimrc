@@ -171,6 +171,8 @@ vmap <Leader>a" :Tabularize /"<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
 " easily get rid of search highlights
 noremap <esc> :noh<return><esc>
+" cycle through buffers
+map <Leader><tab> :bn<CR>
 " quick taps for opening extra menus
 map <F3> :TagbarToggle<CR>
 map <F4> :NERDTreeToggle<CR>
