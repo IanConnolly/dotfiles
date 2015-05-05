@@ -10,7 +10,7 @@ Plugin 'gmarik/Vundle.vim'
 " Vim layout + window related fun
 Plugin 'scrooloose/nerdtree'         " File tree
 Plugin 'ryanoasis/vim-webdevicons'   " Nice icons in NERDTree
-Plugin 'kien/ctrlp.vim'              " Fuzzy search
+Plugin 'ctrlpvim/ctrlp.vim'          " Fuzzy search
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current file
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
