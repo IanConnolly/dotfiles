@@ -1,5 +1,6 @@
 set nocompatible
 filetype off
+runtime macros/matchit.vim
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -29,6 +30,7 @@ Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
 Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'junegunn/vim-xmark'                 " Markdown preview
+Plugin 'ecomba/vim-ruby-refactoring'
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
