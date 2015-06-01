@@ -31,6 +31,7 @@ vimlinks:
 	ln -sf ~/.vimrc ~/.nvimrc
 
 tmux:
+	brew update && brew install reattach-to-user-namespace
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
 git:
