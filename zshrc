@@ -16,3 +16,4 @@ alias devbox="ssh -A devbox.lo"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 rvm use 2.1.5
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

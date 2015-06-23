@@ -66,6 +66,7 @@ Plugin 'othree/html5.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'pangloss/vim-javascript'
+Plugin 'cakebaker/scss-syntax.vim'
 
 call vundle#end()
 
@@ -89,8 +90,12 @@ let g:airline_powerline_fonts = 1
 let g:SignatureMarkTextHLDynamic = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_scss_checkers = []
+let g:syntastic_disabled_filetypea = ['scss']
+let g:EasyMotion_startofline = 0
+
 
 " Get rid of YCM preview window when we tab
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -154,6 +159,10 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
+
+" god who uses this
+map q: :q
+
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>li :set list!<CR>
@@ -161,9 +170,13 @@ nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
+nnoremap <Leader>cd :cd %:p:h<CR>
+nnoremap <Leader>w :w<CR>
 vnoremap <Leader>c "*y
 vnoremap <Leader>y :Tyank<CR>
 nnoremap <Leader>p :Tput<CR>
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:<CR>
@@ -175,6 +188,7 @@ nmap <silent> <Leader>d <Plug>DashSearch
 noremap <esc> :noh<return><esc>
 " cycle through buffers
 map <Leader><tab> :bn<CR>
+map <Leader>` :bp<CR>
 " quick taps for opening extra menus
 map <F3> :TagbarToggle<CR>
 map <F4> :NERDTreeToggle<CR>
@@ -221,6 +235,7 @@ augroup FileTypeSettings
     autocmd FileType javascript setlocal omnifunc=tern#Complete
     " Who uses modula2???
     autocmd BufNewFile,BufRead *.md set filetype=markdown
+    autocmd BufNewFile,BufRead *.css set filetype=scss
     " spell check git commit messages and markdown files!
     autocmd FileType markdown setlocal spell
     autocmd FileType gitcommit setlocal spell
