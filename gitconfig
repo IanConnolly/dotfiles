@@ -28,6 +28,7 @@
     summary = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     sum = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     update = pull --rebase
+    todo = ! git status --porcelain | sed "s/^...//" | xargs ag "TODO" -B 3 -A 10
     up = pull --rebase
     cm = commit -m
 [push]

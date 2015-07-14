@@ -172,6 +172,7 @@ nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>gb :Gblame<CR>
 vnoremap <Leader>c "*y
 vnoremap <Leader>y :Tyank<CR>
 nnoremap <Leader>p :Tput<CR>
