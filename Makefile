@@ -17,7 +17,7 @@ vim: vimlinks
 	rm -rf ~/.vim
 	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	brew update && brew install the_silver_searcher && brew install ctags && brew reinstall --HEAD fzf
-	./usr/local/Cellar/fzf/HEAD/install
+	/usr/local/Cellar/fzf/HEAD/install
 	vim -c PluginInstall -c quitall
 	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
 	cd ~/.vim/bundle/tern_for_vim && npm install

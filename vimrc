@@ -11,8 +11,8 @@ Plugin 'gmarik/Vundle.vim'
 " Vim layout + window related fun
 Plugin 'scrooloose/nerdtree'         " File tree
 Plugin 'ryanoasis/vim-webdevicons'   " Nice icons in NERDTree
-Plugin 'ctrlpvim/ctrlp.vim'          " Fuzzy search
-Plugin 'majutsushi/tagbar'           " Overview of ctags in current file
+" Plugin 'ctrlpvim/ctrlp.vim'        " TODO: temporarily disabling. Fuzzy search
+Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'sjl/gundo.vim'               " View undo history as tree
@@ -56,9 +56,10 @@ Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
 Plugin 'tpope/vim-jdaddy'            " json text objs
 
 " Colors
-Plugin 'whatyouhide/vim-gotham'  " batman-inspired theme
-Plugin 'chriskempson/base16-vim' " pastel-y theme
-Plugin 'junegunn/seoul256.vim'   " low contrast theme
+Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
+Plugin 'chriskempson/base16-vim'          " pastel-y theme
+Plugin 'junegunn/seoul256.vim'            " low contrast theme
+Plugin 'altercation/vim-colors-solarized' " solarized is life
 
 " Languages
 Plugin 'kchmck/vim-coffee-script'
@@ -72,12 +73,15 @@ call vundle#end()
 
 filetype plugin indent on
 
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
+
+" TODO: temporarily disabling ctrlp
+" if executable('ag')
+"   " Use ag over grep
+"   set grepprg=ag\ --nogroup\ --nocolor
+"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" endif
 
 " Config for themes/colors/plugins
 let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
@@ -93,7 +97,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
-let g:syntastic_disabled_filetypea = ['scss']
+let g:syntastic_disabled_filetype = ['scss']
 let g:EasyMotion_startofline = 0
 
 
@@ -169,13 +173,16 @@ nnoremap <Leader>li :set list!<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
-nnoremap <Leader>t :CtrlPTag<CR>
+" nnoremap <Leader>t :CtrlPTag<CR> " TODO: temporarily disabling ctrlp
+nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>gb :Gblame<CR>
 vnoremap <Leader>c "*y
 vnoremap <Leader>y :Tyank<CR>
 nnoremap <Leader>p :Tput<CR>
+" list buffers, then type buffer # and hit enter to jump to buff
+nnoremap <leader>b :ls<cr>:b<space>
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 nmap <Leader>a= :Tabularize /=<CR>
@@ -270,3 +277,8 @@ augroup NERDCleanup
     " close vim if only buffer left is NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 augroup END
+
+" If user has additional vim config, source it
+if filereadable(glob("~/.vimrc.local")) 
+    source ~/.vimrc.local
+endif
