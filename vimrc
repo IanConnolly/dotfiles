@@ -277,3 +277,8 @@ augroup NERDCleanup
     " close vim if only buffer left is NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 augroup END
+
+" If user has additional vim config, source it
+if filereadable(glob("~/.vimrc.local")) 
+    source ~/.vimrc.local
+endif
