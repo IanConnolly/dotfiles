@@ -1,5 +1,5 @@
 rtags() {
-    ctags --languages=ruby,html,javascript . `bundle show --paths`
+    ctags --languages=ruby . `bundle show --paths`
 }
 
 gitme() {
