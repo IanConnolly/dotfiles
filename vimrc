@@ -11,7 +11,6 @@ Plugin 'gmarik/Vundle.vim'
 " Vim layout + window related fun
 Plugin 'scrooloose/nerdtree'         " File tree
 Plugin 'ryanoasis/vim-webdevicons'   " Nice icons in NERDTree
-" Plugin 'ctrlpvim/ctrlp.vim'        " TODO: temporarily disabling. Fuzzy search
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
@@ -30,7 +29,7 @@ Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
 Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'junegunn/vim-xmark'                 " Markdown preview
-Plugin 'ecomba/vim-ruby-refactoring'
+Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -42,24 +41,24 @@ Plugin 'marijnh/tern_for_vim'   " Integrate with tern for JS omnifunc
 Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
-Plugin 'Lokaltog/vim-easymotion'     " Awesome motion movement without numbers
 Plugin 'tpope/vim-surround'          " Easily deal with surrounding quotes
 Plugin 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
 Plugin 'chrisbra/NrrwRgn'            " Work on blocks w/ global regex
-Plugin 'godlygeek/tabular'           " Align blocks on chars
 Plugin 'kshenoy/vim-signature'       " Show marks in gutter
 Plugin 'wellle/targets.vim'          " New text objs
 Plugin 'kana/vim-textobj-user'       " User-defined text objs
 Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
 Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
 Plugin 'tpope/vim-jdaddy'            " json text objs
+Plugin 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
 Plugin 'chriskempson/base16-vim'          " pastel-y theme
 Plugin 'junegunn/seoul256.vim'            " low contrast theme
 Plugin 'altercation/vim-colors-solarized' " solarized is life
+Plugin 'junegunn/rainbow_parentheses.vim' " color nested parens
 
 " Languages
 Plugin 'kchmck/vim-coffee-script'
@@ -75,30 +74,34 @@ filetype plugin indent on
 
 set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
 
-" TODO: temporarily disabling ctrlp
-" if executable('ag')
-"   " Use ag over grep
-"   set grepprg=ag\ --nogroup\ --nocolor
-"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" endif
-
 " Config for themes/colors/plugins
-let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 colorscheme base16-default
+
 let g:airline_theme='base16'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 let g:airline_powerline_fonts = 1
+
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+
 let g:SignatureMarkTextHLDynamic = 1
+
+let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
-let g:EasyMotion_startofline = 0
+
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
+let g:UltiSnipsEditSplit="vertical"
 
 
 " Get rid of YCM preview window when we tab
@@ -113,7 +116,7 @@ set background=dark
 set autoread
 set pastetoggle=<F2>                " paste mode for clipboard pasted
 set backspace=indent,eol,start      " backspace everything
-set number                          " for easier movements
+set relativenumber                  " for easier movements
 set expandtab
 set smarttab
 set tabstop=4
@@ -144,6 +147,7 @@ set wildmode=longest:list,full
 set mouse=a
 set complete+=kspell
 set hidden
+set nocursorline
 
 function! NumberToggle()
     if (&relativenumber == 1)
@@ -159,11 +163,6 @@ function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
 
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
-let g:UltiSnipsEditSplit="vertical"
-
 " god who uses this
 map q: :q
 
@@ -173,7 +172,6 @@ nnoremap <Leader>li :set list!<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
-" nnoremap <Leader>t :CtrlPTag<CR> " TODO: temporarily disabling ctrlp
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>w :w<CR>
@@ -183,14 +181,6 @@ vnoremap <Leader>y :Tyank<CR>
 nnoremap <Leader>p :Tput<CR>
 " list buffers, then type buffer # and hit enter to jump to buff
 nnoremap <leader>b :ls<cr>:b<space>
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:<CR>
-vmap <Leader>a: :Tabularize /:<CR>
-nmap <Leader>a" :Tabularize /"<CR>
-vmap <Leader>a" :Tabularize /"<CR>
 nmap <silent> <Leader>d <Plug>DashSearch
 " easily get rid of search highlights
 noremap <esc> :noh<return><esc>
@@ -209,10 +199,6 @@ command WQ wq
 command W w
 command Q q
 
-" Highlight > 80 chars
-highlight OverLength ctermbg=darkgray guibg=darkgray
-match OverLength /\%81v.\+/
-
 highlight SignColumn ctermbg=black
 highlight lineNr ctermbg=black
 
@@ -221,12 +207,10 @@ highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
 
-" highlight the line number
-hi CursorLineNR ctermfg=red
+hi CursorLineNR ctermbg=black
 augroup ColourSet
     autocmd!
-    autocmd ColorScheme * hi CursorLineNR ctermfg=red
-    autocmd ColorScheme * hi OverLength ctermbg=darkgray guibg=darkgray
+    autocmd ColorScheme * hi CursorLineNR ctermbg=black
     autocmd ColorScheme * hi SignColumn ctermbg=black
     autocmd ColorScheme * hi lineNr ctermbg=black
     autocmd ColorScheme * hi GitGutterAdd ctermbg=black
@@ -252,18 +236,18 @@ augroup END
 
 " Otherwise vim will get nasty escape codes
 if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
-  map <Esc>OP <F1>
-  map <Esc>OQ <F2>
-  map <Esc>OR <F3>
-  map <Esc>OS <F4>
-  map <Esc>[16~ <F5>
-  map <Esc>[17~ <F6>
-  map <Esc>[18~ <F7>
-  map <Esc>[19~ <F8>
-  map <Esc>[20~ <F9>
-  map <Esc>[21~ <F10>
-  map <Esc>[23~ <F11>
-  map <Esc>[24~ <F12>
+    map <Esc>OP <F1>
+    map <Esc>OQ <F2>
+    map <Esc>OR <F3>
+    map <Esc>OS <F4>
+    map <Esc>[16~ <F5>
+    map <Esc>[17~ <F6>
+    map <Esc>[18~ <F7>
+    map <Esc>[19~ <F8>
+    map <Esc>[20~ <F9>
+    map <Esc>[21~ <F10>
+    map <Esc>[23~ <F11>
+    map <Esc>[24~ <F12>
 endif
 
 augroup GoyoLight
@@ -278,7 +262,12 @@ augroup NERDCleanup
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 augroup END
 
+augroup Rainbow
+    autocmd!
+    autocmd BufEnter * RainbowParentheses
+augroup END
+
 " If user has additional vim config, source it
-if filereadable(glob("~/.vimrc.local")) 
+if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
