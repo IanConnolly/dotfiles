@@ -177,8 +177,7 @@ nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>gb :Gblame<CR>
 vnoremap <Leader>c "*y
-vnoremap <Leader>y :Tyank<CR>
-nnoremap <Leader>p :Tput<CR>
+nnoremap <Leader>p "0p
 " list buffers, then type buffer # and hit enter to jump to buff
 nnoremap <leader>b :ls<cr>:b<space>
 nmap <silent> <Leader>d <Plug>DashSearch
