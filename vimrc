@@ -168,16 +168,16 @@ map q: :q
 
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
-nnoremap <Leader>li :set list!<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
-nnoremap <Leader>w :w<CR>
 nnoremap <Leader>gb :Gblame<CR>
+" copy and paste
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
+nnoremap <Leader>P "0P
 " list buffers, then type buffer # and hit enter to jump to buff
 nnoremap <leader>b :ls<cr>:b<space>
 nmap <silent> <Leader>d <Plug>DashSearch
