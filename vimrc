@@ -11,7 +11,6 @@ Plugin 'gmarik/Vundle.vim'
 " Vim layout + window related fun
 Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
-Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'sjl/gundo.vim'               " View undo history as tree
 Plugin 'junegunn/goyo.vim'           " Center when typing text, markdown
