@@ -9,8 +9,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Vim layout + window related fun
-Plugin 'scrooloose/nerdtree'         " File tree
-Plugin 'ryanoasis/vim-webdevicons'   " Nice icons in NERDTree
+Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
 Plugin 'mhinz/vim-startify'          " Helpful start page for vim
 Plugin 'bling/vim-airline'           " Lightweight status bar
@@ -44,7 +43,6 @@ Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 Plugin 'tpope/vim-surround'          " Easily deal with surrounding quotes
 Plugin 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
-Plugin 'chrisbra/NrrwRgn'            " Work on blocks w/ global regex
 Plugin 'kshenoy/vim-signature'       " Show marks in gutter
 Plugin 'wellle/targets.vim'          " New text objs
 Plugin 'kana/vim-textobj-user'       " User-defined text objs
@@ -58,7 +56,6 @@ Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
 Plugin 'chriskempson/base16-vim'          " pastel-y theme
 Plugin 'junegunn/seoul256.vim'            " low contrast theme
 Plugin 'altercation/vim-colors-solarized' " solarized is life
-Plugin 'junegunn/rainbow_parentheses.vim' " color nested parens
 
 " Languages
 Plugin 'kchmck/vim-coffee-script'
@@ -116,7 +113,7 @@ set background=dark
 set autoread
 set pastetoggle=<F2>                " paste mode for clipboard pasted
 set backspace=indent,eol,start      " backspace everything
-set relativenumber                  " for easier movements
+set number                          " for easier movements
 set expandtab
 set smarttab
 set tabstop=4
@@ -188,9 +185,7 @@ map <Leader><tab> :bn<CR>
 map <Leader>` :bp<CR>
 " quick taps for opening extra menus
 map <F3> :TagbarToggle<CR>
-map <F4> :NERDTreeToggle<CR>
 imap <F3> <ESC>:TagbarToggle<CR>
-imap <F4> <ESC>:NERDTreeToggle<CR>
 
 " Because shift is hard to let go of okay
 command Wq wq
@@ -253,17 +248,6 @@ augroup GoyoLight
     autocmd!
     autocmd User GoyoEnter Limelight
     autocmd User GoyoLeave Limelight!
-augroup END
-
-augroup NERDCleanup
-    autocmd!
-    " close vim if only buffer left is NERDTree
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-augroup END
-
-augroup Rainbow
-    autocmd!
-    autocmd BufEnter * RainbowParentheses
 augroup END
 
 " If user has additional vim config, source it
