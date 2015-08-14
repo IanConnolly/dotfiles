@@ -15,6 +15,7 @@ Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'sjl/gundo.vim'               " View undo history as tree
 Plugin 'junegunn/goyo.vim'           " Center when typing text, markdown
 Plugin 'junegunn/limelight.vim'      " Focus paragraph when in goyo
+Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
@@ -208,6 +209,7 @@ map <Leader>` :bp<CR>
 " quick taps for opening extra menus
 map <F3> :TagbarToggle<CR>
 imap <F3> <ESC>:TagbarToggle<CR>
+map <F4> :EasyBuffer<CR>
 
 " Because shift is hard to let go of okay
 command Wq wq
