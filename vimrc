@@ -12,9 +12,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
 Plugin 'bling/vim-airline'           " Lightweight status bar
-Plugin 'sjl/gundo.vim'               " View undo history as tree
-Plugin 'junegunn/goyo.vim'           " Center when typing text, markdown
-Plugin 'junegunn/limelight.vim'      " Focus paragraph when in goyo
+Plugin 'mbbill/undotree'             " View undo history as tree
 Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
 
 " Integrations
@@ -128,6 +126,11 @@ endfor
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
+if has("persistent_undo")
+    set undodir='~/.undodir/'
+    set undofile
+endif
+
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 
@@ -190,7 +193,7 @@ nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
-nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>gb :Gblame<CR>
@@ -210,12 +213,13 @@ map <Leader>` :bp<CR>
 map <F3> :TagbarToggle<CR>
 imap <F3> <ESC>:TagbarToggle<CR>
 map <F4> :EasyBuffer<CR>
+map ` :EasyBuffer<CR>
 
 " Because shift is hard to let go of okay
-command Wq wq
-command WQ wq
-command W w
-command Q q
+command! Wq wq
+command! WQ wq
+command! W w
+command! Q q
 
 highlight SignColumn ctermbg=black
 highlight lineNr ctermbg=black
@@ -267,12 +271,6 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
     map <Esc>[23~ <F11>
     map <Esc>[24~ <F12>
 endif
-
-augroup GoyoLight
-    autocmd!
-    autocmd User GoyoEnter Limelight
-    autocmd User GoyoLeave Limelight!
-augroup END
 
 " If user has additional vim config, source it
 if filereadable(glob("~/.vimrc.local"))
