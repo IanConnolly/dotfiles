@@ -42,6 +42,7 @@ Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 Plugin 'tpope/vim-surround'          " Easily deal with surrounding quotes
 Plugin 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
+Plugin 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plugin 'kshenoy/vim-signature'       " Show marks in gutter
 Plugin 'wellle/targets.vim'          " New text objs
 Plugin 'kana/vim-textobj-user'       " User-defined text objs
