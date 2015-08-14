@@ -27,6 +27,7 @@ Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'junegunn/vim-xmark'                 " Markdown preview
 Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
+Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
