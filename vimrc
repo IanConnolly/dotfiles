@@ -197,6 +197,8 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>gb :Gblame<CR>
+" death to RSI
+nnoremap <CR> :
 " copy and paste
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
