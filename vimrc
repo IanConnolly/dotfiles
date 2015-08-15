@@ -10,7 +10,6 @@ Plugin 'gmarik/Vundle.vim'
 
 " Vim layout + window related fun
 Plugin 'tpope/vim-vinegar'           " cleanup netrw
-Plugin 'majutsushi/tagbar'           " Overview of ctags in current fil
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'mbbill/undotree'             " View undo history as tree
 Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
@@ -25,7 +24,6 @@ Plugin 'rking/ag.vim'                       " integrate with ag, a faster grep
 Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
 Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
-Plugin 'junegunn/vim-xmark'                 " Markdown preview
 Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
 
@@ -154,7 +152,7 @@ set incsearch
 set ignorecase
 set smartcase
 set noerrorbells
-set novisualbell
+set visualbell
 set t_vb=
 set tm=500
 set splitright
@@ -203,18 +201,12 @@ nnoremap <Leader>gb :Gblame<CR>
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
-" list buffers, then type buffer # and hit enter to jump to buff
-nnoremap <leader>b :ls<cr>:b<space>
 nmap <silent> <Leader>d <Plug>DashSearch
 " easily get rid of search highlights
 noremap <esc> :noh<return><esc>
 " cycle through buffers
 map <Leader><tab> :bn<CR>
 map <Leader>` :bp<CR>
-" quick taps for opening extra menus
-map <F3> :TagbarToggle<CR>
-imap <F3> <ESC>:TagbarToggle<CR>
-map <F4> :EasyBuffer<CR>
 map ` :EasyBuffer<CR>
 
 " Because shift is hard to let go of okay
