@@ -13,7 +13,6 @@ Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'mbbill/undotree'             " View undo history as tree
 Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
-Plugin 'Konfekt/FastFold'            " Sane folding
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
@@ -61,7 +60,6 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'othree/html5.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'vim-ruby/vim-ruby'
-Plugin 'bruno-/vim-ruby-fold'
 Plugin 'pangloss/vim-javascript'
 Plugin 'cakebaker/scss-syntax.vim'
 
@@ -173,7 +171,6 @@ set mouse=a
 set complete+=kspell
 set hidden
 set nocursorline
-set foldmethod=syntax
 
 function! NumberToggle()
     if (&relativenumber == 1)
