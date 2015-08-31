@@ -26,6 +26,7 @@ Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
+Plugin 'benmills/vimux'
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -186,6 +187,40 @@ endfunc
 function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
+
+let g:vs_open = 0
+
+function! VimuxScribd()
+    if (g:vs_open == 0)
+        call VimuxRunCommand("ssh -A devbox.lo")
+        call VimuxRunCommand("cd /var/www/apps/scribd/current")
+        call VimuxRunCommand("clear")
+        let g:vs_open = 1
+    endif
+endfunction
+
+function! VimuxRuby()
+    if (g:vs_open == 0)
+        call VimuxScribd()
+    endif
+    call VimuxRunCommand("clear; bundle exec rspec --no-profile " . bufname("%"))
+endfunction
+
+function! VimuxScribdClose()
+    if (g:vs_open == 1)
+        call VimuxCloseRunner()
+        let g:vs_open = 0
+    endif
+endfunction
+
+augroup Vimux
+    autocmd!
+    autocmd VimLeave * :call VimuxScribdClose()
+augroup END
+
+nnoremap <Leader>vs :call VimuxScribd()<CR>
+nnoremap <Leader>vr :call VimuxRuby()<CR>
+nnoremap <Leader>vc :call VimuxScribdClose()<CR>
 
 " god who uses this
 map q: :q
