@@ -26,7 +26,7 @@ Plugin 'tpope/vim-tbone'                    " Access to tmux commands
 Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
-Plugin 'benmills/vimux'
+Plugin 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -49,6 +49,7 @@ Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
 Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
 Plugin 'tpope/vim-jdaddy'            " json text objs
 Plugin 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
+Plugin 'vasconcelloslf/vim-interestingwords'
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
@@ -78,7 +79,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline_powerline_fonts = 1
-
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline#extensions#tabline#left_sep = ''
@@ -86,10 +86,11 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
 
-
 let g:SignatureMarkTextHLDynamic = 1
 
-let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
+if has('mac')
+    let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
+endif
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -263,7 +264,6 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 
 " Switch to last active buffer
 noremap <leader><space> :buffer #<CR>
-
 
 " Because shift is hard to let go of okay
 command! Wq wq
