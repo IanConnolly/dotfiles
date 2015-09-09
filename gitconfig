@@ -32,6 +32,11 @@
     up = pull --rebase
     cm = commit -m
     rmbranch = "!f(){ git branch -D ${1} && git push origin --delete ${1}; };f"
+    files = "!f() { git diff --name-status $1^ $1; }; f"
+    pluck = "!f() { git checkout $2 -- $1; }; f"
+    alias = "!git config -l | grep alias | cut -c 7-"
+    destroy = reset --hard HEAD
+    filelog = log -u
 [push]
     default = simple
 [core]
