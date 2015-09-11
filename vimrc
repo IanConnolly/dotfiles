@@ -65,6 +65,9 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'pangloss/vim-javascript'
 Plugin 'cakebaker/scss-syntax.vim'
 
+" Games
+Plugin 'mattn/flappyvird-vim' " lol
+
 call vundle#end()
 
 filetype plugin indent on
