@@ -240,6 +240,14 @@ function! DeleteUndoFile()
   endif
 endfunction
 
+function! CurFileSearchLocList()
+  call inputsave()
+  let search_term = input('Search: ')
+  call inputrestore()
+  execute 'lvim "' . search_term . '" %'
+  execute 'lopen'
+endfunction
+
 augroup Vimux
   autocmd!
   autocmd VimLeave * :call VimuxScribdClose()
@@ -301,6 +309,9 @@ nnoremap <Leader>P "0P
 
 " Syntastic errors
 nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
+
+" Search for a term and put it in the loclist
+nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
 
 " Search current word in Dash.app
 if has('mac')
