@@ -317,6 +317,9 @@ map ` :EasyBuffer<CR>
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
 
+" Quick Esc
+imap ;; <Esc>:noh<CR>
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
