@@ -138,12 +138,7 @@ endfor
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-if has("persistent_undo")
-  let undoDir = expand('$HOME/.undodir')
-  call system('mkdir -p ' . undoDir)
-  let &undodir = undoDir
-  set undofile
-endif
+" Vim Settings
 
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -187,6 +182,13 @@ set hidden
 set nocursorline
 set showcmd
 
+if has("persistent_undo")
+  let undoDir = expand('$HOME/.undodir')
+  call system('mkdir -p ' . undoDir)
+  let &undodir = undoDir
+  set undofile
+endif
+
 function! NumberToggle()
   if (&relativenumber == 1)
     set nocursorline
@@ -199,6 +201,7 @@ function! NumberToggle()
   endif
 endfunc
 
+" Trim trailing whitespace
 function! TrimWhitespace()
   %s/\s\+$//e
 endfunc
@@ -229,6 +232,7 @@ function! VimuxScribdClose()
   endif
 endfunction
 
+" Deletes the persistent undo file for the current buffer
 function! DeleteUndoFile()
   let current_undo_file = undofile(expand("%"))
   call delete(current_undo_file)
@@ -240,6 +244,7 @@ function! DeleteUndoFile()
   endif
 endfunction
 
+" Prompt for a term; search for it; populate loclist with it
 function! CurFileSearchLocList()
   call inputsave()
   let search_term = input('Search: ')
@@ -248,6 +253,7 @@ function! CurFileSearchLocList()
   execute 'lopen'
 endfunction
 
+" Cleanup after ourselves, close the tmux pane when closing Vim
 augroup Vimux
   autocmd!
   autocmd VimLeave * :call VimuxScribdClose()
@@ -336,16 +342,16 @@ command! WQ wq
 command! W w
 command! Q q
 
+" Gutter colours
+highlight CursorLineNR ctermfg=red
 highlight SignColumn ctermbg=black
 highlight lineNr ctermbg=black
-
 highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
 
-hi CursorLineNR ctermfg=red
-augroup ColourSet
+augroup GutterColourSet
   autocmd!
   autocmd ColorScheme * hi CursorLineNR ctermfg=black
   autocmd ColorScheme * hi SignColumn ctermbg=black
