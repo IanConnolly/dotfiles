@@ -318,7 +318,7 @@ map ` :EasyBuffer<CR>
 noremap <Leader><Space> :buffer #<CR>
 
 " Quick Esc
-imap ;; <Esc>:noh<CR>
+inoremap ;; <Esc>:noh<CR>
 
 " Because shift is hard to let go of okay
 command! Wq wq
