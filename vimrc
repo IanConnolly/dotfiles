@@ -278,7 +278,7 @@ nnoremap <Leader>wq :w<CR>:Sayonara<CR>
 nnoremap <Leader>w :w<CR>
 
 " Easily make changes to vimrc
-nnoremap <Leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
+nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
 nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
 
 " no need for this to be mac only; can compile from source
@@ -362,6 +362,12 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
     map <Esc>[23~ <F11>
     map <Esc>[24~ <F12>
 endif
+
+for prefix in ['i', 'n', 'v']
+  for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+    exe prefix . "noremap " . key . " <Nop>"
+  endfor
+endfor
 
 " If user has additional vim config, source it
 if filereadable(glob("~/.vimrc.local"))
