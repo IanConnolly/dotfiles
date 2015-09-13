@@ -256,6 +256,7 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
 nnoremap <Leader>q :Sayonara<CR>
 nnoremap <Leader>wq :w<CR>:Sayonara<CR>
+nnoremap <Leader>w :w<CR>
 nnoremap <Leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
 nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
 " no need for this to be mac only; can compile from source
