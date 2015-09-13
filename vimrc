@@ -31,7 +31,7 @@ Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline b
 Plugin 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
 
 if has('mac')
-    Plugin 'rizzatti/dash.vim'              " Integrate with Dash.app
+  Plugin 'rizzatti/dash.vim'              " Integrate with Dash.app
 endif
 
 " Typing/Autocomplete support
@@ -79,7 +79,7 @@ call vundle#end()
 filetype plugin indent on
 
 if has('mac')
-    set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
+  set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
 endif
 
 " Config for themes/colors/plugins
@@ -95,7 +95,7 @@ let g:airline_right_sep=''
 let g:SignatureMarkTextHLDynamic = 1
 
 if has('mac')
-    let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
+  let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 endif
 
 " Syntastic
@@ -117,22 +117,22 @@ let g:qs_enable = 0
 let g:qs_enable_char_list = [ 'f', 'F', 't', 'T' ]
 
 function! Quick_scope_selective(movement)
-    let needs_disabling = 0
-    if !g:qs_enable
-        QuickScopeToggle
-        redraw
-        let needs_disabling = 1
-    endif
-    let letter = nr2char(getchar())
-    if needs_disabling
-        QuickScopeToggle
-    endif
-    return a:movement . letter
+  let needs_disabling = 0
+  if !g:qs_enable
+    QuickScopeToggle
+    redraw
+    let needs_disabling = 1
+  endif
+  let letter = nr2char(getchar())
+  if needs_disabling
+    QuickScopeToggle
+  endif
+  return a:movement . letter
 endfunction
 
 " quick_scope maps, operator-pending mode included (can do 'df' with hint)
 for i in g:qs_enable_char_list
-    execute 'noremap <expr> <silent>' . i . " Quick_scope_selective('". i . "')"
+  execute 'noremap <expr> <silent>' . i . " Quick_scope_selective('". i . "')"
 endfor
 
 " Get rid of YCM preview window when we tab
@@ -140,10 +140,10 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 if has("persistent_undo")
-    let undoDir = expand('$HOME/.undodir')
-    call system('mkdir -p ' . undoDir)
-    let &undodir = undoDir
-    set undofile
+  let undoDir = expand('$HOME/.undodir')
+  call system('mkdir -p ' . undoDir)
+  let &undodir = undoDir
+  set undofile
 endif
 
 let mapleader=" "                   " Space for leader is so satisfying
@@ -189,61 +189,61 @@ set nocursorline
 set showcmd
 
 function! NumberToggle()
-    if (&relativenumber == 1)
-        set nocursorline
-        set norelativenumber
-        set number
-    else
-        set nonumber
-        set relativenumber
-        set cursorline
-    endif
+  if (&relativenumber == 1)
+    set nocursorline
+    set norelativenumber
+    set number
+  else
+    set nonumber
+    set relativenumber
+    set cursorline
+  endif
 endfunc
 
 function! TrimWhitespace()
-    %s/\s\+$//e
+  %s/\s\+$//e
 endfunc
 
 " Global variable for Vimux test pane
 let g:vs_open = 0
 
 function! VimuxScribd()
-    if (g:vs_open == 0)
-        call VimuxRunCommand("ssh -A devbox.lo")
-        call VimuxRunCommand("cd /var/www/apps/scribd/current")
-        call VimuxRunCommand("clear")
-        let g:vs_open = 1
-    endif
+  if (g:vs_open == 0)
+    call VimuxRunCommand("ssh -A devbox.lo")
+    call VimuxRunCommand("cd /var/www/apps/scribd/current")
+    call VimuxRunCommand("clear")
+    let g:vs_open = 1
+  endif
 endfunction
 
 function! VimuxRuby()
-    if (g:vs_open == 0)
-        call VimuxScribd()
-    endif
-    call VimuxRunCommand("clear; bundle exec rspec --no-profile " . bufname("%"))
+  if (g:vs_open == 0)
+    call VimuxScribd()
+  endif
+  call VimuxRunCommand("clear; bundle exec rspec --no-profile " . bufname("%"))
 endfunction
 
 function! VimuxScribdClose()
-    if (g:vs_open == 1)
-        call VimuxCloseRunner()
-        let g:vs_open = 0
-    endif
+  if (g:vs_open == 1)
+    call VimuxCloseRunner()
+    let g:vs_open = 0
+  endif
 endfunction
 
 function! DeleteUndoFile()
-    let current_undo_file = undofile(expand("%"))
-    call delete(current_undo_file)
+  let current_undo_file = undofile(expand("%"))
+  call delete(current_undo_file)
 
-    if glob(current_undo_file) == ""
-        echohl WarningMsg
-        echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" was deleted!'
-        echohl None
-    endif
+  if glob(current_undo_file) == ""
+    echohl WarningMsg
+    echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" was deleted!'
+    echohl None
+  endif
 endfunction
 
 augroup Vimux
-    autocmd!
-    autocmd VimLeave * :call VimuxScribdClose()
+  autocmd!
+  autocmd VimLeave * :call VimuxScribdClose()
 augroup END
 
 " Run current file specs in tmux
@@ -305,7 +305,7 @@ nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
 
 " Search current word in Dash.app
 if has('mac')
-    nmap <silent> <Leader>d <Plug>DashSearch
+  nmap <silent> <Leader>d <Plug>DashSearch
 endif
 
 " easily get rid of search highlights
@@ -333,54 +333,55 @@ highlight GitGutterChangeDelete ctermbg=black
 
 hi CursorLineNR ctermfg=red
 augroup ColourSet
-    autocmd!
-    autocmd ColorScheme * hi CursorLineNR ctermfg=black
-    autocmd ColorScheme * hi SignColumn ctermbg=black
-    autocmd ColorScheme * hi lineNr ctermbg=black
-    autocmd ColorScheme * hi GitGutterAdd ctermbg=black
-    autocmd ColorScheme * hi GitGutterChange ctermbg=black
-    autocmd ColorScheme * hi GitGutterDelete ctermbg=black
-    autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
+  autocmd!
+  autocmd ColorScheme * hi CursorLineNR ctermfg=black
+  autocmd ColorScheme * hi SignColumn ctermbg=black
+  autocmd ColorScheme * hi lineNr ctermbg=black
+  autocmd ColorScheme * hi GitGutterAdd ctermbg=black
+  autocmd ColorScheme * hi GitGutterChange ctermbg=black
+  autocmd ColorScheme * hi GitGutterDelete ctermbg=black
+  autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
 augroup END
 
 augroup FileTypeSettings
-    autocmd!
-    autocmd Filetype html setlocal ts=2 sw=2 expandtab
-    autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
-    " use tern for omnifunc which is used by YouCompleteMe for suggestions
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
-    " Who uses modula2???
-    autocmd BufNewFile,BufRead *.md set filetype=markdown
-    autocmd BufNewFile,BufRead *.css set filetype=scss
-    " spell check git commit messages and markdown files!
-    autocmd FileType markdown setlocal spell
-    autocmd FileType gitcommit setlocal spell
-    autocmd FileType text setlocal spell
+  autocmd!
+  autocmd FileType html setlocal ts=2 sw=2 expandtab
+  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
+  autocmd FileType vim setlocal ts=2 sw=2 expandtab
+  " use tern for omnifunc which is used by YouCompleteMe for suggestions
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+  " Who uses modula2???
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead *.css set filetype=scss
+  " spell check git commit messages and markdown files!
+  autocmd FileType markdown setlocal spell
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType text setlocal spell
 augroup END
 
 " Otherwise vim will get nasty escape codes
 if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
-    map <Esc>OP <F1>
-    map <Esc>OQ <F2>
-    map <Esc>OR <F3>
-    map <Esc>OS <F4>
-    map <Esc>[16~ <F5>
-    map <Esc>[17~ <F6>
-    map <Esc>[18~ <F7>
-    map <Esc>[19~ <F8>
-    map <Esc>[20~ <F9>
-    map <Esc>[21~ <F10>
-    map <Esc>[23~ <F11>
-    map <Esc>[24~ <F12>
+  map <Esc>OP <F1>
+  map <Esc>OQ <F2>
+  map <Esc>OR <F3>
+  map <Esc>OS <F4>
+  map <Esc>[16~ <F5>
+  map <Esc>[17~ <F6>
+  map <Esc>[18~ <F7>
+  map <Esc>[19~ <F8>
+  map <Esc>[20~ <F9>
+  map <Esc>[21~ <F10>
+  map <Esc>[23~ <F11>
+  map <Esc>[24~ <F12>
 endif
 
 for prefix in ['i', 'n', 'v']
-    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-        exe prefix . "noremap " . key . " <Nop>"
-    endfor
+  for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+    exe prefix . "noremap " . key . " <Nop>"
+  endfor
 endfor
 
 " If user has additional vim config, source it
 if filereadable(glob("~/.vimrc.local"))
-    source ~/.vimrc.local
+  source ~/.vimrc.local
 endif
