@@ -292,7 +292,8 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <LeadeR>gp :Gpush<CR>
+nnoremap <Leader>gp :Gpush<CR>
+nnoremap <Leader>gl :Glog<CR>:copen<CR>
 
 " copy and paste
 vnoremap <Leader>c "*y
