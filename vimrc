@@ -13,7 +13,7 @@ Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'mbbill/undotree'             " View undo history as tree
 Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
-Plugin 'mhinz/vim-sayonara'
+Plugin 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
