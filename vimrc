@@ -375,9 +375,9 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
 endif
 
 for prefix in ['i', 'n', 'v']
-  for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-    exe prefix . "noremap " . key . " <Nop>"
-  endfor
+    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+        exe prefix . "noremap " . key . " <Nop>"
+    endfor
 endfor
 
 " If user has additional vim config, source it
