@@ -280,10 +280,10 @@ highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
 
-hi CursorLineNR ctermbg=black
+hi CursorLineNR ctermfg=red
 augroup ColourSet
     autocmd!
-    autocmd ColorScheme * hi CursorLineNR ctermbg=black
+    autocmd ColorScheme * hi CursorLineNR ctermfg=black
     autocmd ColorScheme * hi SignColumn ctermbg=black
     autocmd ColorScheme * hi lineNr ctermbg=black
     autocmd ColorScheme * hi GitGutterAdd ctermbg=black
