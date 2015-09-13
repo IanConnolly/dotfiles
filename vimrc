@@ -367,6 +367,9 @@ augroup FileTypeSettings
   autocmd FileType html setlocal ts=2 sw=2 expandtab
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType vim setlocal ts=2 sw=2 expandtab
+  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 expandtab
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab
   " use tern for omnifunc which is used by YouCompleteMe for suggestions
   autocmd FileType javascript setlocal ts=2 sw=2 omnifunc=tern#Complete expandtab
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
