@@ -309,13 +309,13 @@ if has('mac')
 endif
 
 " easily get rid of search highlights
-noremap <esc> :noh<return><esc>
+noremap <Esc> :noh<CR><Esc>
 
 " See all open buffers and switch easily
 map ` :EasyBuffer<CR>
 
 " Switch to last active buffer
-noremap <leader><space> :buffer #<CR>
+noremap <Leader><Space> :buffer #<CR>
 
 " Because shift is hard to let go of okay
 command! Wq wq
