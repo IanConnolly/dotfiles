@@ -179,11 +179,13 @@ set nocursorline
 
 function! NumberToggle()
     if (&relativenumber == 1)
+        set nocursorline
         set norelativenumber
         set number
     else
         set nonumber
         set relativenumber
+        set cursorline
     endif
 endfunc
 
