@@ -351,7 +351,8 @@ augroup FileTypeSettings
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType vim setlocal ts=2 sw=2 expandtab
   " use tern for omnifunc which is used by YouCompleteMe for suggestions
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
+  autocmd FileType javascript setlocal ts=2 sw=2 omnifunc=tern#Complete expandtab
+  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
