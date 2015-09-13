@@ -281,6 +281,9 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
 nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
 
+" Opens all current marks in loclist
+nnoremap m` :call signature#mark#List("buf_curr")<CR>
+
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
 
