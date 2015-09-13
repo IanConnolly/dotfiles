@@ -341,7 +341,7 @@ augroup ColourSet
     autocmd ColorScheme * hi GitGutterChange ctermbg=black
     autocmd ColorScheme * hi GitGutterDelete ctermbg=black
     autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
- augroup END
+augroup END
 
 augroup FileTypeSettings
     autocmd!
