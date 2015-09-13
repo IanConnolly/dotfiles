@@ -299,7 +299,7 @@ nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
 " Syntastic errors
-nnoremap <Leader>e :Errors<CR>
+nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
 
 " Search current word in Dash.app
 if has('mac')
