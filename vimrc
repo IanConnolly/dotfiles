@@ -130,7 +130,9 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 if has("persistent_undo")
-    set undodir='~/.undodir/'
+    let undoDir = expand('$HOME/.undodir')
+    call system('mkdir -p ' . undoDir)
+    let &undodir = undoDir
     set undofile
 endif
 
@@ -140,7 +142,7 @@ syntax on
 set laststatus=2
 set background=dark
 set autoread
-set pastetoggle=<F2>                " paste mode for clipboard pasted
+set pastetoggle=<F2>                " paste mode for clipboard paste
 set backspace=indent,eol,start      " backspace everything
 set number                          " for easier movements
 set expandtab
@@ -169,8 +171,7 @@ set list
 set encoding=utf-8
 set whichwrap+=<,>,h,l
 set wildmenu                        " command auto-completion
-set wildmode=longest:list,full
-set mouse=a
+set wildmode=list:longest,full
 set complete+=kspell
 set hidden
 set nocursorline
