@@ -186,6 +186,7 @@ set wildmode=list:longest,full
 set complete+=kspell
 set hidden
 set nocursorline
+set showcmd
 
 function! NumberToggle()
     if (&relativenumber == 1)
