@@ -254,6 +254,10 @@ nnoremap <Leader>vc :call VimuxScribdClose()<CR>
 " god who uses this
 map q: :q
 
+" Fingers are already there...
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
