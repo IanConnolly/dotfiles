@@ -273,8 +273,8 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
 
 " Use Sayonara for quitting
-nnoremap <Leader>q :Sayonara<CR>
-nnoremap <Leader>wq :w<CR>:Sayonara<CR>
+nnoremap <Leader>x :Sayonara<CR>y<CR>
+nnoremap <Leader>q :w<CR>:Sayonara<CR>
 nnoremap <Leader>w :w<CR>
 
 " Easily make changes to vimrc
