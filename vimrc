@@ -222,7 +222,7 @@ function! DeleteUndoFile()
 
     if glob(current_undo_file) == ""
         echohl WarningMsg
-        echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" deleted'
+        echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" was deleted!'
         echohl None
     endif
 endfunction
