@@ -13,6 +13,7 @@ Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'bling/vim-airline'           " Lightweight status bar
 Plugin 'mbbill/undotree'             " View undo history as tree
 Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
+Plugin 'mhinz/vim-sayonara'
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
@@ -78,16 +79,9 @@ set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
 colorscheme base16-default
 
 let g:airline_theme='base16'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#show_buffers = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
 
 let g:SignatureMarkTextHLDynamic = 1
 
@@ -237,6 +231,7 @@ nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>q :Sayonara<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>gb :Gblame<CR>
