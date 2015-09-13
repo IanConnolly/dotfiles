@@ -160,6 +160,7 @@ set noerrorbells
 set visualbell
 set t_vb=
 set tm=500
+set ttimeoutlen=50
 set splitright
 set splitbelow
 set scrolloff=10                    " keep cursor relatively centered
@@ -215,6 +216,17 @@ function! VimuxScribdClose()
     endif
 endfunction
 
+function! DeleteUndoFile()
+    let current_undo_file = undofile(expand("%"))
+    call delete(current_undo_file)
+
+    if glob(current_undo_file) == ""
+        echohl WarningMsg
+        echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" deleted'
+        echohl None
+    endif
+endfunction
+
 augroup Vimux
     autocmd!
     autocmd VimLeave * :call VimuxScribdClose()
@@ -232,7 +244,11 @@ nnoremap <Leader>num :call NumberToggle()<CR>
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
 nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>du :call DeleteUndoFile()<CR>
 nnoremap <Leader>q :Sayonara<CR>
+nnoremap <Leader>wq :w<CR>:Sayonara<CR>
+nnoremap <Leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
+nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>gb :Gblame<CR>
