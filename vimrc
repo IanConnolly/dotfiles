@@ -287,8 +287,11 @@ nnoremap m` :call signature#mark#List("buf_curr")<CR>
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
 
-" :Gblame
+" vim-fugitive
 nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gc :Gcommit<CR>
 
 " copy and paste
 vnoremap <Leader>c "*y
