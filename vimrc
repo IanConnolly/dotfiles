@@ -8,6 +8,8 @@ call vundle#begin()
 " Manage Vundle with Vundle
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'tpope/vim-sensible'         " In case I've missed something
+
 " Vim layout + window related fun
 Plugin 'tpope/vim-vinegar'           " cleanup netrw
 Plugin 'bling/vim-airline'           " Lightweight status bar
@@ -17,7 +19,6 @@ Plugin 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 
 " Integrations
 Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
-Plugin 'rizzatti/dash.vim'                  " Integrate with Dash.app
 Plugin 'tpope/vim-rails'                    " Helpful rails related shortcuts
 Plugin 'tpope/vim-rake'                     " The general ruby bits of vim-rails
 Plugin 'tpope/vim-fugitive'                 " Git command wrappers
@@ -28,6 +29,10 @@ Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
 Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
 Plugin 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
+
+if has('mac')
+    Plugin 'rizzatti/dash.vim'              " Integrate with Dash.app
+endif
 
 " Typing/Autocomplete support
 Plugin 'scrooloose/syntastic'   " Syntax errors!
@@ -73,7 +78,9 @@ call vundle#end()
 
 filetype plugin indent on
 
-set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
+if has('mac')
+    set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
+endif
 
 " Config for themes/colors/plugins
 colorscheme base16-default
@@ -251,6 +258,7 @@ nnoremap <Leader>q :Sayonara<CR>
 nnoremap <Leader>wq :w<CR>:Sayonara<CR>
 nnoremap <Leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
 nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
+" no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>gb :Gblame<CR>
@@ -258,7 +266,11 @@ nnoremap <Leader>gb :Gblame<CR>
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
-nmap <silent> <Leader>d <Plug>DashSearch
+
+if has('mac')
+    nmap <silent> <Leader>d <Plug>DashSearch
+endif
+
 " easily get rid of search highlights
 noremap <esc> :noh<return><esc>
 map ` :EasyBuffer<CR>
