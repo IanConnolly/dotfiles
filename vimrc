@@ -99,7 +99,7 @@ if has('mac')
 endif
 
 " Syntastic
-let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
@@ -297,6 +297,9 @@ nnoremap <Leader>gc :Gcommit<CR>
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
+
+" Syntastic errors
+nnoremap <Leader>e :Errors<CR>
 
 " Search current word in Dash.app
 if has('mac')
