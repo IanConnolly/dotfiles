@@ -55,7 +55,7 @@ Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
 Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
 Plugin 'tpope/vim-jdaddy'            " json text objs
 Plugin 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
-Plugin 'vasconcelloslf/vim-interestingwords'
+Plugin 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
 
 " Colors
 Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
@@ -85,17 +85,20 @@ endif
 " Config for themes/colors/plugins
 colorscheme base16-default
 
+" Airline
 let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
+" Highlight marks in gutter
 let g:SignatureMarkTextHLDynamic = 1
 
 if has('mac')
     let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 endif
 
+" Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -103,13 +106,13 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
 
+" UltiSnips
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
 
 " Only enable quick-scope after f/F/t/T
-
 let g:qs_enable = 0
 let g:qs_enable_char_list = [ 'f', 'F', 't', 'T' ]
 
@@ -200,6 +203,7 @@ function! TrimWhitespace()
     %s/\s\+$//e
 endfunc
 
+" Global variable for Vimux test pane
 let g:vs_open = 0
 
 function! VimuxScribd()
@@ -241,6 +245,7 @@ augroup Vimux
     autocmd VimLeave * :call VimuxScribdClose()
 augroup END
 
+" Run current file specs in tmux
 nnoremap <Leader>vs :call VimuxScribd()<CR>
 nnoremap <Leader>vr :call VimuxRuby()<CR>
 nnoremap <Leader>vc :call VimuxScribdClose()<CR>
@@ -248,32 +253,49 @@ nnoremap <Leader>vc :call VimuxScribdClose()<CR>
 " god who uses this
 map q: :q
 
+" Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
+
+" Toggle between relative and static numbering
 nnoremap <Leader>num :call NumberToggle()<CR>
+
+" Update tags
 nnoremap <Leader>rt :execute "!rtags"<CR>
 nnoremap <Leader>ct :execute "!ctags"<CR>
+
+" Undo mappings
 nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
+
+" Use Sayonara for quitting
 nnoremap <Leader>q :Sayonara<CR>
 nnoremap <Leader>wq :w<CR>:Sayonara<CR>
 nnoremap <Leader>w :w<CR>
+
+" Easily make changes to vimrc
 nnoremap <Leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
 nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
+
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
-nnoremap <Leader>cd :cd %:p:h<CR>
+
+" :Gblame
 nnoremap <Leader>gb :Gblame<CR>
+
 " copy and paste
 vnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
+" Search current word in Dash.app
 if has('mac')
     nmap <silent> <Leader>d <Plug>DashSearch
 endif
 
 " easily get rid of search highlights
 noremap <esc> :noh<return><esc>
+
+" See all open buffers and switch easily
 map ` :EasyBuffer<CR>
 
 " Switch to last active buffer
