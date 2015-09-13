@@ -395,9 +395,9 @@ if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
   map <Esc>[24~ <F12>
 endif
 
-for prefix in ['i', 'n', 'v']
-  for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-    exe prefix . "noremap " . key . " <Nop>"
+for modeprefix in ['i', 'n', 'v']
+  for arrowkey in ['<Up>', '<Down>', '<Left>', '<Right>']
+    execute modeprefix . "noremap " . arrowkey . " <Nop>"
   endfor
 endfor
 
