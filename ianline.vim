@@ -26,7 +26,7 @@ let g:airline#themes#ianline#palette = {}
 
 " Normal mode
 let s:N1 = [s:gui_dark_gray, s:gui_blue, s:cterm_dark_gray, s:cterm_blue]
-let s:N2 = [s:gui_light_gray, s:gui_med_gray_lo, s:cterm_light_gray, s:cterm_med_gray_lo]
+let s:N2 = [s:gui_light_gray, s:gui_med_gray_lo, s:cterm_white, s:cterm_med_gray_lo]
 let s:N3 = [s:gui_blue, s:gui_med_gray_hi, s:cterm_blue, s:cterm_med_gray_hi]
 let g:airline#themes#ianline#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 let g:airline#themes#ianline#palette.normal_modified = {
@@ -34,7 +34,7 @@ let g:airline#themes#ianline#palette.normal_modified = {
       \ }
 
 " Insert mode
-let s:I1 = [s:gui_med_gray_hi, s:gui_red, s:cterm_med_gray_hi, s:cterm_red]
+let s:I1 = [s:gui_med_gray_hi, s:gui_red, s:cterm_dark_gray, s:cterm_red]
 let s:I3 = [s:gui_red, s:gui_med_gray_hi, s:cterm_red, s:cterm_med_gray_hi]
 let g:airline#themes#ianline#palette.insert = airline#themes#generate_color_map(s:I1, s:N2, s:I3)
 let g:airline#themes#ianline#palette.insert_modified = copy(g:airline#themes#ianline#palette.normal_modified)
