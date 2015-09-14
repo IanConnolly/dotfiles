@@ -30,7 +30,7 @@ let s:N2 = [s:gui_light_gray, s:gui_med_gray_lo, s:cterm_white, s:cterm_med_gray
 let s:N3 = [s:gui_blue, s:gui_med_gray_hi, s:cterm_blue, s:cterm_med_gray_hi]
 let g:airline#themes#ianline#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 let g:airline#themes#ianline#palette.normal_modified = {
-      \ 'airline_c': [s:gui_orange, s:gui_med_gray_hi, s:cterm_orange, s:cterm_med_gray_hi, ''],
+      \ 'airline_c': [s:gui_purple, s:gui_med_gray_hi, s:cterm_purple, s:cterm_med_gray_hi, ''],
       \ }
 
 " Insert mode
@@ -59,6 +59,6 @@ let g:airline#themes#ianline#palette.visual_modified = copy(g:airline#themes#ian
 let s:IA = [s:gui_light_gray, s:gui_med_gray_hi, s:cterm_light_gray, s:cterm_med_gray_hi, '']
 let g:airline#themes#ianline#palette.inactive = airline#themes#generate_color_map(s:IA, s:IA, s:IA)
 let g:airline#themes#ianline#palette.inactive_modified = {
-      \ 'airline_c': [s:gui_orange, '', s:cterm_orange, '', ''],
+      \ 'airline_c': [s:gui_purple, '', s:cterm_purple, '', ''],
       \ }
 
