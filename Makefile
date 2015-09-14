@@ -23,6 +23,7 @@ vim: vimlinks
 	cd ~/.vim/bundle/tern_for_vim && npm install
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
+	ln -sf $(ROOT_DIR)/ianline.vim ~/.vim/bundle/vim-airline/autoload/airline/themes/ianline.vim
 	pip install neovim
 
 vimlinks:
