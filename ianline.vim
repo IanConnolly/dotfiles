@@ -36,17 +36,16 @@ let g:airline#themes#ianline#palette.normal_modified = {
 " Insert mode
 let s:I1 = [s:gui_med_gray_hi, s:gui_red, s:cterm_dark_gray, s:cterm_red]
 let s:I3 = [s:gui_red, s:gui_med_gray_hi, s:cterm_red, s:cterm_med_gray_hi]
+let s:P1 = [s:gui_med_gray_hi, s:gui_orange, s:cterm_dark_gray, s:cterm_orange]
+let s:P3 = [s:gui_orange, s:gui_med_gray_hi, s:cterm_orange, s:cterm_med_gray_hi]
 let g:airline#themes#ianline#palette.insert = airline#themes#generate_color_map(s:I1, s:N2, s:I3)
 let g:airline#themes#ianline#palette.insert_modified = copy(g:airline#themes#ianline#palette.normal_modified)
-let g:airline#themes#ianline#palette.insert_paste = {
-      \ 'airline_a': [s:gui_dark_gray, s:gui_orange, s:cterm_dark_gray, s:cterm_orange, ''],
-      \ }
+let g:airline#themes#ianline#palette.insert_paste = airline#themes#generate_color_map(s:P1, s:N2, s:P3)
 
 " Replace mode
-let g:airline#themes#ianline#palette.replace = {
-      \ 'airline_a': [s:gui_dark_gray, s:gui_green, s:cterm_dark_gray, s:cterm_green, ''],
-      \ 'airline_c': [s:gui_green, s:gui_med_gray_hi, s:cterm_green, s:cterm_med_gray_hi, ''],
-      \ }
+let s:R1 = [s:gui_dark_gray, s:gui_green, s:cterm_dark_gray, s:cterm_green]
+let s:R3 = [s:gui_green, s:gui_med_gray_hi, s:cterm_green, s:cterm_med_gray_hi]
+let g:airline#themes#ianline#palette.replace = airline#themes#generate_color_map(s:R1, s:N2, s:R3)
 let g:airline#themes#ianline#palette.replace_modified = copy(g:airline#themes#ianline#palette.insert_modified)
 
 " Visual mode

@@ -342,6 +342,11 @@ command! WQ wq
 command! W w
 command! Q q
 
+augroup NoPaste
+  autocmd!
+  autocmd InsertLeave * set nopaste
+augroup END
+
 " Gutter colours
 highlight CursorLineNR ctermfg=red
 highlight SignColumn ctermbg=black
