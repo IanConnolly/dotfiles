@@ -145,8 +145,8 @@ syntax on
 
 set laststatus=2
 set background=dark
+set pastetoggle=<F2>
 set autoread
-set pastetoggle=<F2>                " paste mode for clipboard paste
 set backspace=indent,eol,start      " backspace everything
 set number                          " for easier movements
 set expandtab
@@ -318,6 +318,10 @@ nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
 
 " Search for a term and put it in the loclist
 nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
+
+" Don't allow paste mode in normal/visual modes
+nnoremap <F2> <NOP>
+vnoremap <F2> <NOP>
 
 " Save the pinky
 nnoremap ; :
