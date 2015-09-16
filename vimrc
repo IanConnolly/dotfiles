@@ -266,6 +266,7 @@ nnoremap <Leader>vc :call VimuxScribdClose()<CR>
 
 " god who uses this
 map q: :q
+nnoremap Q <NOP>
 
 " Fingers are already there...
 nnoremap <C-j> <C-d>
