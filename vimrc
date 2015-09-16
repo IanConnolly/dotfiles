@@ -279,8 +279,7 @@ nnoremap <Leader>tw :call TrimWhitespace()<CR>
 nnoremap <Leader>num :call NumberToggle()<CR>
 
 " Update tags
-nnoremap <Leader>rt :execute "!rtags"<CR>
-nnoremap <Leader>ct :execute "!ctags"<CR>
+nnoremap <Leader>tags :execute "!rtags"<CR>
 
 " Undo mappings
 nnoremap <Leader>u :UndotreeToggle<CR>
@@ -319,6 +318,14 @@ nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
 
 " Search for a term and put it in the loclist
 nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
+
+" Save the pinky
+nnoremap ; :
+vnoremap ; :
+
+" Quick search + replace
+nnoremap <Leader>r :%s//g<Left><Left>
+vnoremap <Leader>r :s//g<Left><Left>
 
 " Search current word in Dash.app
 if has('mac')
