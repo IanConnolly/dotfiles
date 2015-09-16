@@ -253,12 +253,6 @@ function! CurFileSearchLocList()
   execute 'lopen'
 endfunction
 
-" Cleanup after ourselves, close the tmux pane when closing Vim
-augroup Vimux
-  autocmd!
-  autocmd VimLeave * :call VimuxScribdClose()
-augroup END
-
 " Run current file specs in tmux
 nnoremap <Leader>vs :call VimuxScribd()<CR>
 nnoremap <Leader>vr :call VimuxRuby()<CR>
@@ -354,11 +348,6 @@ command! WQ wq
 command! W w
 command! Q q
 
-augroup NoPaste
-  autocmd!
-  autocmd InsertLeave * set nopaste
-augroup END
-
 " Gutter colours
 highlight CursorLineNR ctermfg=red
 highlight SignColumn ctermbg=black
@@ -377,6 +366,17 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChange ctermbg=black
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
+augroup END
+
+" Cleanup after ourselves, close the tmux pane when closing Vim
+augroup Vimux
+  autocmd!
+  autocmd VimLeave * :call VimuxScribdClose()
+augroup END
+
+augroup NoPaste
+  autocmd!
+  autocmd InsertLeave * set nopaste
 augroup END
 
 augroup FileTypeSettings
