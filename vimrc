@@ -78,24 +78,29 @@ call vundle#end()
 
 filetype plugin indent on
 
+" Config for plugins
+
+" FZF
 if has('mac')
   set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
 endif
-
-" Config for themes/colors/plugins
-colorscheme base16-default
 
 " Airline
 let g:airline_theme='ianline'
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
-" Highlight marks in gutter
+" vim-signature - highlight gutter marks
 let g:SignatureMarkTextHLDynamic = 1
 
+" YouCompleteMe
 if has('mac')
   let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
 endif
+
+" Get rid of YCM preview window when we tab
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
@@ -134,53 +139,77 @@ for i in g:qs_enable_char_list
   execute 'noremap <expr> <silent>' . i . " Quick_scope_selective('". i . "')"
 endfor
 
-" Get rid of YCM preview window when we tab
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
 " Vim Settings
 
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
-
-set laststatus=2
 set background=dark
-set pastetoggle=<F2>
-set autoread
+colorscheme base16-default
+
+" Command behaviour
+set showcmd
+set laststatus=2
+
+" Text-y stuff
 set backspace=indent,eol,start      " backspace everything
+set shiftround                      " 'h' and 'l' will wrap around lines
+set whichwrap+=<,>,h,l
+
+" Gutter number
 set number                          " for easier movements
+set norelativenumber
+set nocursorline
+
+" Tabs
 set expandtab
 set smarttab
 set tabstop=4
 set shiftwidth=4
-set shiftround                      " 'h' and 'l' will wrap around lines
+
+" File-system
+set autoread
 set noswapfile
 set nowritebackup
+
+" Search
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+
+" Terminal errors
 set noerrorbells
 set visualbell
 set t_vb=
+
+" Key timeouts
 set tm=500
 set ttimeoutlen=50
+
+" Split opening positions
 set splitright
 set splitbelow
+
+" Screen scrolling behaviour
 set scrolloff=10                    " keep cursor relatively centered
 set sidescrolloff=10
+
+" Tagfile
 set tags=./.tags;
-set ttyfast                         " probably already set but /shruggie
+
+" Showing invisible characters
 set listchars=tab:›\ ,eol:¬,trail:⋅ " textmate
 set list
-set encoding=utf-8
-set whichwrap+=<,>,h,l
+
+" Command tab-completion
 set wildmenu                        " command auto-completion
 set wildmode=list:longest,full
+
+" Misc
+set ttyfast                         " probably already set but /shruggie
+set encoding=utf-8
 set complete+=kspell
 set hidden
-set nocursorline
-set showcmd
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -313,6 +342,7 @@ nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
 " Search for a term and put it in the loclist
 nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
 
+set pastetoggle=<F2>
 " Don't allow paste mode in normal/visual modes
 nnoremap <F2> <NOP>
 vnoremap <F2> <NOP>
