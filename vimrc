@@ -348,10 +348,6 @@ set pastetoggle=<F2>
 nnoremap <F2> <NOP>
 vnoremap <F2> <NOP>
 
-" Save the pinky
-nnoremap ; :
-vnoremap ; :
-
 " Quick search + replace
 nnoremap <Leader>r :%s//g<Left><Left>
 vnoremap <Leader>r :s//g<Left><Left>
