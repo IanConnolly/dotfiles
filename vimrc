@@ -363,6 +363,9 @@ noremap <Esc> :noh<CR><Esc>
 " See all open buffers and switch easily
 map ` :EasyBuffer<CR>
 
+" For fuzzy finding thru the above
+nnoremap <Leader><Tab> :Buffers<CR>
+
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
 
