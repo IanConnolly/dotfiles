@@ -37,6 +37,7 @@
     alias = "!git config -l | grep alias | cut -c 7-"
     destroy = reset --hard HEAD
     filelog = log -u
+    open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
 [push]
     default = simple
 [core]

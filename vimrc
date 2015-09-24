@@ -157,9 +157,9 @@ set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
 " Gutter number
-set number                          " for easier movements
-set norelativenumber
-set nocursorline
+set nonumber                          " for easier movements
+set relativenumber
+set cursorline
 
 " Tabs
 set expandtab
@@ -313,6 +313,7 @@ nnoremap <Leader>du :call DeleteUndoFile()<CR>
 nnoremap <Leader>x :Sayonara<CR>y<CR>
 nnoremap <Leader>q :w<CR>:Sayonara<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
 nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
@@ -365,6 +366,8 @@ map ` :EasyBuffer<CR>
 
 " For fuzzy finding thru the above
 nnoremap <Leader><Tab> :Buffers<CR>
+
+nnoremap <Leader>f :BTags<CR>
 
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
