@@ -253,7 +253,7 @@ function! VimuxRuby()
   if (g:vs_open == 0)
     call VimuxScribd()
   endif
-  call VimuxRunCommand("clear; bundle exec rspec --no-profile " . bufname("%"))
+  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . bufname("%"))
 endfunction
 
 function! VimuxScribdClose()
