@@ -24,4 +24,5 @@
 --exclude=.tags
 --exclude=cscope.\*
 --exclude=\*.tar.\*
+--fields=+l
 -f .tags

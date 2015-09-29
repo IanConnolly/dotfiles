@@ -38,6 +38,7 @@
     destroy = reset --hard HEAD
     filelog = log -u
     open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
+    branches = "!f() { fbr; };f"
 [push]
     default = simple
 [core]

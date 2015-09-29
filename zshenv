@@ -38,3 +38,10 @@ fgr() {
     file=$(grep --line-buffered --color=never -r "" * | fzf | sed 's/:.*$//')
     [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
+
+fbr() {
+  local branches branch
+  branches=$(git branch) &&
+  branch=$(echo "$branches" | fzf +s +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //")
+}
