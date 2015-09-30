@@ -253,7 +253,28 @@ function! VimuxRuby()
   if (g:vs_open == 0)
     call VimuxScribd()
   endif
-  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . bufname("%"))
+  let buffername = bufname("%")
+  let testfile = buffername
+  if buffername =~ '^app/.*'
+    let testfile = substitute(testfile, 'app/', 'spec/', '')
+    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
+  endif
+  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
+endfunction
+
+function! VimuxRubyNearest()
+  if (g:vs_open == 0)
+    call VimuxScribd()
+  endif
+  let buffername = bufname("%")
+  let testfile = buffername
+  if buffername =~ '^spec/.*'
+    let testfile = substitute(testfile, '$', ':' . line("."), '')
+  elseif buffername =~ '^app/.*'
+    let testfile = substitute(testfile, 'app/', 'spec/', '')
+    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
+  endif
+  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
 endfunction
 
 function! VimuxScribdClose()
@@ -287,6 +308,7 @@ endfunction
 " Run current file specs in tmux
 nnoremap <Leader>vs :call VimuxScribd()<CR>
 nnoremap <Leader>vr :call VimuxRuby()<CR>
+nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
 nnoremap <Leader>vc :call VimuxScribdClose()<CR>
 
 " god who uses this
