@@ -2,6 +2,10 @@ rtags() {
     ctags --languages=ruby . `bundle show --paths`
 }
 
+function cleararc {
+     arc list | grep Accepted | cut -c 3- | awk '{ print $2  }' | sed 's/.$//' | while read rev; do arc close-revision $rev; done
+}
+
 gitme() {
     if [ "$1" != "" ]
     then

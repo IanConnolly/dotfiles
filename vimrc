@@ -398,6 +398,15 @@ noremap <Leader><Space> :buffer #<CR>
 " Quick Esc
 inoremap ;; <Esc>:noh<CR>
 
+" Toggle case
+nnoremap <Leader>tc g~iw
+
+" Toggle case of last typed word
+inoremap <C-c> <Esc>bg~wea
+
+" Hash rocket
+inoremap <C-g> <Space>=><Space>
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
