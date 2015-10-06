@@ -407,6 +407,9 @@ inoremap <C-c> <Esc>bg~wea
 " Hash rocket
 inoremap <C-g> <Space>=><Space>
 
+" More logical
+map Y y$
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
