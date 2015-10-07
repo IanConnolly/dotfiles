@@ -410,6 +410,9 @@ inoremap <C-g> <Space>=><Space>
 " More logical
 map Y y$
 
+" Search word under cursor
+nnoremap <Leader>s :Ag<CR>
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
@@ -461,6 +464,8 @@ augroup FileTypeSettings
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
+  " Hive
+  autocmd BufNewFile,BufRead *.q set filetype=sql
   " spell check git commit messages and markdown files!
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
