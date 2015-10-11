@@ -357,7 +357,7 @@ nnoremap <Leader>gp :Gpush<CR>
 nnoremap <Leader>gl :Glog<CR>:copen<CR>
 
 " copy and paste
-vnoremap <Leader>c "*y
+xnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
@@ -370,11 +370,11 @@ nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
 set pastetoggle=<F2>
 " Don't allow paste mode in normal/visual modes
 nnoremap <F2> <NOP>
-vnoremap <F2> <NOP>
+xnoremap <F2> <NOP>
 
 " Quick search + replace
 nnoremap <Leader>r :%s//g<Left><Left>
-vnoremap <Leader>r :s//g<Left><Left>
+xnoremap <Leader>r :s//g<Left><Left>
 
 " Search current word in Dash.app
 if has('mac')
@@ -415,7 +415,7 @@ nnoremap <Leader>s :Ag<CR>
 
 " Use matchit more
 nmap <Tab> %
-vmap <Tab> %
+xmap <Tab> %
 
 " Move up and down visual lines, not real (but not when given a count)
 nnoremap <expr> j v:count ? 'j' : 'gj'
