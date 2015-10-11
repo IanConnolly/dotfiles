@@ -417,6 +417,10 @@ nnoremap <Leader>s :Ag<CR>
 nmap <Tab> %
 vmap <Tab> %
 
+" Move up and down visual lines, not real (but not when given a count)
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
