@@ -421,6 +421,14 @@ xmap <Tab> %
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
+" Select last edited/pasted text
+nnoremap gV `[v`]
+
+" Buhbye accidental help
+nnoremap <F1> <Esc>
+xnoremap <F1> <Esc>
+inoremap <F1> <Esc>
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
