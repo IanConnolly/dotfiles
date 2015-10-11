@@ -2,92 +2,98 @@ set nocompatible
 filetype off
 runtime macros/matchit.vim
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-" Manage Vundle with Vundle
-Plugin 'gmarik/Vundle.vim'
-
-Plugin 'tpope/vim-sensible'         " In case I've missed something
+Plug 'tpope/vim-sensible'         " In case I've missed something
 
 " Vim layout + window related fun
-Plugin 'tpope/vim-vinegar'           " cleanup netrw
-Plugin 'bling/vim-airline'           " Lightweight status bar
-Plugin 'mbbill/undotree'             " View undo history as tree
-Plugin 'troydm/easybuffer.vim'       " Startify-esque buffer nav
-Plugin 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
-Plugin 'junegunn/fzf.vim'
+Plug 'tpope/vim-vinegar'           " cleanup netrw
+Plug 'bling/vim-airline'           " Lightweight status bar
+Plug 'mbbill/undotree'             " View undo history as tree
+Plug 'troydm/easybuffer.vim'       " Startify-esque buffer nav
+Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
+
+" FZF base + FZF vim helpers
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
 " Integrations
-Plugin 'airblade/vim-gitgutter'             " Show git diff icons in gutter
-Plugin 'tpope/vim-rails'                    " Helpful rails related shortcuts
-Plugin 'tpope/vim-rake'                     " The general ruby bits of vim-rails
-Plugin 'tpope/vim-fugitive'                 " Git command wrappers
-Plugin 'rking/ag.vim'                       " integrate with ag, a faster grep
-Plugin 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
-Plugin 'tpope/vim-tbone'                    " Access to tmux commands
-Plugin 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
-Plugin 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
-Plugin 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
-Plugin 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
+Plug 'airblade/vim-gitgutter'             " Show git diff icons in gutter
+Plug 'tpope/vim-rails'                    " Helpful rails related shortcuts
+Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
+Plug 'tpope/vim-fugitive'                 " Git command wrappers
+
+if executable('ag')
+  Plug 'rking/ag.vim'                       " integrate with ag, a faster grep
+endif
+
+if executable('tmux')
+  Plug 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
+  Plug 'tpope/vim-tbone'                    " Access to tmux commands
+  Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
+  Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
+endif
+
+Plug 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
+Plug 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
 
 if has('mac')
-  Plugin 'rizzatti/dash.vim'              " Integrate with Dash.app
+  Plug 'rizzatti/dash.vim'              " Integrate with Dash.app
 endif
 
 " Typing/Autocomplete support
-Plugin 'scrooloose/syntastic'   " Syntax errors!
-Plugin 'jiangmiao/auto-pairs'   " Automatically pair quotes, braces etc.
-Plugin 'Valloric/YouCompleteMe' " Dropdown with autocompletion
-Plugin 'SirVer/ultisnips'       " Snippets engine
-Plugin 'honza/vim-snippets'     " Lots of built-in snippets for ultisnips
-Plugin 'marijnh/tern_for_vim'   " Integrate with tern for JS omnifunc
-Plugin 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
+Plug 'scrooloose/syntastic'   " Syntax errors!
+Plug 'jiangmiao/auto-pairs'   " Automatically pair quotes, braces etc.
+
+ " Dropdown with autocompletion
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+
+" Snippets engine + built-in snippets
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+if executable('npm')
+  " Integrate with tern for JS omnifunc
+  Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
+end
+
+Plug 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
-Plugin 'tpope/vim-surround'          " Easily deal with surrounding quotes
-Plugin 'tpope/vim-commentary'        " Comment/uncomment textobjs
-Plugin 'tpope/vim-unimpaired'        " Collection of paired commands
-Plugin 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
-Plugin 'kshenoy/vim-signature'       " Show marks in gutter
-Plugin 'wellle/targets.vim'          " New text objs
-Plugin 'kana/vim-textobj-user'       " User-defined text objs
-Plugin 'whatyouhide/vim-textobj-erb' " viE and vaE
-Plugin 'tek/vim-textobj-ruby'        " f-unction, c-lass, r -> block
-Plugin 'tpope/vim-jdaddy'            " json text objs
-Plugin 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
-Plugin 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
+Plug 'tpope/vim-surround'          " Easily deal with surrounding quotes
+Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
+Plug 'tpope/vim-unimpaired'        " Collection of paired commands
+Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
+Plug 'kshenoy/vim-signature'       " Show marks in gutter
+Plug 'wellle/targets.vim'          " New text objs
+" User-defined text objs + erb objs + ruby objs
+Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vim-textobj-ruby'
+Plug 'tpope/vim-jdaddy'            " json text objs
+Plug 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
+Plug 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
 
 " Colors
-Plugin 'whatyouhide/vim-gotham'           " batman-inspired theme
-Plugin 'chriskempson/base16-vim'          " pastel-y theme
-Plugin 'junegunn/seoul256.vim'            " low contrast theme
-Plugin 'altercation/vim-colors-solarized' " solarized is life
+Plug 'chriskempson/base16-vim'          " pastel-y theme
+Plug 'altercation/vim-colors-solarized' " solarized is life
 
 " Languages
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'othree/html5.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'pangloss/vim-javascript'
-Plugin 'cakebaker/scss-syntax.vim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'othree/html5.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'vim-ruby/vim-ruby'
+Plug 'pangloss/vim-javascript'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'elixir-lang/vim-elixir'
 
-" Games
-Plugin 'mattn/flappyvird-vim' " lol
-
-call vundle#end()
+call plug#end()
 
 filetype plugin indent on
 
 " Config for plugins
 
-" FZF
-if has('mac')
-  set rtp+=/usr/local/Cellar/fzf/HEAD " fzf vim setup
+" Airline
+if filereadable(expand("$HOME/.vim/plugged/vim-airline/autoload/airline/themes/ianline.vim"))
+  let g:airline_theme='ianline'
 endif
 
-" Airline
-let g:airline_theme='ianline'
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
@@ -124,7 +130,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 set background=dark
-colorscheme base16-default
+silent! colorscheme base16-default
 
 " Command behaviour
 set showcmd
@@ -287,10 +293,12 @@ function! CurFileSearchLocList()
 endfunction
 
 " Run current file specs in tmux
-nnoremap <Leader>vs :call VimuxScribd()<CR>
-nnoremap <Leader>vr :call VimuxRuby()<CR>
-nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
-nnoremap <Leader>vc :call VimuxScribdClose()<CR>
+if executable('tmux')
+  nnoremap <Leader>vs :call VimuxScribd()<CR>
+  nnoremap <Leader>vr :call VimuxRuby()<CR>
+  nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
+  nnoremap <Leader>vc :call VimuxScribdClose()<CR>
+end
 
 " god who uses this
 map q: :q
@@ -306,8 +314,10 @@ nnoremap <Leader>tw :call TrimWhitespace()<CR>
 " Toggle between relative and static numbering
 nnoremap <Leader>num :call NumberToggle()<CR>
 
-" Update tags
-nnoremap <Leader>tags :execute "!rtags"<CR>
+if executable('ctags')
+  " Update tags
+  nnoremap <Leader>tags :execute "!rtags"<CR>
+endif
 
 " Undo mappings
 nnoremap <Leader>u :UndotreeToggle<CR>
@@ -391,8 +401,10 @@ inoremap <C-g> <Space>=><Space>
 " More logical
 map Y y$
 
-" Search word under cursor
-nnoremap <Leader>s :Ag<CR>
+if executable('ag')
+  " Search word under cursor
+  nnoremap <Leader>s :Ag<CR>
+endif
 
 " Use matchit more
 nmap <Tab> %
@@ -442,11 +454,13 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
 augroup END
 
-" Cleanup after ourselves, close the tmux pane when closing Vim
-augroup Vimux
-  autocmd!
-  autocmd VimLeave * :call VimuxScribdClose()
-augroup END
+if executable('tmux')
+  " Cleanup after ourselves, close the tmux pane when closing Vim
+  augroup Vimux
+    autocmd!
+    autocmd VimLeave * :call VimuxScribdClose()
+  augroup END
+endif
 
 augroup NoPaste
   autocmd!
