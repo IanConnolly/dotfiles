@@ -95,9 +95,7 @@ let g:airline_right_sep=''
 let g:SignatureMarkTextHLDynamic = 1
 
 " YouCompleteMe
-if has('mac')
-  let g:ycm_path_to_python_interpreter = "/usr/local/bin/python"
-endif
+let g:ycm_path_to_python_interpreter = substitute(system("which python"), '\v\n', '', '')
 
 " Get rid of YCM preview window when we tab
 let g:ycm_autoclose_preview_window_after_completion = 1
