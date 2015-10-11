@@ -36,7 +36,7 @@ endif
 Plug 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
 Plug 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
 
-if has('mac')
+if has('mac') && isdirectory('/Applications/Dash.app')
   Plug 'rizzatti/dash.vim'              " Integrate with Dash.app
 endif
 
@@ -368,7 +368,7 @@ nnoremap <Leader>r :%s//g<Left><Left>
 xnoremap <Leader>r :s//g<Left><Left>
 
 " Search current word in Dash.app
-if has('mac')
+if has('mac') && isdirectory('/Applications/Dash.app')
   nmap <silent> <Leader>d <Plug>DashSearch
 endif
 

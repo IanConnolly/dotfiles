@@ -16,7 +16,7 @@ install: zsh vim tmux git ghc tags
 vim: vimlinks
 	rm -rf ~/.vim
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	brew update && brew install the_silver_searcher && brew install ctags
+	brew update && brew reinstall the_silver_searcher && brew reinstall ctags
 	vim -c PlugInstall -c quitall
 	mkdir -p ~/.vim/ftdetect
 	ln -sf ~/.vim/plugged/ultisnips/ftdetect/* ~/.vim/ftdetect
