@@ -413,6 +413,10 @@ map Y y$
 " Search word under cursor
 nnoremap <Leader>s :Ag<CR>
 
+" Use matchit more
+nmap <Tab> %
+vmap <Tab> %
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
