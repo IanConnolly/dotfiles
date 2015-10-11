@@ -214,7 +214,7 @@ function! NumberToggle()
     set relativenumber
     set cursorline
   endif
-endfunc
+endfunction
 
 " Trim trailing whitespace
 function! TrimWhitespace()
@@ -222,7 +222,7 @@ function! TrimWhitespace()
   let c = col('.')
   %s/\s\+$//e
   call cursor(l, c)
-endfunc
+endfunction
 
 " Global variable for Vimux test pane
 let g:vs_open = 0
@@ -297,7 +297,7 @@ function! GenerateSnapshot()
   let directory = expand('~/dotfiles/snapshots')
   call system('mkdir -p ' . directory)
   let date = strftime("%Y-%m-%d")
-  let new_count = substitute(substitute(system('ls ' . directory . ' | grep ' . date . ' | wc -l'), '[^0-9]*', '', ''), '\v\r', '', '') + 1
+  let new_count = substitute(substitute(system('ls ' . directory . ' | grep ' . date . ' | wc -l'), '[^0-9]*', '', ''), '\v\n', '', '') + 1
   let file_name = directory . '/' . date . '-' . new_count . '.sh'
 
   execute 'PlugSnapshot ' . file_name
