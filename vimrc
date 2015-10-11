@@ -292,6 +292,17 @@ function! CurFileSearchLocList()
   execute 'lopen'
 endfunction
 
+function! GenerateSnapshot()
+  " TODO: Template this
+  let directory = expand('~/dotfiles/snapshots')
+  call system('mkdir -p ' . directory)
+  let date = strftime("%Y-%m-%d")
+  let new_count = substitute(substitute(system('ls ' . directory . ' | grep ' . date . ' | wc -l'), '[^0-9]*', '', ''), '\v\r', '', '') + 1
+  let file_name = directory . '/' . date . '-' . new_count . '.sh'
+
+  execute 'PlugSnapshot ' . file_name
+endfunction
+
 " Run current file specs in tmux
 if executable('tmux')
   nnoremap <Leader>vs :call VimuxScribd()<CR>
@@ -330,8 +341,9 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
-nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PluginInstall<CR>
-nnoremap <Leader>U :PluginUpdate<CR>:PluginClean<CR>
+nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PlugInstall<CR>
+nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
+nnoremap <Leader>S :call GenerateSnapshot()<CR>
 
 " Opens all current marks in loclist
 nnoremap m` :call signature#mark#List("buf_curr")<CR>
