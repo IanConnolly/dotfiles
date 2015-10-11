@@ -424,6 +424,12 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 " Select last edited/pasted text
 nnoremap gV `[v`]
 
+" Select current line char-wise
+nnoremap vv ^vg_
+
+" Force a full re-sync + re-draw
+nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
+
 " Buhbye accidental help
 nnoremap <F1> <Esc>
 xnoremap <F1> <Esc>
