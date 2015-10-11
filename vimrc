@@ -117,27 +117,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsEditSplit="vertical"
 
 " Only enable quick-scope after f/F/t/T
-let g:qs_enable = 0
-let g:qs_enable_char_list = [ 'f', 'F', 't', 'T' ]
-
-function! Quick_scope_selective(movement)
-  let needs_disabling = 0
-  if !g:qs_enable
-    QuickScopeToggle
-    redraw
-    let needs_disabling = 1
-  endif
-  let letter = nr2char(getchar())
-  if needs_disabling
-    QuickScopeToggle
-  endif
-  return a:movement . letter
-endfunction
-
-" quick_scope maps, operator-pending mode included (can do 'df' with hint)
-for i in g:qs_enable_char_list
-  execute 'noremap <expr> <silent>' . i . " Quick_scope_selective('". i . "')"
-endfor
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " Vim Settings
 
