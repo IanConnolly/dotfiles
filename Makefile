@@ -15,21 +15,13 @@ install: zsh vim tmux git ghc tags
 
 vim: vimlinks
 	rm -rf ~/.vim
-	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-	brew update && brew install the_silver_searcher && brew install ctags && brew reinstall --HEAD fzf
-	/usr/local/Cellar/fzf/HEAD/install
-	vim -c PluginInstall -c quitall
-	cd ~/.vim/bundle/YouCompleteMe && ./install.sh --clang-completer
-	cd ~/.vim/bundle/tern_for_vim && npm install
-	mkdir -p ~/.vim/ftdetect
-	ln -sf ~/.vim/bundle/ultisnips/ftdetect/* ~/.vim/ftdetect
-	ln -sf $(ROOT_DIR)/ianline.vim ~/.vim/bundle/vim-airline/autoload/airline/themes/ianline.vim
-	pip install neovim
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	brew update && brew reinstall the_silver_searcher && brew reinstall ctags
+	vim -c PlugInstall -c quitall
+	ln -sf $(ROOT_DIR)/ianline.vim ~/.vim/plugged/vim-airline/autoload/airline/themes/ianline.vim
 
 vimlinks:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
-	ln -sf ~/.vim ~/.nvim
-	ln -sf ~/.vimrc ~/.nvimrc
 
 tmux:
 	brew update && brew install reattach-to-user-namespace
