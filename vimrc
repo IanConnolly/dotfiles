@@ -28,28 +28,21 @@ endif
 
 if executable('tmux')
   Plug 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
-  Plug 'tpope/vim-tbone'                    " Access to tmux commands
   Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
   Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
 endif
 
-Plug 'ecomba/vim-ruby-refactoring'        " Easily refactor ruby code
-Plug 'AndrewRadev/splitjoin.vim'          " gS/gJ to switch single/multiline block
-
 if has('mac') && isdirectory('/Applications/Dash.app')
-  Plug 'rizzatti/dash.vim'              " Integrate with Dash.app
+  Plug 'rizzatti/dash.vim'                  " Integrate with Dash.app
 endif
 
 " Typing/Autocomplete support
-Plug 'scrooloose/syntastic'   " Syntax errors!
-Plug 'jiangmiao/auto-pairs'   " Automatically pair quotes, braces etc.
-Plug 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
-Plug 'ajh17/VimCompletesMe'   " Super lightweight smart-tab for ins-completion
-
-if executable('npm')
-  " Integrate with tern for JS omnifunc
-  Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-end
+Plug 'scrooloose/syntastic'                " Syntax errors!
+Plug 'jiangmiao/auto-pairs'                " Automatically pair quotes, braces etc.
+Plug 'tpope/vim-endwise'                   " Insert 'end' in ruby as smartly as braces
+Plug 'ajh17/VimCompletesMe'                " Super lightweight smart-tab for ins-completion
+Plug 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
+Plug 'unblevable/quick-scope'              " highlight in-line f/F/t/T motions
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'          " Easily deal with surrounding quotes
@@ -57,25 +50,32 @@ Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plug 'kshenoy/vim-signature'       " Show marks in gutter
+Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
+Plug 'junegunn/vim-easy-align'     " Easily align blocks
+
+" Text objs
 Plug 'wellle/targets.vim'          " New text objs
 " User-defined text objs + erb objs + ruby objs
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vim-textobj-ruby'
 Plug 'tpope/vim-jdaddy'            " json text objs
-Plug 'unblevable/quick-scope'      " highlight in-line f/F/t/T motions
-Plug 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
 
 " Colors
 Plug 'chriskempson/base16-vim'          " pastel-y theme
 Plug 'altercation/vim-colors-solarized' " solarized is life
 
-" Languages
+" Daily work languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'vim-ruby/vim-ruby'
-Plug 'pangloss/vim-javascript'
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'elixir-lang/vim-elixir'
+Plug 'vim-ruby/vim-ruby'
+
+" Non-daily work
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+
+" Non-work
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
 
 call plug#end()
 
@@ -108,7 +108,6 @@ set completeopt=menu,menuone " Don't show scratch window
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " Vim Settings
-
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 set background=dark
@@ -286,7 +285,7 @@ function! GenerateSnapshot()
 endfunction
 
 " Run current file specs in tmux
-if executable('tmux')
+if exists('$TMUX')
   nnoremap <Leader>vs :call VimuxScribd()<CR>
   nnoremap <Leader>vr :call VimuxRuby()<CR>
   nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
@@ -389,9 +388,6 @@ nnoremap <Leader>tc g~iw
 " Toggle case of last typed word
 inoremap <C-c> <Esc>bg~wea
 
-" Hash rocket
-inoremap <C-g> <Space>=><Space>
-
 " More logical
 map Y y$
 
@@ -422,6 +418,8 @@ nnoremap <F1> <Esc>
 xnoremap <F1> <Esc>
 inoremap <F1> <Esc>
 
+xnoremap <CR> :EasyAlign<CR>
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
@@ -448,7 +446,7 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
 augroup END
 
-if executable('tmux')
+if exists('$TMUX')
   " Cleanup after ourselves, close the tmux pane when closing Vim
   augroup Vimux
     autocmd!
@@ -469,8 +467,7 @@ augroup FileTypeSettings
   autocmd FileType haskell setlocal ts=2 sw=2 expandtab
   autocmd FileType python setlocal ts=4 sw=4 expandtab
   autocmd FileType rust setlocal ts=4 sw=4 expandtab
-  " use tern for omnifunc which is used by YouCompleteMe for suggestions
-  autocmd FileType javascript setlocal ts=2 sw=2 omnifunc=tern#Complete expandtab
+  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
