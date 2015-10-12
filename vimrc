@@ -212,7 +212,10 @@ endfunc
 
 " Trim trailing whitespace
 function! TrimWhitespace()
+  let l = line('.')
+  let c = col('.')
   %s/\s\+$//e
+  call cursor(l, c)
 endfunc
 
 " Global variable for Vimux test pane
