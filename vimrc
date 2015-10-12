@@ -43,19 +43,13 @@ endif
 " Typing/Autocomplete support
 Plug 'scrooloose/syntastic'   " Syntax errors!
 Plug 'jiangmiao/auto-pairs'   " Automatically pair quotes, braces etc.
-
- " Dropdown with autocompletion
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-
-" Snippets engine + built-in snippets
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
+Plug 'ajh17/VimCompletesMe'   " Super lightweight smart-tab for ins-completion
 
 if executable('npm')
   " Integrate with tern for JS omnifunc
   Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 end
-
-Plug 'tpope/vim-endwise'      " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'          " Easily deal with surrounding quotes
@@ -100,14 +94,6 @@ let g:airline_right_sep=''
 " vim-signature - highlight gutter marks
 let g:SignatureMarkTextHLDynamic = 1
 
-" YouCompleteMe
-let g:ycm_path_to_python_interpreter = substitute(system("which python"), '\v\n', '', '')
-
-" Get rid of YCM preview window when we tab
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
@@ -116,11 +102,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
-let g:UltiSnipsEditSplit="vertical"
+set completeopt=menu,menuone " Don't show scratch window
 
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
