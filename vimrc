@@ -22,10 +22,6 @@ Plug 'tpope/vim-rails'                    " Helpful rails related shortcuts
 Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                 " Git command wrappers
 
-if executable('ag')
-  Plug 'rking/ag.vim'                       " integrate with ag, a faster grep
-endif
-
 if executable('tmux')
   Plug 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
   Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
@@ -41,7 +37,6 @@ Plug 'scrooloose/syntastic'                " Syntax errors!
 Plug 'jiangmiao/auto-pairs'                " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                   " Insert 'end' in ruby as smartly as braces
 Plug 'ajh17/VimCompletesMe'                " Super lightweight smart-tab for ins-completion
-Plug 'vasconcelloslf/vim-interestingwords' " Highlight words with <Leader>k
 Plug 'unblevable/quick-scope'              " highlight in-line f/F/t/T motions
 
 " Movement/Text-alteration
@@ -51,13 +46,11 @@ Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plug 'kshenoy/vim-signature'       " Show marks in gutter
 Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
-Plug 'junegunn/vim-easy-align'     " Easily align blocks
 
 " Text objs
 Plug 'wellle/targets.vim'          " New text objs
 " User-defined text objs + erb objs + ruby objs
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vim-textobj-ruby'
-Plug 'tpope/vim-jdaddy'            " json text objs
 
 " Colors
 Plug 'chriskempson/base16-vim'          " pastel-y theme
@@ -311,6 +304,13 @@ if executable('ctags')
   nnoremap <Leader>tags :execute "!rtags"<CR>
 endif
 
+if executable('ag')
+  " Integrate with Ag
+  set grepprg=ag\ --vimgrep
+  set grepformat=%f:%l:%c:%m
+  nnoremap <Leader>s :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
+endif
+
 " Undo mappings
 nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
@@ -390,11 +390,6 @@ inoremap <C-c> <Esc>bg~wea
 
 " More logical
 map Y y$
-
-if executable('ag')
-  " Search word under cursor
-  nnoremap <Leader>s :Ag<CR>
-endif
 
 " Use matchit more
 nmap <Tab> %

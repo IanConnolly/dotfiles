@@ -15,11 +15,19 @@ gitme() {
     fi
 }
 
+dir() {
+  fd
+}
+
 fd() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
+}
+
+edit() {
+  fe
 }
 
 fe() {
@@ -41,6 +49,10 @@ fgr() {
     local file
     file=$(grep --line-buffered --color=never -r "" * | fzf | sed 's/:.*$//')
     [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
+
+branch() {
+  fbr
 }
 
 fbr() {
