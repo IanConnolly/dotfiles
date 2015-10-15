@@ -409,12 +409,6 @@ nnoremap <F1> :nohl<CR><Esc>
 xnoremap <F1> :nohl<CR><Esc>
 inoremap <F1> :nohl<CR><Esc>
 
-" Because shift is hard to let go of okay
-command! Wq wq
-command! WQ wq
-command! W w
-command! Q q
-
 " Change, highlight, repeat
 nnoremap ,, *``cgn
 
@@ -424,8 +418,18 @@ nnoremap <Leader>ra :%s/\<<C-r>=expand('<cword>')<CR>\>/
 " replace occurrences inside this block
 nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 
+" Because un-selecting is dumb
+xnoremap > >gv
+xnoremap < <gv
+
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+"
+" Because shift is hard to let go of okay
+command! Wq wq
+command! WQ wq
+command! W w
+command! Q q
 
 " Gutter colours
 highlight CursorLineNR ctermfg=red
