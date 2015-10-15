@@ -10,7 +10,6 @@ Plug 'tpope/vim-sensible'         " In case I've missed something
 Plug 'tpope/vim-vinegar'           " cleanup netrw
 Plug 'bling/vim-airline'           " Lightweight status bar
 Plug 'mbbill/undotree'             " View undo history as tree
-Plug 'troydm/easybuffer.vim'       " Startify-esque buffer nav
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 
 " FZF base + FZF vim helpers
@@ -83,6 +82,9 @@ endif
 
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_y=''
+let g:airline_section_z='%#__accent_bold#%4l%#__restore__#:%3v'
 
 " vim-signature - highlight gutter marks
 let g:SignatureMarkTextHLDynamic = 1
@@ -94,8 +96,6 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
-
-set completeopt=menu,menuone " Don't show scratch window
 
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -130,6 +130,7 @@ set shiftwidth=4
 set autoread
 set noswapfile
 set nowritebackup
+set nrformats-=octal
 
 " Search
 set hlsearch
@@ -158,7 +159,8 @@ set sidescrolloff=10
 set tags=./.tags;
 
 " Showing invisible characters
-set listchars=tab:›\ ,eol:¬,trail:⋅ " textmate
+set listchars=tab:»\ ,extends:›,eol:¬,trail:⋅ " textmate
+set showbreak=›››\
 set list
 
 " Command tab-completion
@@ -170,6 +172,10 @@ set ttyfast                         " probably already set but /shruggie
 set encoding=utf-8
 set complete+=kspell
 set hidden
+
+set completeopt=menu,menuone " Don't show scratch window
+
+set switchbuf=useopen
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -297,18 +303,14 @@ nnoremap <C-k> <C-u>
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
 " Toggle between relative and static numbering
-nnoremap <Leader>num :call NumberToggle()<CR>
-
-if executable('ctags')
-  " Update tags
-  nnoremap <Leader>tags :execute "!rtags"<CR>
-endif
+nnoremap <Leader>nu :call NumberToggle()<CR>
 
 if executable('ag')
   " Integrate with Ag
-  set grepprg=ag\ --vimgrep
-  set grepformat=%f:%l:%c:%m
+  set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
   nnoremap <Leader>s :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
+  command! -nargs=+ -complete=file_in_path -bar Show silent grep! <args>|cwindow|redraw!
 endif
 
 " Undo mappings
@@ -327,7 +329,7 @@ nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
 nnoremap <Leader>S :call GenerateSnapshot()<CR>
 
 " Opens all current marks in loclist
-nnoremap m` :call signature#mark#List("buf_curr")<CR>
+nnoremap <Leader>m :call signature#mark#List("buf_curr")<CR>
 
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
@@ -356,10 +358,6 @@ set pastetoggle=<F2>
 nnoremap <F2> <NOP>
 xnoremap <F2> <NOP>
 
-" Quick search + replace
-nnoremap <Leader>r :%s//g<Left><Left>
-xnoremap <Leader>r :s//g<Left><Left>
-
 " Search current word in Dash.app
 if has('mac') && isdirectory('/Applications/Dash.app')
   nmap <silent> <Leader>d <Plug>DashSearch
@@ -368,16 +366,14 @@ endif
 " easily get rid of search highlights
 noremap <Esc> :noh<CR><Esc>
 
-" See all open buffers and switch easily
-map ` :EasyBuffer<CR>
-
-" For fuzzy finding thru the above
+" For fuzzy finding thru buffers
 nnoremap <Leader><Tab> :Buffers<CR>
-
-nnoremap <Leader>f :BTags<CR>
 
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
+
+" Quick jump to buffers
+nnoremap <leader>b :ls<cr>:b<space>
 
 " Quick Esc
 inoremap ;; <Esc>:noh<CR>
@@ -385,15 +381,17 @@ inoremap ;; <Esc>:noh<CR>
 " Toggle case
 nnoremap <Leader>tc g~iw
 
-" Toggle case of last typed word
-inoremap <C-c> <Esc>bg~wea
-
 " More logical
 map Y y$
 
-" Use matchit more
+" Use matchit more (unbinds <C-i> as they're the same key)
 nmap <Tab> %
 xmap <Tab> %
+
+" Be able to jump 'in' jumplist after remap ^
+nnoremap <Leader>i <C-i>
+" Bind <C-o> for symmetry
+nnoremap <Leader>o <C-o>
 
 " Move up and down visual lines, not real (but not when given a count)
 nnoremap <expr> j v:count ? 'j' : 'gj'
@@ -405,21 +403,28 @@ nnoremap gV `[v`]
 " Select current line char-wise
 nnoremap vv ^vg_
 
-" Force a full re-sync + re-draw
-nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
-
 " Buhbye accidental help
-nnoremap <F1> <Esc>
-xnoremap <F1> <Esc>
-inoremap <F1> <Esc>
-
-xnoremap <CR> :EasyAlign<CR>
+nnoremap <F1> :nohl<CR><Esc>
+xnoremap <F1> :nohl<CR><Esc>
+inoremap <F1> :nohl<CR><Esc>
 
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
 command! W w
 command! Q q
+
+" Change, highlight, repeat
+nnoremap ,, *``cgn
+
+" replace all occurences of current word
+nnoremap <Leader>ra :%s/\<<C-r>=expand('<cword>')<CR>\>/
+
+" replace occurrences inside this block
+nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
+
+" Debug colours
+command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
 " Gutter colours
 highlight CursorLineNR ctermfg=red
@@ -458,7 +463,7 @@ augroup FileTypeSettings
   autocmd!
   autocmd FileType html setlocal ts=2 sw=2 expandtab
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
-  autocmd FileType vim setlocal ts=2 sw=2 expandtab
+  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
   autocmd FileType haskell setlocal ts=2 sw=2 expandtab
   autocmd FileType python setlocal ts=4 sw=4 expandtab
   autocmd FileType rust setlocal ts=4 sw=4 expandtab
