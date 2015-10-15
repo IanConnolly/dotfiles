@@ -375,7 +375,7 @@ nnoremap <Leader><Tab> :Buffers<CR>
 noremap <Leader><Space> :buffer #<CR>
 
 " Quick jump to buffers
-nnoremap <leader>b :ls<cr>:b<space>
+nnoremap <Leader>b :ls<cr>:b<space>
 
 " Quick Esc
 inoremap ;; <Esc>:noh<CR>
