@@ -13,6 +13,7 @@ export PATH="$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:$HOME/.rvm/bin:$HOME/Libr
 alias nv=nvim
 alias nvi=nvim
 alias devbox="ssh -A devbox.lo"
+alias show=ag
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 rvm use 2.1.5

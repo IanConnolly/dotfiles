@@ -310,8 +310,9 @@ if executable('ag')
   " Integrate with Ag
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
-  nnoremap <Leader>s :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
   command! -nargs=+ -complete=file_in_path -bar Show silent grep! <args>|cwindow|redraw!
+  nnoremap <Leader>s :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
+  nnoremap <Leader>ag :Show ''<Left>
 endif
 
 " Undo mappings
