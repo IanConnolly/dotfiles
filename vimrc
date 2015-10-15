@@ -108,6 +108,7 @@ silent! colorscheme base16-default
 
 " Command behaviour
 set showcmd
+set noshowmode
 set laststatus=2
 
 " Text-y stuff
