@@ -10,6 +10,7 @@ Plug 'tpope/vim-vinegar'           " cleanup netrw
 Plug 'bling/vim-airline'           " Lightweight status bar
 Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
+Plug 'tpope/vim-capslock'          " Software capslock
 
 " FZF base + FZF vim helpers
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
@@ -80,9 +81,10 @@ endif
 
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y=''
 let g:airline_section_z='%#__accent_bold#%4l%#__restore__#:%3v'
+
+let g:airline_extensions = ['quickfix', 'branch', 'hunks', 'capslock']
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
