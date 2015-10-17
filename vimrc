@@ -460,6 +460,7 @@ augroup FileTypeSettings
   autocmd FileType rust setlocal ts=4 sw=4 expandtab
   autocmd FileType javascript setlocal ts=2 sw=2 expandtab
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
+  autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
