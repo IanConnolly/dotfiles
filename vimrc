@@ -1,4 +1,3 @@
-set nocompatible
 filetype off
 runtime macros/matchit.vim
 
@@ -43,7 +42,6 @@ Plug 'tpope/vim-surround'          " Easily deal with surrounding quotes
 Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
-Plug 'kshenoy/vim-signature'       " Show marks in gutter
 Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
 
 " Text objs
@@ -86,9 +84,6 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y=''
 let g:airline_section_z='%#__accent_bold#%4l%#__restore__#:%3v'
 
-" vim-signature - highlight gutter marks
-let g:SignatureMarkTextHLDynamic = 1
-
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
@@ -99,6 +94,9 @@ let g:syntastic_disabled_filetype = ['scss']
 
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Hide hidden files + folders
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
@@ -329,9 +327,6 @@ nnoremap <Leader>Q :q!<CR>
 nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PlugInstall<CR>
 nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
 nnoremap <Leader>S :call GenerateSnapshot()<CR>
-
-" Opens all current marks in loclist
-nnoremap <Leader>m :call signature#mark#List("buf_curr")<CR>
 
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
