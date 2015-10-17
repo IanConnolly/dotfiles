@@ -264,15 +264,6 @@ function! DeleteUndoFile()
   endif
 endfunction
 
-" Prompt for a term; search for it; populate loclist with it
-function! CurFileSearchLocList()
-  call inputsave()
-  let search_term = input('Search: ')
-  call inputrestore()
-  execute 'lvim "' . search_term . '" %'
-  execute 'lopen'
-endfunction
-
 function! GenerateSnapshot()
   " TODO: Template this
   let directory = expand('~/dotfiles/snapshots')
@@ -348,9 +339,6 @@ nnoremap <Leader>P "0P
 
 " Syntastic errors
 nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
-
-" Search for a term and put it in the loclist
-nnoremap <Leader>/ :call CurFileSearchLocList()<CR>
 
 set pastetoggle=<F2>
 " Don't allow paste mode in normal/visual modes
