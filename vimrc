@@ -161,7 +161,7 @@ set tags=./.tags;
 
 " Showing invisible characters
 set listchars=tab:»\ ,extends:›,eol:¬,trail:⋅ " textmate
-set showbreak=›››\
+set showbreak=›››
 set list
 
 " Command tab-completion
