@@ -221,10 +221,13 @@ function! VimuxRuby()
   if (g:vs_open == 0)
     call VimuxScribd()
   endif
-  let buffername = bufname("%")
+  let buffername = fnamemodify(expand("%"), ":~:.")
   let testfile = buffername
   if buffername =~ '^app/.*'
     let testfile = substitute(testfile, 'app/', 'spec/', '')
+    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
+  elseif buffername =~ "^lib/.*"
+    let testfile = substitute(testfile, 'lib/', 'spec/lib/', '')
     let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
   endif
   call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
@@ -234,12 +237,15 @@ function! VimuxRubyNearest()
   if (g:vs_open == 0)
     call VimuxScribd()
   endif
-  let buffername = bufname("%")
+  let buffername = fnamemodify(expand("%"), ":~:.")
   let testfile = buffername
   if buffername =~ '^spec/.*'
     let testfile = substitute(testfile, '$', ':' . line("."), '')
   elseif buffername =~ '^app/.*'
     let testfile = substitute(testfile, 'app/', 'spec/', '')
+    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
+  elseif buffername =~ "^lib/.*"
+    let testfile = substitute(testfile, 'lib/', 'spec/lib/', '')
     let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
   endif
   call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
