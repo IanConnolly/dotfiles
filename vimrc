@@ -173,7 +173,7 @@ set statusline=
 
 " left side
 set statusline+=(%n) " buffer number
-set statusline+=\ %f%m%r%h%w " file info
+set statusline+=\ %f%m%r%h%w " buffer info
 set statusline+=\ [%l/%L,\ %v] " line + columns
 
 " delimiter
@@ -438,7 +438,7 @@ highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
 highlight ModeMsg ctermfg=white
-highlight StatusLine ctermfg=white
+highlight StatusLine ctermfg=white ctermbg=236
 
 augroup GutterColourSet
   autocmd!
@@ -450,7 +450,7 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
   autocmd ColorScheme * hi ModeMsg ctermfg=white
-  autocmd ColorScheme * hi StatusLine ctermfg=white
+  autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
 augroup END
 
 if exists('$TMUX')
