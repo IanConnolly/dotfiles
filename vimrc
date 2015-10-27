@@ -7,7 +7,6 @@ Plug 'tpope/vim-sensible'         " In case I've missed something
 
 " Vim layout + window related fun
 Plug 'tpope/vim-vinegar'           " cleanup netrw
-Plug 'bling/vim-airline'           " Lightweight status bar
 Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 Plug 'tpope/vim-capslock'          " Software capslock
@@ -73,18 +72,6 @@ call plug#end()
 filetype plugin indent on
 
 " Config for plugins
-
-" Airline
-if filereadable(expand("$HOME/.vim/plugged/vim-airline/autoload/airline/themes/ianline.vim"))
-  let g:airline_theme='ianline'
-endif
-
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_section_y=''
-let g:airline_section_z='%#__accent_bold#%4l%#__restore__#:%3v'
-
-let g:airline_extensions = ['quickfix', 'branch', 'hunks', 'capslock']
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
@@ -177,6 +164,25 @@ set hidden
 set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
+
+" show which mode we're in
+set showmode
+
+" statusline
+set statusline=
+
+" left side
+set statusline+=(%n) " buffer number
+set statusline+=\ %f%m%r%h%w " file info
+set statusline+=\ [%l/%L,\ %v] " line + columns
+
+" delimiter
+set statusline+=\ %=
+
+" right side
+set statusline+=%{exists('*CapsLockStatusline')?CapsLockStatusline():''}
+set statusline+=\ %{fugitive#statusline()} " git info
+set statusline+=[%{(&filetype==\"\"?\"none\":&filetype)},\ %{(&fenc==\"\"?&enc:&fenc)},\ %{&ff}]
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -323,7 +329,7 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
-nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:AirlineRefresh<CR>:PlugInstall<CR>
+nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:PlugInstall<CR>
 nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
 nnoremap <Leader>S :call GenerateSnapshot()<CR>
 
@@ -431,6 +437,8 @@ highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
+highlight ModeMsg ctermfg=white
+highlight StatusLine ctermfg=white
 
 augroup GutterColourSet
   autocmd!
@@ -441,6 +449,8 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChange ctermbg=black
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
+  autocmd ColorScheme * hi ModeMsg ctermfg=white
+  autocmd ColorScheme * hi StatusLine ctermfg=white
 augroup END
 
 if exists('$TMUX')
