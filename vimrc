@@ -180,9 +180,9 @@ set statusline+=\ [%l/%L,\ %v] " line + columns
 set statusline+=\ %=
 
 " right side
-set statusline+=%{exists('*CapsLockStatusline')?CapsLockStatusline():''}
+set statusline+=%{exists('*CapsLockStatusline')?CapsLockStatusline():''} " software caps lock
 set statusline+=\ %{fugitive#statusline()} " git info
-set statusline+=[%{(&filetype==\"\"?\"none\":&filetype)},\ %{(&fenc==\"\"?&enc:&fenc)},\ %{&ff}]
+set statusline+=\ [%{(&filetype==\"\"?\"none\":&filetype)},\ %{(&fenc==\"\"?&enc:&fenc)},\ %{&ff}]  " file info
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
