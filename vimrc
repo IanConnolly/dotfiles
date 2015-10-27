@@ -173,15 +173,15 @@ set statusline=
 
 " left side
 set statusline+=(%n) " buffer number
-set statusline+=\ %f%m%r%h%w " buffer info
+set statusline+=\ %1*%f%m%r%h%w%0* " buffer info
 set statusline+=\ [%l/%L,\ %v] " line + columns
+set statusline+=\ %2*%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%0* " software caps lock
 
 " delimiter
 set statusline+=\ %=
 
 " right side
-set statusline+=%{exists('*CapsLockStatusline')?CapsLockStatusline():''} " software caps lock
-set statusline+=\ %{fugitive#statusline()} " git info
+set statusline+=%1*%{fugitive#statusline()}%0* " git info
 set statusline+=\ [%{(&filetype==\"\"?\"none\":&filetype)},\ %{(&fenc==\"\"?&enc:&fenc)},\ %{&ff}]  " file info
 
 if has("persistent_undo")
@@ -437,8 +437,10 @@ highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
-highlight ModeMsg ctermfg=white
+highlight ModeMsg ctermfg=203
 highlight StatusLine ctermfg=white ctermbg=236
+highlight User1 ctermfg=110 ctermbg=236
+highlight User2 ctermfg=213 ctermbg=236
 
 augroup GutterColourSet
   autocmd!
@@ -449,8 +451,10 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChange ctermbg=black
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
-  autocmd ColorScheme * hi ModeMsg ctermfg=white
+  autocmd ColorScheme * hi ModeMsg ctermfg=203
   autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
+  autocmd ColorScheme * hi User1 ctermfg=110 ctermbg=236
+  autocmd ColorScheme * hi User1 ctermfg=213 ctermbg=236
 augroup END
 
 if exists('$TMUX')
