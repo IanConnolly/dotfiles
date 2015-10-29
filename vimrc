@@ -209,7 +209,12 @@ function! FileModes()
     let ls.= ' P'
   endif
 
+  if get(b:, 'capslock', 0) > 0
+    let ls.= ' C'
+  endif
+
   let ls.= '%0*'
+
   return ls
 endfunction
 
