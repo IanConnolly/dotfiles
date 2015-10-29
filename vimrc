@@ -165,24 +165,90 @@ set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
 
+function! LineNr()
+  let l = line('.')
+  let ruler_width = strlen(line('$')) + 1
+  let line_width = strlen(l)
+  let padding = ruler_width - line_width
+  let line = ''
+
+  if padding <= 0
+    let line .= l
+  else
+    " + 1 becuase for some reason vim eats one of the spaces
+    let line .= repeat(' ', padding + 1) . l
+  endif
+
+  return line . ' '
+endfunction
+
+function! NumberSection()
+  return '%3*' . LineNr() . '%0*' " buffer number
+endfunction
+
+function! LeftSep()
+  return '%1* » %0*'
+endfunction
+
+function! RightSep()
+  return '%1* « %0*'
+endfunction
+
+function! FileModes()
+  let ls = '%2*'
+
+  if &modified
+    let ls.= ' +'
+  endif
+
+  if &readonly
+    let ls.= ' !!'
+  endif
+
+  if &paste
+    let ls.= ' P'
+  endif
+
+  let ls.= '%0*'
+  return ls
+endfunction
+
+function! LeftSide()
+  let ls = ''
+  let ls.= NumberSection()
+  let ls.= LeftSep()
+  let ls.= '%f' " file name
+  let ls.= RightSep()
+  let ls.= FileModes()
+
+  return ls
+endfunction
+
+function! RightSide()
+  if exists('*fugitive#head')
+    let head = fugitive#head()
+  endif
+
+  if !empty(head)
+    return '%1* ←%0* ' . head
+  else
+    return ''
+  endif
+endfunction
+
+function! StatusLine()
+  let statusl = LeftSide()
+  let statusl.= '%='
+  let statusl.= RightSide()
+
+  return statusl
+endfunction
+
 " show which mode we're in
 set showmode
 
 " statusline
-set statusline=
-
-" left side
-set statusline+=(%n) " buffer number
-set statusline+=\ %1*%f%m%r%h%w%0* " buffer info
-set statusline+=\ [%l/%L,\ %v] " line + columns
-set statusline+=\ %2*%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%0* " software caps lock
-
-" delimiter
-set statusline+=\ %=
-
-" right side
-set statusline+=%1*%{fugitive#statusline()}%0* " git info
-set statusline+=\ [%{(&filetype==\"\"?\"none\":&filetype)},\ %{(&fenc==\"\"?&enc:&fenc)},\ %{&ff}]  " file info
+set statusline=%!StatusLine()
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -437,10 +503,11 @@ highlight GitGutterAdd ctermbg=black
 highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
-highlight ModeMsg ctermfg=203
+highlight ModeMsg ctermfg=213
 highlight StatusLine ctermfg=white ctermbg=236
 highlight User1 ctermfg=110 ctermbg=236
-highlight User2 ctermfg=213 ctermbg=236
+highlight User2 ctermfg=203 ctermbg=236
+highlight User3 ctermfg=213 ctermbg=236
 
 augroup GutterColourSet
   autocmd!
@@ -451,10 +518,11 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChange ctermbg=black
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
-  autocmd ColorScheme * hi ModeMsg ctermfg=203
+  autocmd ColorScheme * hi ModeMsg ctermfg=213
   autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
   autocmd ColorScheme * hi User1 ctermfg=110 ctermbg=236
-  autocmd ColorScheme * hi User1 ctermfg=213 ctermbg=236
+  autocmd ColorScheme * hi User2 ctermfg=203 ctermbg=236
+  autocmd ColorScheme * hi User3 ctermfg=213 ctermbg=236
 augroup END
 
 if exists('$TMUX')
