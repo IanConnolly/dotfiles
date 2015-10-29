@@ -165,25 +165,8 @@ set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
 
-function! LineNr()
-  let l = line('.')
-  let ruler_width = strlen(line('$')) + 1
-  let line_width = strlen(l)
-  let padding = ruler_width - line_width
-  let line = ''
-
-  if padding <= 0
-    let line .= l
-  else
-    " + 1 becuase for some reason vim eats one of the spaces
-    let line .= repeat(' ', padding + 1) . l
-  endif
-
-  return line . ' '
-endfunction
-
 function! NumberSection()
-  return '%3*' . LineNr() . '%0*' " buffer number
+  return '%3*%n%0*' " buffer number
 endfunction
 
 function! LeftSep()
@@ -490,6 +473,8 @@ nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 " Because un-selecting is dumb
 xnoremap > >gv
 xnoremap < <gv
+
+nnoremap <Leader>l :echo line('.') . "/" . line('$')<CR>
 
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
