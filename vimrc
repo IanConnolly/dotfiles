@@ -10,6 +10,8 @@ Plug 'tpope/vim-vinegar'           " cleanup netrw
 Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 Plug 'tpope/vim-capslock'          " Software capslock
+Plug 'romainl/vim-qf'              " Tame quickfix
+Plug 'roman/golden-ratio'          " keeps splits in a nice ratio
 
 " FZF base + FZF vim helpers
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
@@ -80,6 +82,12 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
+
+let g:qf_mapping_ack_style = 1
+" Use GR manually
+let g:golden_ratio_autocommand = 0
+" Don't use GR on non-modifiable buffers (ie. special plugin windows)
+let g:golden_ratio_exclude_nonmodifiable = 1
 
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -166,7 +174,7 @@ set completeopt=menu,menuone " Don't show scratch window
 set switchbuf=useopen
 
 function! NumberSection()
-  return '%3*%n%0*' " buffer number
+  return ' %3*%n%0*' " buffer number
 endfunction
 
 function! LeftSep()
@@ -218,7 +226,7 @@ function! RightSide()
   endif
 
   if !empty(head)
-    return '%1* ←%0* ' . head
+    return '%1* ←%0* ' . head . ' '
   else
     return ''
   endif
@@ -340,6 +348,24 @@ function! GenerateSnapshot()
 
   execute 'PlugSnapshot ' . file_name
 endfunction
+
+
+function! s:try(cmd, default)
+  if exists(':' . a:cmd) && !v:count
+    let tick = b:changedtick
+    execute a:cmd
+    if tick == b:changedtick
+      execute join(['normal!', a:default])
+    endif
+  else
+    execute join(['normal! ', v:count, a:default], '')
+  endif
+endfunction
+
+nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin',  'J')<CR>
+nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
+
+nnoremap <C-w>- :ccl<CR>:GoldenRatioResize<CR>
 
 " Run current file specs in tmux
 if exists('$TMUX')
