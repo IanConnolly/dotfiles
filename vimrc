@@ -104,7 +104,6 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " AutoPairs binds to Meta by default for whatever reason, we don't want that
 " on OSX
 let g:AutoPairsShortcutFastWrap = '<C-e>'
-let g:AutoPairsShortcutJump = '<C-n>'
 
 " Hide hidden files + folders
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
@@ -199,8 +198,6 @@ set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
 
-set updatetime=750
-
 function! NumberSection()
   return ' %3*%n%0*' " buffer number
 endfunction
@@ -254,12 +251,9 @@ function! RightSide()
 
     if !empty(head)
       return '%1* ←%0* ' . head . ' '
-    else
-      return ''
-    endif
-  else
-    return ''
   endif
+
+  return ''
 endfunction
 
 function! StatusLine()
@@ -275,6 +269,8 @@ set showmode
 
 " statusline
 set statusline=%!StatusLine()
+
+set updatetime=750
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -574,7 +570,7 @@ nnoremap <Leader>l :echo line('.') . "/" . line('$')<CR>
 
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-"
+
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
