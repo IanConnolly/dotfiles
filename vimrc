@@ -92,6 +92,11 @@ let g:golden_ratio_exclude_nonmodifiable = 1
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
+" AutoPairs binds to Meta by default for whatever reason, we don't want that
+" on OSX
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+let g:AutoPairsShortcutJump = '<C-n>'
+
 " Hide hidden files + folders
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
