@@ -109,6 +109,7 @@ let g:AutoPairsShortcutJump = '<C-n>'
 " Hide hidden files + folders
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
+" TODO: remove hardcoded paths
 let g:racer_cmd = expand("$HOME/racer/target/release/racer")
 let g:cargo_command = "make <subcommand>"
 let $RUST_SRC_PATH = expand("$HOME/rust/src/")
@@ -213,27 +214,27 @@ function! RightSep()
 endfunction
 
 function! FileModes()
-  let ls = '%2*'
+  let fm = '%2*'
 
   if &modified
-    let ls.= ' +'
+    let fm.= ' +'
   endif
 
   if &readonly
-    let ls.= ' !!'
+    let fm.= ' !!'
   endif
 
   if &paste
-    let ls.= ' P'
+    let fm.= ' P'
   endif
 
   if get(b:, 'capslock', 0) > 0
-    let ls.= ' C'
+    let fm.= ' C'
   endif
 
-  let ls.= '%0*'
+  let fm.= '%0*'
 
-  return ls
+  return fm
 endfunction
 
 function! LeftSide()
@@ -379,7 +380,6 @@ function! GenerateSnapshot()
 
   execute 'PlugSnapshot ' . file_name
 endfunction
-
 
 function! s:try(cmd, default)
   if exists(':' . a:cmd) && !v:count
@@ -588,7 +588,13 @@ highlight GitGutterChange ctermbg=black
 highlight GitGutterDelete ctermbg=black
 highlight GitGutterChangeDelete ctermbg=black
 highlight ModeMsg ctermfg=213
-highlight StatusLine ctermfg=white ctermbg=236
+
+if g:colors_name =~ "base16"
+  highlight StatusLine ctermfg=white ctermbg=236
+else
+  highlight StatusLine ctermfg=236 ctermbg=white
+endif
+
 highlight User1 ctermfg=110 ctermbg=236
 highlight User2 ctermfg=203 ctermbg=236
 highlight User3 ctermfg=213 ctermbg=236
@@ -604,6 +610,13 @@ augroup GutterColourSet
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
   autocmd ColorScheme * hi ModeMsg ctermfg=213
   autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
+
+  if g:colors_name =~ "base16"
+    autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
+  else
+    autocmd ColorScheme * hi StatusLine ctermfg=236 ctermbg=white
+  endif
+
   autocmd ColorScheme * hi User1 ctermfg=110 ctermbg=236
   autocmd ColorScheme * hi User2 ctermfg=203 ctermbg=236
   autocmd ColorScheme * hi User3 ctermfg=213 ctermbg=236
@@ -629,19 +642,21 @@ augroup FileTypeSettings
   autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
   autocmd FileType haskell setlocal ts=2 sw=2 expandtab
   autocmd FileType python setlocal ts=4 sw=4 expandtab
-  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
   autocmd FileType javascript setlocal ts=2 sw=2 expandtab
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
+  autocmd BufEnter *.rs iunmap ;;
+  autocmd BufLeave *.rs inoremap ;; <Esc>:noh<CR>
+
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
   autocmd BufNewFile,BufRead Cargo.toml,Cargo.lock set filetype=rust
+  autocmd BufNewFile,BufRead *.q set filetype=sql " Hive
 
-  " Hive
-  autocmd BufNewFile,BufRead *.q set filetype=sql
-  " spell check git commit messages and markdown files!
+  " spell check git commit messages and markdown files
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
