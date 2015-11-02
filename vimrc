@@ -173,6 +173,8 @@ set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
 
+set updatetime=750
+
 function! NumberSection()
   return ' %3*%n%0*' " buffer number
 endfunction
@@ -415,6 +417,9 @@ nnoremap <Leader>S :call GenerateSnapshot()<CR>
 
 " no need for this to be mac only; can compile from source
 nnoremap <C-p> :FZF<CR>
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+nmap <Leader>- :edit %%
 
 " vim-fugitive
 nnoremap <Leader>gb :Gblame<CR>
