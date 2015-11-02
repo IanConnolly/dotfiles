@@ -23,7 +23,6 @@ Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                 " Git command wrappers
 
 if executable('tmux')
-  Plug 'justinmk/vim-gtfo'                  " Open a tmux pane with got!
   Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
   Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
 endif
