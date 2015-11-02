@@ -433,6 +433,9 @@ nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gp :Gpush<CR>
 nnoremap <Leader>gl :Glog<CR>:copen<CR>
+" FZF
+nnoremap <Leader>gf :GitFiles<CR>
+nnoremap <Leader>gh :BCommits<CR>
 
 " copy and paste
 xnoremap <Leader>c "*y
