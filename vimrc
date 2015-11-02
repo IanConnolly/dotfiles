@@ -65,7 +65,9 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 " Non-work
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+"Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'jFransham/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
 
 call plug#end()
@@ -107,6 +109,12 @@ let g:AutoPairsShortcutJump = '<C-n>'
 " Hide hidden files + folders
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
+let g:racer_cmd = expand("$HOME/racer/target/release/racer")
+let g:cargo_command = "make <subcommand>"
+let $RUST_SRC_PATH = expand("$HOME/rust/src/")
+let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclippy_pedantic']
+
+
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -129,9 +137,9 @@ set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
 " Gutter number
-set nonumber                          " for easier movements
-set relativenumber
-set cursorline
+set number                          " for easier movements
+set norelativenumber
+set nocursorline
 
 " Tabs
 set expandtab
@@ -357,6 +365,10 @@ function! DeleteUndoFile()
   endif
 endfunction
 
+function! RunCargo(subcommand)
+  execute substitute(g:cargo_command, "<subcommand>", a:subcommand, '')
+endfunction
+
 function! GenerateSnapshot()
   " TODO: Template this
   let directory = expand('~/dotfiles/snapshots')
@@ -450,6 +462,7 @@ endif
 
 " Edit the vimrc in a split
 command! EV vsplit ~/.vimrc
+command! ES split ~/.vimrc
 
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf')
@@ -616,7 +629,7 @@ augroup FileTypeSettings
   autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
   autocmd FileType haskell setlocal ts=2 sw=2 expandtab
   autocmd FileType python setlocal ts=4 sw=4 expandtab
-  autocmd FileType rust setlocal ts=4 sw=4 expandtab
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
   autocmd FileType javascript setlocal ts=2 sw=2 expandtab
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
@@ -624,6 +637,8 @@ augroup FileTypeSettings
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
+  autocmd BufNewFile,BufRead Cargo.toml,Cargo.lock set filetype=rust
+
   " Hive
   autocmd BufNewFile,BufRead *.q set filetype=sql
   " spell check git commit messages and markdown files!

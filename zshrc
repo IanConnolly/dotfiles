@@ -8,12 +8,13 @@ source $ZSH/oh-my-zsh.sh
 
 export KEYTIMEOUT=1
 
-export PATH="$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:$HOME/.rvm/bin:$HOME/Library/Haskell/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/arcinst/arcanist/bin:$HOME/cargo-clippy/target/release:$HOME/.fzf/bin:$HOME/.rvm/bin:$HOME/Library/Haskell/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 alias nv=nvim
 alias nvi=nvim
 alias devbox="ssh -A devbox.lo"
 alias show=ag
+export RUST_SRC_PATH=~/rust/src
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 rvm use 2.1.5
