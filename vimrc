@@ -251,10 +251,12 @@ endfunction
 function! RightSide()
   if exists('*fugitive#head')
     let head = fugitive#head()
-  endif
 
-  if !empty(head)
-    return '%1* ←%0* ' . head . ' '
+    if !empty(head)
+      return '%1* ←%0* ' . head . ' '
+    else
+      return ''
+    endif
   else
     return ''
   endif
@@ -394,7 +396,7 @@ function! s:try(cmd, default)
 endfunction
 
 if PluginLoaded('splitjoin')
-  nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin',  'J')<CR>
+  nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin', 'J')<CR>
   nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
 endif
 
