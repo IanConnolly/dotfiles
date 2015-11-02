@@ -111,7 +111,12 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 set background=dark
-silent! colorscheme base16-default
+
+if PluginLoaded('base16')
+  colorscheme base16-default
+else
+  colorscheme desert
+endif
 
 " Command behaviour
 set showcmd
