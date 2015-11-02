@@ -72,6 +72,14 @@ call plug#end()
 
 filetype plugin indent on
 
+function! PluginLoaded(plugin)
+  if a:plugin == "vim-plug"
+    return exists("$HOME/.vim/autoload/plug.vim")
+  else
+    return &rtp =~ a:plugin
+  endif
+endfunction
+
 " Config for plugins
 
 " Syntastic
@@ -368,13 +376,17 @@ function! s:try(cmd, default)
   endif
 endfunction
 
-nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin',  'J')<CR>
-nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
+if PluginLoaded('splitjoin')
+  nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin',  'J')<CR>
+  nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
+endif
 
-nnoremap <C-w>- :ccl<CR>:GoldenRatioResize<CR>
+if PluginLoaded('golden-ratio')
+  nnoremap <C-w>- :ccl<CR>:GoldenRatioResize<CR>
+endif
 
 " Run current file specs in tmux
-if exists('$TMUX')
+if exists('$TMUX') && PluginLoaded('vimux')
   nnoremap <Leader>vs :call VimuxScribd()<CR>
   nnoremap <Leader>vr :call VimuxRuby()<CR>
   nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
@@ -405,36 +417,58 @@ if executable('ag')
 endif
 
 " Undo mappings
-nnoremap <Leader>u :UndotreeToggle<CR>
-nnoremap <Leader>du :call DeleteUndoFile()<CR>
+if PluginLoaded('undotree')
+  nnoremap <Leader>u :UndotreeToggle<CR>
+  nnoremap <Leader>du :call DeleteUndoFile()<CR>
+endif
 
 " Use Sayonara for quitting
-nnoremap <Leader>x :Sayonara<CR>y<CR>
-nnoremap <Leader>q :w<CR>:Sayonara<CR>
+if PluginLoaded('sayonara')
+  nnoremap <Leader>x :Sayonara<CR>y<CR>
+  nnoremap <Leader>q :w<CR>:Sayonara<CR>
+else
+  nnoremap <Leader>x :q!<CR>
+  nnoremap <Leader>q :wq<CR>
+endif
+
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
-nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:PlugInstall<CR>
-nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
-nnoremap <Leader>S :call GenerateSnapshot()<CR>
+if PluginLoaded('vim-plug')
+  nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:PlugInstall<CR>
+  nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
+  nnoremap <Leader>S :call GenerateSnapshot()<CR>
+else
+  nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>
+endif
+
+" Edit the vimrc in a split
+command! EV vsplit ~/.vimrc
 
 " no need for this to be mac only; can compile from source
-nnoremap <C-p> :FZF<CR>
+if PluginLoaded('fzf')
+  nnoremap <C-p> :FZF<CR>
+endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 nmap <Leader>- :edit %%
 
 " vim-fugitive
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gp :Gpush<CR>
-nnoremap <Leader>gl :Glog<CR>:copen<CR>
+if PluginLoaded('fugitive')
+  nnoremap <Leader>gb :Gblame<CR>
+  nnoremap <Leader>gs :Gstatus<CR>
+  nnoremap <Leader>gd :Gdiff<CR>
+  nnoremap <Leader>gc :Gcommit<CR>
+  nnoremap <Leader>gp :Gpush<CR>
+  nnoremap <Leader>gl :Glog<CR>:copen<CR>
+endif
+
 " FZF
-nnoremap <Leader>gf :GitFiles<CR>
-nnoremap <Leader>gh :BCommits<CR>
+if PluginLoaded('fugitive') && PluginLoaded('fzf.vim')
+  nnoremap <Leader>gf :GitFiles<CR>
+  nnoremap <Leader>gh :BCommits<CR>
+endif
 
 " copy and paste
 xnoremap <Leader>c "*y
@@ -442,7 +476,9 @@ nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
 " Syntastic errors
-nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
+if PluginLoaded('syntastic')
+  nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
+endif
 
 set pastetoggle=<F2>
 " Don't allow paste mode in normal/visual modes
@@ -450,7 +486,7 @@ nnoremap <F2> <NOP>
 xnoremap <F2> <NOP>
 
 " Search current word in Dash.app
-if has('mac') && isdirectory('/Applications/Dash.app')
+if has('mac') && isdirectory('/Applications/Dash.app') && PluginLoaded('dash')
   nmap <silent> <Leader>d <Plug>DashSearch
 endif
 
@@ -458,7 +494,9 @@ endif
 noremap <Esc> :noh<CR><Esc>
 
 " For fuzzy finding thru buffers
-nnoremap <Leader><Tab> :Buffers<CR>
+if PluginLoaded('fzf.vim')
+  nnoremap <Leader><Tab> :Buffers<CR>
+endif
 
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
@@ -553,7 +591,7 @@ augroup GutterColourSet
   autocmd ColorScheme * hi User3 ctermfg=213 ctermbg=236
 augroup END
 
-if exists('$TMUX')
+if exists('$TMUX') && PluginLoaded('vimux')
   " Cleanup after ourselves, close the tmux pane when closing Vim
   augroup Vimux
     autocmd!
