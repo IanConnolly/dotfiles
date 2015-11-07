@@ -44,11 +44,13 @@ Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
+Plug 'tommcdo/vim-exchange'        " Use cx to switch text objs
 
 " Text objs
 Plug 'wellle/targets.vim'          " New text objs
 " User-defined text objs + erb objs + ruby objs
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vim-textobj-ruby'
+Plug 'qstrahl/vim-dentures'        " indentation obj
 
 " Colors
 Plug 'chriskempson/base16-vim'          " pastel-y theme
@@ -65,10 +67,8 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 " Non-work
-"Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'jFransham/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
 
 call plug#end()
 
@@ -93,6 +93,7 @@ let g:syntastic_scss_checkers = []
 let g:syntastic_disabled_filetype = ['scss']
 
 let g:qf_mapping_ack_style = 1
+
 " Use GR manually
 let g:golden_ratio_autocommand = 0
 " Don't use GR on non-modifiable buffers (ie. special plugin windows)
@@ -214,19 +215,23 @@ function! FileModes()
   let fm = '%2*'
 
   if &modified
-    let fm.= ' +'
+    let fm.= '  +'
   endif
 
   if &readonly
-    let fm.= ' !!'
+    let fm.= '   '
   endif
 
   if &paste
-    let fm.= ' P'
+    let fm.= '  P'
   endif
 
   if get(b:, 'capslock', 0) > 0
-    let fm.= ' C'
+    let fm.= '  '
+  endif
+
+  if bufname("%") =~ "scp://"
+      let fm.= '  '
   endif
 
   let fm.= '%0*'
@@ -250,7 +255,8 @@ function! RightSide()
     let head = fugitive#head()
 
     if !empty(head)
-      return '%1* ←%0* ' . head . ' '
+      return '%1* ' . "" . '%0* ' . head . ' '
+    endif
   endif
 
   return ''
@@ -451,8 +457,8 @@ nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
 if PluginLoaded('vim-plug')
-  nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>:PlugInstall<CR>
-  nnoremap <Leader>U :PlugUpdate<CR>:PlugClean<CR>
+  nnoremap <Leader>R :so ~/.vimrc<CR>
+  nnoremap <Leader>U :PlugInstall<CR>:PlugUpdate<CR>:PlugClean<CR>
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 else
   nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>
