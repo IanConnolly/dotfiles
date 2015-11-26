@@ -15,7 +15,7 @@ all:
 install: zsh vim tmux git ghc tags
 
 vimdeps:
-	brew update && brew reinstall the_silver_searcher && brew reinstall ctags && brew reinstall jq
+	brew update && brew reinstall the_silver_searcher && brew reinstall ctags
 
 vim: vimlinks vimdeps
 	rm -rf ~/.vim
@@ -27,13 +27,15 @@ neovim: vimdeps
 	mkdir -p $(HOME)/nvim
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/nvim/init.vim
 	curl -fLo $(HOME)/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	ln -sf $(HOME)/nvim/plugged/differ/annotate-differ /usr/local/bin/annotate-differ
 	nvim -c PlugInstall -c quitall
 
 vimlinks:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
 
 tmux:
-	brew update && brew uninstall tmux && brew install brew reinstall https://raw.githubusercontent.com/choppsv1/homebrew-term24/master/tmux.rb && brew reinstall reattach-to-user-namespace
+	brew uninstall tmux
+	brew update && brew reinstall https://raw.githubusercontent.com/choppsv1/homebrew-term24/master/tmux.rb && brew reinstall reattach-to-user-namespace && brew reinstall jq
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
 git:
