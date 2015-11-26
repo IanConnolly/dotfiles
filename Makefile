@@ -33,7 +33,7 @@ vimlinks:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
 
 tmux:
-	brew update && brew install reattach-to-user-namespace
+	brew update && brew uninstall tmux && brew install brew reinstall https://raw.githubusercontent.com/choppsv1/homebrew-term24/master/tmux.rb && brew reinstall reattach-to-user-namespace
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
 git:
