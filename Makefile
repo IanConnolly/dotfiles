@@ -4,6 +4,7 @@ all:
 	@printf "Makefile targets: \n\n"
 	@printf "\tinstall\t\t - install all\n"
 	@printf "\tvim\t\t - install vim\n"
+	@printf "\tneovim\t\t - install neovim\n"
 	@printf "\ttmux\t\t - install tmux\n"
 	@printf "\tgit\t\t - install git\n"
 	@printf "\tghci\t\t - install ghci\n"
@@ -13,11 +14,20 @@ all:
 
 install: zsh vim tmux git ghc tags
 
-vim: vimlinks
+vimdeps:
+	brew update && brew reinstall the_silver_searcher && brew reinstall ctags && brew reinstall jq
+
+vim: vimlinks vimdeps
 	rm -rf ~/.vim
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	brew update && brew reinstall the_silver_searcher && brew reinstall ctags
 	vim -c PlugInstall -c quitall
+
+neovim: vimdeps
+	rm -rf $(HOME)/nvim
+	mkdir -p $(HOME)/nvim
+	ln -sf $(ROOT_DIR)/vimrc $(HOME)/nvim/init.vim
+	curl -fLo $(HOME)/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	nvim -c PlugInstall -c quitall
 
 vimlinks:
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc

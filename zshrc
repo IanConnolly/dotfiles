@@ -12,6 +12,7 @@ export PATH="$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanis
 
 alias nv=nvim
 alias nvi=nvim
+alias vim=nvim
 alias devbox="ssh -A devbox.lo"
 alias show=ag
 export RUST_SRC_PATH=~/rust/src
@@ -20,3 +21,7 @@ export RUST_SRC_PATH=~/rust/src
 rvm use 2.1.5
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/scribd.zsh ] && source ~/scribd.zsh
+
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export XDG_CONFIG_HOME=$HOME
+export EDITOR=nvim

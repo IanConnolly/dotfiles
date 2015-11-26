@@ -1,7 +1,11 @@
 filetype off
 runtime macros/matchit.vim
 
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+  call plug#begin('~/nvim/plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
 
 Plug 'tpope/vim-sensible'         " In case I've missed something
 
@@ -11,13 +15,14 @@ Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 Plug 'tpope/vim-capslock'          " Software capslock
 Plug 'romainl/vim-qf'              " Tame quickfix
-Plug 'roman/golden-ratio'          " keeps splits in a nice ratio
+Plug 'junegunn/vim-peekaboo'       " Hijack register mappings
+Plug 'mhinz/vim-grepper'           " Async grepprg
 
 " FZF base + FZF vim helpers
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
 " Integrations
-Plug 'airblade/vim-gitgutter'             " Show git diff icons in gutter
+Plug 'IanConnolly/differ'                 " Async git gutter
 Plug 'tpope/vim-rails'                    " Helpful rails related shortcuts
 Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                 " Git command wrappers
@@ -32,7 +37,7 @@ if has('mac') && isdirectory('/Applications/Dash.app')
 endif
 
 " Typing/Autocomplete support
-Plug 'scrooloose/syntastic'                " Syntax errors!
+Plug 'benekastah/neomake'                  " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                   " Insert 'end' in ruby as smartly as braces
 Plug 'ajh17/VimCompletesMe'                " Super lightweight smart-tab for ins-completion
@@ -44,7 +49,6 @@ Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
-Plug 'tommcdo/vim-exchange'        " Use cx to switch text objs
 
 " Text objs
 Plug 'wellle/targets.vim'          " New text objs
@@ -53,8 +57,7 @@ Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vi
 Plug 'qstrahl/vim-dentures'        " indentation obj
 
 " Colors
-Plug 'chriskempson/base16-vim'          " pastel-y theme
-Plug 'altercation/vim-colors-solarized' " solarized is life
+Plug 'IanConnolly/gruvbox'              " gruvbox fork for ruby
 
 " Daily work languages
 Plug 'kchmck/vim-coffee-script'
@@ -62,13 +65,7 @@ Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-ruby/vim-ruby'
 
-" Non-daily work
-Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-
-" Non-work
-Plug 'jFransham/rust.vim', { 'for': 'rust' }
-Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
 call plug#end()
 
@@ -82,22 +79,22 @@ function! PluginLoaded(plugin)
   endif
 endfunction
 
+let g:gruvbox_contrast_dark = 'hard'
+
 " Config for plugins
 
-" Syntastic
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_scss_checkers = []
-let g:syntastic_disabled_filetype = ['scss']
+" vim-ruby highlight operators
+let ruby_operators = 1
 
+" Delay the peekaboo window a bit so we can yank without jank
+let g:peekaboo_delay = 250
+
+" Neomake
+let g:neomake_ruby_enabled_makers = ['mri']
+let g:neomake_open_list = 0
+
+" Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
-
-" Use GR manually
-let g:golden_ratio_autocommand = 0
-" Don't use GR on non-modifiable buffers (ie. special plugin windows)
-let g:golden_ratio_exclude_nonmodifiable = 1
 
 " Only enable quick-scope after f/F/t/T
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -108,6 +105,8 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " Hide hidden files + folders
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_bufsettings = 'noma nomod nonu nobl nowrap ro'
+let g:netrw_bufsettings .= ' buftype=nofile bufhidden=wipe'
 
 " TODO: remove hardcoded paths
 let g:racer_cmd = expand("$HOME/racer/target/release/racer")
@@ -115,14 +114,13 @@ let g:cargo_command = "make <subcommand>"
 let $RUST_SRC_PATH = expand("$HOME/rust/src/")
 let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclippy_pedantic']
 
-
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 set background=dark
 
-if PluginLoaded('base16')
-  colorscheme base16-default
+if PluginLoaded('gruvbox')
+  colorscheme gruvbox
 else
   colorscheme desert
 endif
@@ -163,7 +161,6 @@ set smartcase
 " Terminal errors
 set noerrorbells
 set visualbell
-set t_vb=
 
 " Key timeouts
 set tm=500
@@ -172,6 +169,7 @@ set ttimeoutlen=50
 " Split opening positions
 set splitright
 set splitbelow
+set fillchars+=vert:\ 
 
 " Screen scrolling behaviour
 set scrolloff=10                    " keep cursor relatively centered
@@ -189,9 +187,6 @@ set list
 set wildmenu                        " command auto-completion
 set wildmode=list:longest,full
 
-" Misc
-set ttyfast                         " probably already set but /shruggie
-set encoding=utf-8
 set complete+=kspell
 set hidden
 
@@ -251,15 +246,28 @@ function! LeftSide()
 endfunction
 
 function! RightSide()
+  let rs = ''
+
+  let errors = neomake#statusline#LoclistStatus()
+  if errors =~ 'E'
+    let rs .= "%2*"
+    let rs .= errors
+  else
+    let rs .= "%4*"
+    let rs .= errors
+  endif
+  let rs .= "%0*"
+  let rs .= " "
+
   if exists('*fugitive#head')
     let head = fugitive#head()
 
     if !empty(head)
-      return '%1* ' . "" . '%0* ' . head . ' '
+      let rs .= '%1* ' . "" . '%0* ' . head . ' '
     endif
   endif
 
-  return ''
+  return rs
 endfunction
 
 function! StatusLine()
@@ -303,59 +311,6 @@ function! TrimWhitespace()
   let c = col('.')
   %s/\s\+$//e
   call cursor(l, c)
-endfunction
-
-" Global variable for Vimux test pane
-let g:vs_open = 0
-
-function! VimuxScribd()
-  if (g:vs_open == 0)
-    call VimuxRunCommand("ssh -A devbox.lo")
-    call VimuxRunCommand("cd /var/www/apps/scribd/current")
-    call VimuxRunCommand("clear")
-    let g:vs_open = 1
-  endif
-endfunction
-
-function! VimuxRuby()
-  if (g:vs_open == 0)
-    call VimuxScribd()
-  endif
-  let buffername = fnamemodify(expand("%"), ":~:.")
-  let testfile = buffername
-  if buffername =~ '^app/.*'
-    let testfile = substitute(testfile, 'app/', 'spec/', '')
-    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
-  elseif buffername =~ "^lib/.*"
-    let testfile = substitute(testfile, 'lib/', 'spec/lib/', '')
-    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
-  endif
-  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
-endfunction
-
-function! VimuxRubyNearest()
-  if (g:vs_open == 0)
-    call VimuxScribd()
-  endif
-  let buffername = fnamemodify(expand("%"), ":~:.")
-  let testfile = buffername
-  if buffername =~ '^spec/.*'
-    let testfile = substitute(testfile, '$', ':' . line("."), '')
-  elseif buffername =~ '^app/.*'
-    let testfile = substitute(testfile, 'app/', 'spec/', '')
-    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
-  elseif buffername =~ "^lib/.*"
-    let testfile = substitute(testfile, 'lib/', 'spec/lib/', '')
-    let testfile = substitute(testfile, '.rb$', '_spec.rb', '')
-  endif
-  call VimuxRunCommand("clear; bundle exec spring rspec --no-profile " . testfile)
-endfunction
-
-function! VimuxScribdClose()
-  if (g:vs_open == 1)
-    call VimuxCloseRunner()
-    let g:vs_open = 0
-  endif
 endfunction
 
 " Deletes the persistent undo file for the current buffer
@@ -402,18 +357,6 @@ if PluginLoaded('splitjoin')
   nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
 endif
 
-if PluginLoaded('golden-ratio')
-  nnoremap <C-w>- :ccl<CR>:GoldenRatioResize<CR>
-endif
-
-" Run current file specs in tmux
-if exists('$TMUX') && PluginLoaded('vimux')
-  nnoremap <Leader>vs :call VimuxScribd()<CR>
-  nnoremap <Leader>vr :call VimuxRuby()<CR>
-  nnoremap <Leader>vn :call VimuxRubyNearest()<CR>
-  nnoremap <Leader>vc :call VimuxScribdClose()<CR>
-end
-
 " god who uses this
 map q: :q
 nnoremap Q <NOP>
@@ -432,9 +375,8 @@ if executable('ag')
   " Integrate with Ag
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
-  command! -nargs=+ -complete=file_in_path -bar Show silent grep! <args>|cwindow|redraw!
-  nnoremap <Leader>s :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
-  nnoremap <Leader>ag :Show ''<Left>
+  nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+  nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
 endif
 
 " Undo mappings
@@ -497,9 +439,9 @@ xnoremap <Leader>c "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
-" Syntastic errors
-if PluginLoaded('syntastic')
-  nnoremap <Leader>e :SyntasticCheck<CR>:Errors<CR>
+" Neomake errors
+if PluginLoaded('neomake')
+  nnoremap <Leader>e :Neomake<CR>:lopen<CR>
 endif
 
 set pastetoggle=<F2>
@@ -574,6 +516,10 @@ xnoremap < <gv
 
 nnoremap <Leader>l :echo line('.') . "/" . line('$')<CR>
 
+if has('nvim')
+  tnoremap <esc><esc> <C-\><C-n>
+endif
+
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
@@ -583,56 +529,60 @@ command! WQ wq
 command! W w
 command! Q q
 
-" Gutter colours
-highlight CursorLineNR ctermfg=red
-highlight SignColumn ctermbg=black
-highlight lineNr ctermbg=black
-highlight GitGutterAdd ctermbg=black
-highlight GitGutterChange ctermbg=black
-highlight GitGutterDelete ctermbg=black
-highlight GitGutterChangeDelete ctermbg=black
-highlight ModeMsg ctermfg=213
+"Gutter colours
+highlight SignColumn ctermbg=black guibg=#1d2021
+highlight lineNr ctermbg=black guibg=#1d2021
+highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
+highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
+highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
+highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
+highlight ModeMsg ctermfg=213 guifg=#b8bb26
 
-if g:colors_name =~ "base16"
-  highlight StatusLine ctermfg=white ctermbg=236
-else
-  highlight StatusLine ctermfg=236 ctermbg=white
-endif
+highlight StatusLine ctermfg=white ctermbg=236 guibg=#fdf4c1 guifg=#282828
+highlight StatusLineNC ctermfg=white ctermbg=236 guibg=#504945 guifg=#282828
+highlight VertSplit ctermfg=white ctermbg=236 guibg=#282828
 
-highlight User1 ctermfg=110 ctermbg=236
-highlight User2 ctermfg=203 ctermbg=236
-highlight User3 ctermfg=213 ctermbg=236
+highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
+highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
+highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
+highlight User4 guibg=#282828 guifg=#fe8019
+
+let g:terminal_background = "#1d2021"
+let g:terminal_foreground = "#f9f5d7"
+let g:terminal_color_0 = "#7c6f64"
+let g:terminal_color_1 = "#fb4934"
+let g:terminal_color_2 = "#fe8019"
+let g:terminal_color_3 = "#7c6f64"
+let g:terminal_color_4 = "#83a598"
+let g:terminal_color_5 = "#8ec07c"
+let g:terminal_color_6 = "#8ec07c"
+let g:terminal_color_7 = "#7c6f64"
+let g:terminal_color_8 = "#ebdbb2"
+let g:terminal_color_9 = "#d3869b"
+let g:terminal_color_10 = "#b8bb26"
+let g:terminal_color_11 = "#b8bb26"
+let g:terminal_color_12 = "#fb4934"
+let g:terminal_color_13 = "#fabd2f"
+let g:terminal_color_14 = "#b8bb26"
+let g:terminal_color_15 = "#b8bb26"
 
 augroup GutterColourSet
   autocmd!
-  autocmd ColorScheme * hi CursorLineNR ctermfg=black
-  autocmd ColorScheme * hi SignColumn ctermbg=black
-  autocmd ColorScheme * hi lineNr ctermbg=black
-  autocmd ColorScheme * hi GitGutterAdd ctermbg=black
-  autocmd ColorScheme * hi GitGutterChange ctermbg=black
-  autocmd ColorScheme * hi GitGutterDelete ctermbg=black
-  autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
-  autocmd ColorScheme * hi ModeMsg ctermfg=213
-  autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
-
-  if g:colors_name =~ "base16"
-    autocmd ColorScheme * hi StatusLine ctermfg=white ctermbg=236
-  else
-    autocmd ColorScheme * hi StatusLine ctermfg=236 ctermbg=white
-  endif
-
-  autocmd ColorScheme * hi User1 ctermfg=110 ctermbg=236
-  autocmd ColorScheme * hi User2 ctermfg=203 ctermbg=236
-  autocmd ColorScheme * hi User3 ctermfg=213 ctermbg=236
+  autocmd ColorScheme * highlight SignColumn ctermbg=black guibg=#1d2021
+  autocmd ColorScheme * highlight lineNr ctermbg=black guibg=#1d2021
+  autocmd ColorScheme * highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
+  autocmd ColorScheme * highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
+  autocmd ColorScheme * highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
+  autocmd ColorScheme * highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
+  autocmd ColorScheme * highlight ModeMsg ctermfg=213 guifg=#b8bb26
+  autocmd ColorScheme * highlight StatusLine ctermfg=white ctermbg=236 guibg=#fdf4c1 guifg=#282828
+  autocmd ColorScheme * highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
+  autocmd ColorScheme * highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
+  autocmd ColorScheme * highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
+  autocmd ColorScheme * highlight StatusLine ctermfg=white ctermbg=236 guifg=#282828 guibg=#fdf4c1
+  autocmd ColorScheme * highlight StatusLineNC ctermfg=white ctermbg=236 guifg=#282828 guibg=#504945
+  autocmd ColorScheme * highlight VertSplit ctermfg=white ctermbg=236 guibg=#282828
 augroup END
-
-if exists('$TMUX') && PluginLoaded('vimux')
-  " Cleanup after ourselves, close the tmux pane when closing Vim
-  augroup Vimux
-    autocmd!
-    autocmd VimLeave * :call VimuxScribdClose()
-  augroup END
-endif
 
 augroup NoPaste
   autocmd!
@@ -664,6 +614,19 @@ augroup FileTypeSettings
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
+augroup END
+
+if has('nvim') 
+  augroup Neomake
+    autocmd!
+    autocmd BufWritePost * Neomake
+  augroup END
+endif
+
+augroup Gutter
+  autocmd!
+  autocmd BufWritePost * call Differ()
+  autocmd BufReadPost * call Differ()
 augroup END
 
 " Otherwise vim will get nasty escape codes

@@ -1,5 +1,3 @@
-export FZF_DEFAULT_OPTS="--prompt='  '"
-
 rtags() {
   ctags --languages=ruby . `bundle show --paths`
 }
