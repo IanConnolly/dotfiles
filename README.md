@@ -12,11 +12,15 @@ Fair warning: The installation will silently overwrite your existing dotfiles.
 
 * OSX (The vimrc hasn't been properly system gated yet)
 * Homebrew
-* Homebrew compiled Vim
+* Homebrew compiled Neovim
+* 24-bit colour support in terminal (including tmux)
 * zsh + oh-my-zsh
 * Git
 * Tmux
 * Python + Pip, Ruby, Node + npm
+
+The vim configuration should work fine in regular, non-neovim Vim, but a bunch of the colours
+in the statusline + the gutter are set manually and will need to be fixed up.
 
 
 ### Troubleshooting
