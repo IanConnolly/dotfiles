@@ -81,3 +81,5 @@ function! StatusLine()
 
   return statusl
 endfunction
+
+set statusline=%!StatusLine()

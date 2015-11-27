@@ -115,9 +115,7 @@ let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclipp
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 
-if filereadable(glob("~/dotfiles/pairing.vim"))
-  source ~/dotfiles/pairing.vim
-endif
+call Load(Dotfiles("pairing.vim"))
 
 " Command behaviour
 set showcmd
@@ -192,10 +190,7 @@ set updatetime=750
 if !PluginLoaded('airline')
   " show which mode we're in
   set showmode
-  if filereadable(glob("~/dotfiles/statusline.vim"))
-    source ~/dotfiles/statusline.vim
-    set statusline=%!StatusLine()
-  endif
+  call Load(Dotfiles("statusline.vim"))
 endif
 
 if has("persistent_undo")
@@ -425,19 +420,8 @@ if PluginLoaded('differ')
   augroup END
 endif
 
-if filereadable(glob("~/dotfiles/colors.vim"))
-  source ~/dotfiles/colors.vim
-endif
-
-if filereadable(glob("~/dotfiles/neo.vim"))
-  source ~/dotfiles/neo.vim
-endif
-
-if has('mac') && filereadable(glob("~/dotfiles/mac.vim"))
-  source ~/dotfiles/mac.vim
-endif
-
-if filereadable(glob("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
+call Load(Dotfiles("colors.vim"))
+call Load(Dotfiles("neo.vim"))
+call Load(Dotfiles("mac.vim"))
+call Load("~/.vimrc.local")
 
