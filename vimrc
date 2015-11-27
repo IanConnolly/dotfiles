@@ -426,11 +426,6 @@ for modeprefix in ['i', 'n', 'v']
   endfor
 endfor
 
-" If user has additional vim config, source it
-if filereadable(glob("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
-
 if filereadable(glob("~/dotfiles/colors.vim"))
   source ~/dotfiles/colors.vim
 endif
@@ -441,5 +436,9 @@ endif
 
 if has('mac') && filereadable(glob("~/dotfiles/mac.vim"))
   source ~/dotfiles/mac.vim
+endif
+
+if filereadable(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
 endif
 
