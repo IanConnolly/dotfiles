@@ -79,8 +79,6 @@ function! PluginLoaded(plugin)
   endif
 endfunction
 
-let g:gruvbox_contrast_dark = 'hard'
-
 " Config for plugins
 
 " vim-ruby highlight operators
@@ -117,13 +115,6 @@ let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclipp
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
-set background=dark
-
-if PluginLoaded('gruvbox')
-  colorscheme gruvbox
-else
-  colorscheme desert
-endif
 
 " Command behaviour
 set showcmd
@@ -278,11 +269,12 @@ function! StatusLine()
   return statusl
 endfunction
 
-" show which mode we're in
-set showmode
-
 " statusline
-set statusline=%!StatusLine()
+if !PluginLoaded('airline')
+  " show which mode we're in
+  set showmode
+  set statusline=%!StatusLine()
+endif
 
 set updatetime=750
 
@@ -377,6 +369,8 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
   nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
   nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
+  command! Grep Grepper! -tool ag
+  command! GRep Grep
 endif
 
 " Undo mappings
@@ -399,16 +393,17 @@ nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
 if PluginLoaded('vim-plug')
-  nnoremap <Leader>R :so ~/.vimrc<CR>
+  nnoremap <Leader>R :Reload<CR>
   nnoremap <Leader>U :PlugInstall<CR>:PlugUpdate<CR>:PlugClean<CR>
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 else
-  nnoremap <Leader>R :mapclear!<CR>:so ~/.vimrc<CR>
+  nnoremap <Leader>R :mapclear!<CR>:Reload<CR>
 endif
 
+command! Reload :so ~/dotfiles/vimrc
 " Edit the vimrc in a split
-command! EV vsplit ~/.vimrc
-command! ES split ~/.vimrc
+command! EV vsplit ~/dotfiles/vimrc
+command! ES split ~/dotfiles/vimrc
 
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf')
@@ -464,6 +459,10 @@ endif
 
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
+
+" fuzzy tags
+nnoremap <Leader>tb :BTags<CR>
+nnoremap <Leader>ta :Tags<CR>
 
 " Quick jump to buffers
 nnoremap <Leader>b :ls<cr>:b<space>
@@ -528,61 +527,6 @@ command! Wq wq
 command! WQ wq
 command! W w
 command! Q q
-
-"Gutter colours
-highlight SignColumn ctermbg=black guibg=#1d2021
-highlight lineNr ctermbg=black guibg=#1d2021
-highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
-highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
-highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
-highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
-highlight ModeMsg ctermfg=213 guifg=#b8bb26
-
-highlight StatusLine ctermfg=white ctermbg=236 guibg=#fdf4c1 guifg=#282828
-highlight StatusLineNC ctermfg=white ctermbg=236 guibg=#504945 guifg=#282828
-highlight VertSplit ctermfg=white ctermbg=236 guibg=#282828
-
-highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
-highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
-highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
-highlight User4 guibg=#282828 guifg=#fe8019
-
-let g:terminal_background = "#1d2021"
-let g:terminal_foreground = "#f9f5d7"
-let g:terminal_color_0 = "#7c6f64"
-let g:terminal_color_1 = "#fb4934"
-let g:terminal_color_2 = "#fe8019"
-let g:terminal_color_3 = "#7c6f64"
-let g:terminal_color_4 = "#83a598"
-let g:terminal_color_5 = "#8ec07c"
-let g:terminal_color_6 = "#8ec07c"
-let g:terminal_color_7 = "#7c6f64"
-let g:terminal_color_8 = "#ebdbb2"
-let g:terminal_color_9 = "#d3869b"
-let g:terminal_color_10 = "#b8bb26"
-let g:terminal_color_11 = "#b8bb26"
-let g:terminal_color_12 = "#fb4934"
-let g:terminal_color_13 = "#fabd2f"
-let g:terminal_color_14 = "#b8bb26"
-let g:terminal_color_15 = "#b8bb26"
-
-augroup GutterColourSet
-  autocmd!
-  autocmd ColorScheme * highlight SignColumn ctermbg=black guibg=#1d2021
-  autocmd ColorScheme * highlight lineNr ctermbg=black guibg=#1d2021
-  autocmd ColorScheme * highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
-  autocmd ColorScheme * highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
-  autocmd ColorScheme * highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
-  autocmd ColorScheme * highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
-  autocmd ColorScheme * highlight ModeMsg ctermfg=213 guifg=#b8bb26
-  autocmd ColorScheme * highlight StatusLine ctermfg=white ctermbg=236 guibg=#fdf4c1 guifg=#282828
-  autocmd ColorScheme * highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
-  autocmd ColorScheme * highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
-  autocmd ColorScheme * highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
-  autocmd ColorScheme * highlight StatusLine ctermfg=white ctermbg=236 guifg=#282828 guibg=#fdf4c1
-  autocmd ColorScheme * highlight StatusLineNC ctermfg=white ctermbg=236 guifg=#282828 guibg=#504945
-  autocmd ColorScheme * highlight VertSplit ctermfg=white ctermbg=236 guibg=#282828
-augroup END
 
 augroup NoPaste
   autocmd!
@@ -654,4 +598,8 @@ endfor
 " If user has additional vim config, source it
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
+endif
+
+if filereadable(glob("~/dotfiles/colors.vim"))
+  source ~/dotfiles/colors.vim
 endif
