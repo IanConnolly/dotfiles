@@ -71,13 +71,9 @@ call plug#end()
 
 filetype plugin indent on
 
-function! PluginLoaded(plugin)
-  if a:plugin == "vim-plug"
-    return exists("$HOME/.vim/autoload/plug.vim")
-  else
-    return &rtp =~ a:plugin
-  endif
-endfunction
+if filereadable(glob("~/dotfiles/helpers.vim"))
+  source ~/dotfiles/helpers.vim
+endif
 
 " Config for plugins
 
@@ -122,9 +118,10 @@ set noshowmode
 set laststatus=2
 
 " Text-y stuff
-set backspace=indent,eol,start      " backspace everything
+set backspace=indent,eol            " backspace everything we've inserted
 set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
+set mouse=""                        " Turn off mouse in neovim (which sets mouse by default)
 
 " Gutter number
 set number                          " for easier movements
@@ -184,99 +181,17 @@ set hidden
 set completeopt=menu,menuone " Don't show scratch window
 
 set switchbuf=useopen
-
-function! NumberSection()
-  return ' %3*%n%0*' " buffer number
-endfunction
-
-function! LeftSep()
-  return '%1* » %0*'
-endfunction
-
-function! RightSep()
-  return '%1* « %0*'
-endfunction
-
-function! FileModes()
-  let fm = '%2*'
-
-  if &modified
-    let fm.= '  +'
-  endif
-
-  if &readonly
-    let fm.= '   '
-  endif
-
-  if &paste
-    let fm.= '  P'
-  endif
-
-  if get(b:, 'capslock', 0) > 0
-    let fm.= '  '
-  endif
-
-  if bufname("%") =~ "scp://"
-      let fm.= '  '
-  endif
-
-  let fm.= '%0*'
-
-  return fm
-endfunction
-
-function! LeftSide()
-  let ls = ''
-  let ls.= NumberSection()
-  let ls.= LeftSep()
-  let ls.= '%f' " file name
-  let ls.= RightSep()
-  let ls.= FileModes()
-
-  return ls
-endfunction
-
-function! RightSide()
-  let rs = ''
-
-  let errors = neomake#statusline#LoclistStatus()
-  if errors =~ 'E'
-    let rs .= "%2*"
-    let rs .= errors
-  else
-    let rs .= "%4*"
-    let rs .= errors
-  endif
-  let rs .= "%0*"
-  let rs .= " "
-
-  if exists('*fugitive#head')
-    let head = fugitive#head()
-
-    if !empty(head)
-      let rs .= '%1* ' . "" . '%0* ' . head . ' '
-    endif
-  endif
-
-  return rs
-endfunction
-
-function! StatusLine()
-  let statusl = LeftSide()
-  let statusl.= '%='
-  let statusl.= RightSide()
-
-  return statusl
-endfunction
+set updatetime=750
 
 " statusline
 if !PluginLoaded('airline')
   " show which mode we're in
   set showmode
-  set statusline=%!StatusLine()
+  if filereadable(glob("~/dotfiles/statusline.vim"))
+    source ~/dotfiles/statusline.vim
+    set statusline=%!StatusLine()
+  endif
 endif
-
-set updatetime=750
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -285,63 +200,8 @@ if has("persistent_undo")
   set undofile
 endif
 
-function! NumberToggle()
-  if (&relativenumber == 1)
-    set nocursorline
-    set norelativenumber
-    set number
-  else
-    set nonumber
-    set relativenumber
-    set cursorline
-  endif
-endfunction
-
-" Trim trailing whitespace
-function! TrimWhitespace()
-  let l = line('.')
-  let c = col('.')
-  %s/\s\+$//e
-  call cursor(l, c)
-endfunction
-
-" Deletes the persistent undo file for the current buffer
-function! DeleteUndoFile()
-  let current_undo_file = undofile(expand("%"))
-  call delete(current_undo_file)
-
-  if glob(current_undo_file) == ""
-    echohl WarningMsg
-    echo 'Undofile "'. fnamemodify(current_undo_file, ":."). '" was deleted!'
-    echohl None
-  endif
-endfunction
-
 function! RunCargo(subcommand)
   execute substitute(g:cargo_command, "<subcommand>", a:subcommand, '')
-endfunction
-
-function! GenerateSnapshot()
-  " TODO: Template this
-  let directory = expand('~/dotfiles/snapshots')
-  call system('mkdir -p ' . directory)
-  let date = strftime("%Y-%m-%d")
-  let new_count = substitute(substitute(system('ls ' . directory . ' | grep ' . date . ' | wc -l'), '[^0-9]*', '', ''), '\v\n', '', '') + 1
-  let file_name = directory . '/' . date . '-' . new_count . '.sh'
-
-  execute 'PlugSnapshot ' . file_name
-endfunction
-
-function! s:try(cmd, default)
-  if exists(':' . a:cmd) && !v:count
-    let tick = b:changedtick
-    execute a:cmd
-    if tick == b:changedtick
-      execute join(['normal!', a:default])
-    endif
-  else
-    execute join(['normal! ', v:count, a:default], '')
-  endif
 endfunction
 
 if PluginLoaded('splitjoin')
@@ -367,10 +227,14 @@ if executable('ag')
   " Integrate with Ag
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
-  nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
-  nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
-  command! Grep Grepper! -tool ag
-  command! GRep Grep
+
+  if PluginLoaded('grepper')
+    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+    nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
+    command! Grep Grepper! -tool ag
+    command! GRep Grep
+  endif
+
 endif
 
 " Undo mappings
@@ -393,14 +257,12 @@ nnoremap <Leader>Q :q!<CR>
 
 " Easily make changes to vimrc
 if PluginLoaded('vim-plug')
-  nnoremap <Leader>R :Reload<CR>
   nnoremap <Leader>U :PlugInstall<CR>:PlugUpdate<CR>:PlugClean<CR>
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
-else
-  nnoremap <Leader>R :mapclear!<CR>:Reload<CR>
 endif
 
 command! Reload :so ~/dotfiles/vimrc
+nnoremap <Leader>R :Reload<CR>
 " Edit the vimrc in a split
 command! EV vsplit ~/dotfiles/vimrc
 command! ES split ~/dotfiles/vimrc
@@ -444,25 +306,19 @@ set pastetoggle=<F2>
 nnoremap <F2> <NOP>
 xnoremap <F2> <NOP>
 
-" Search current word in Dash.app
-if has('mac') && isdirectory('/Applications/Dash.app') && PluginLoaded('dash')
-  nmap <silent> <Leader>d <Plug>DashSearch
-endif
-
 " easily get rid of search highlights
 noremap <Esc> :noh<CR><Esc>
 
-" For fuzzy finding thru buffers
 if PluginLoaded('fzf.vim')
+" For fuzzy finding thru buffers
   nnoremap <Leader><Tab> :Buffers<CR>
+  " fuzzy tags
+  nnoremap <Leader>tb :BTags<CR>
+  nnoremap <Leader>ta :Tags<CR>
 endif
 
 " Switch to last active buffer
 noremap <Leader><Space> :buffer #<CR>
-
-" fuzzy tags
-nnoremap <Leader>tb :BTags<CR>
-nnoremap <Leader>ta :Tags<CR>
 
 " Quick jump to buffers
 nnoremap <Leader>b :ls<cr>:b<space>
@@ -515,10 +371,6 @@ xnoremap < <gv
 
 nnoremap <Leader>l :echo line('.') . "/" . line('$')<CR>
 
-if has('nvim')
-  tnoremap <esc><esc> <C-\><C-n>
-endif
-
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
@@ -560,33 +412,12 @@ augroup FileTypeSettings
   autocmd FileType text setlocal spell
 augroup END
 
-if has('nvim') 
-  augroup Neomake
+if PluginLoaded('differ')
+  augroup Gutter
     autocmd!
-    autocmd BufWritePost * Neomake
+    autocmd BufWritePost * call Differ()
+    autocmd BufReadPost * call Differ()
   augroup END
-endif
-
-augroup Gutter
-  autocmd!
-  autocmd BufWritePost * call Differ()
-  autocmd BufReadPost * call Differ()
-augroup END
-
-" Otherwise vim will get nasty escape codes
-if has('mac') && ($TERM == 'xterm-256color' || $TERM == 'screen-256color')
-  map <Esc>OP <F1>
-  map <Esc>OQ <F2>
-  map <Esc>OR <F3>
-  map <Esc>OS <F4>
-  map <Esc>[16~ <F5>
-  map <Esc>[17~ <F6>
-  map <Esc>[18~ <F7>
-  map <Esc>[19~ <F8>
-  map <Esc>[20~ <F9>
-  map <Esc>[21~ <F10>
-  map <Esc>[23~ <F11>
-  map <Esc>[24~ <F12>
 endif
 
 for modeprefix in ['i', 'n', 'v']
@@ -603,3 +434,12 @@ endif
 if filereadable(glob("~/dotfiles/colors.vim"))
   source ~/dotfiles/colors.vim
 endif
+
+if filereadable(glob("~/dotfiles/neo.vim"))
+  source ~/dotfiles/neo.vim
+endif
+
+if has('mac') && filereadable(glob("~/dotfiles/mac.vim"))
+  source ~/dotfiles/mac.vim
+endif
+
