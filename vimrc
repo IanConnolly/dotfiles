@@ -77,6 +77,9 @@ endif
 
 " Config for plugins
 
+" Make vim friendlier for pairing if needed
+let g:pair_programming = 0
+
 " vim-ruby highlight operators
 let ruby_operators = 1
 
@@ -112,16 +115,18 @@ let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclipp
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
 
+if filereadable(glob("~/dotfiles/pairing.vim"))
+  source ~/dotfiles/pairing.vim
+endif
+
 " Command behaviour
 set showcmd
 set noshowmode
 set laststatus=2
 
 " Text-y stuff
-set backspace=indent,eol            " backspace everything we've inserted
 set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
-set mouse=""                        " Turn off mouse in neovim (which sets mouse by default)
 
 " Gutter number
 set number                          " for easier movements
@@ -419,12 +424,6 @@ if PluginLoaded('differ')
     autocmd BufReadPost * call Differ()
   augroup END
 endif
-
-for modeprefix in ['i', 'n', 'v']
-  for arrowkey in ['<Up>', '<Down>', '<Left>', '<Right>']
-    execute modeprefix . "noremap " . arrowkey . " <Nop>"
-  endfor
-endfor
 
 if filereadable(glob("~/dotfiles/colors.vim"))
   source ~/dotfiles/colors.vim
