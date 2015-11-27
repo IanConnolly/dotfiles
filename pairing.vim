@@ -9,7 +9,7 @@ if get(g:, "pair_programming", 0)
   endfor
 else
   set backspace=indent,eol
-  set mouse=""
+  set mouse=
 
   for modeprefix in ['i', 'n', 'v']
     for arrowkey in ['<Up>', '<Down>', '<Left>', '<Right>']
