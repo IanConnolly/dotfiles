@@ -1,4 +1,5 @@
 let g:gruvbox_contrast_dark = 'hard'
+let g:qs_first_occurrence_highlight_color = '#fabd2f'
 
 set background=dark
 colorscheme gruvbox
@@ -57,3 +58,4 @@ augroup GutterColourSet
   autocmd ColorScheme * highlight StatusLineNC ctermfg=white ctermbg=236 guifg=#282828 guibg=#504945
   autocmd ColorScheme * highlight VertSplit ctermfg=white ctermbg=236 guibg=#282828
 augroup END
+

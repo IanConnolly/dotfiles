@@ -1,9 +1,4 @@
 if has('mac')
-  " Search current word in Dash.app
-  if isdirectory('/Applications/Dash.app') && PluginLoaded('dash')
-    nmap <silent> <Leader>d <Plug>DashSearch
-  endif
-
   " Otherwise vim will get nasty escape codes
   if $TERM == 'xterm-256color' || $TERM == 'screen-256color'
     map <Esc>OP <F1>

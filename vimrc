@@ -7,13 +7,10 @@ else
   call plug#begin('~/.vim/plugged')
 endif
 
-Plug 'tpope/vim-sensible'         " In case I've missed something
-
 " Vim layout + window related fun
 Plug 'tpope/vim-vinegar'           " cleanup netrw
 Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
-Plug 'tpope/vim-capslock'          " Software capslock
 Plug 'romainl/vim-qf'              " Tame quickfix
 Plug 'junegunn/vim-peekaboo'       " Hijack register mappings
 Plug 'mhinz/vim-grepper'           " Async grepprg
@@ -30,10 +27,6 @@ Plug 'tpope/vim-fugitive'                 " Git command wrappers
 if executable('tmux')
   Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
   Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
-endif
-
-if has('mac') && isdirectory('/Applications/Dash.app')
-  Plug 'rizzatti/dash.vim'                  " Integrate with Dash.app
 endif
 
 " Typing/Autocomplete support
@@ -53,8 +46,7 @@ Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
 " Text objs
 Plug 'wellle/targets.vim'          " New text objs
 " User-defined text objs + erb objs + ruby objs
-Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-erb' | Plug 'tek/vim-textobj-ruby'
-Plug 'qstrahl/vim-dentures'        " indentation obj
+Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby'
 
 " Colors
 Plug 'IanConnolly/gruvbox'              " gruvbox fork for ruby
@@ -80,11 +72,17 @@ endif
 " Make vim friendlier for pairing if needed
 let g:pair_programming = 0
 
+" Always show sign column
+let g:differ_always_show_sign_column = 1
+
 " vim-ruby highlight operators
 let ruby_operators = 1
 
 " Delay the peekaboo window a bit so we can yank without jank
 let g:peekaboo_delay = 250
+
+" Namespace FZF commands
+let g:fzf_command_prefix = 'Fzf'
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
@@ -118,8 +116,7 @@ syntax on
 call Load(Dotfiles("pairing.vim"))
 
 " Command behaviour
-set showcmd
-set noshowmode
+set noshowcmd
 set laststatus=2
 
 " Text-y stuff
@@ -232,6 +229,7 @@ if executable('ag')
     nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
     command! Grep Grepper! -tool ag
+    command! Ag Grep
     command! GRep Grep
   endif
 
@@ -268,8 +266,8 @@ command! EV vsplit ~/dotfiles/vimrc
 command! ES split ~/dotfiles/vimrc
 
 " no need for this to be mac only; can compile from source
-if PluginLoaded('fzf')
-  nnoremap <C-p> :FZF<CR>
+if PluginLoaded('fzf.vim')
+  nnoremap <C-p> :FzfFiles<CR>
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -287,8 +285,8 @@ endif
 
 " FZF
 if PluginLoaded('fugitive') && PluginLoaded('fzf.vim')
-  nnoremap <Leader>gf :GitFiles<CR>
-  nnoremap <Leader>gh :BCommits<CR>
+  nnoremap <Leader>gf :FzfGitFiles<CR>
+  nnoremap <Leader>gh :FzfBCommits<CR>
 endif
 
 " copy and paste
@@ -311,10 +309,10 @@ noremap <Esc> :noh<CR><Esc>
 
 if PluginLoaded('fzf.vim')
 " For fuzzy finding thru buffers
-  nnoremap <Leader><Tab> :Buffers<CR>
+  nnoremap <Leader><Tab> :FzfBuffers<CR>
   " fuzzy tags
-  nnoremap <Leader>tb :BTags<CR>
-  nnoremap <Leader>ta :Tags<CR>
+  nnoremap <Leader>tb :FzfBTags<CR>
+  nnoremap <Leader>ta :FzfTags<CR>
 endif
 
 " Switch to last active buffer
@@ -415,8 +413,8 @@ augroup END
 if PluginLoaded('differ')
   augroup Gutter
     autocmd!
-    autocmd BufWritePost * call Differ()
-    autocmd BufReadPost * call Differ()
+    autocmd BufWritePost * call differ#Differ()
+    autocmd BufReadPost * call differ#Differ()
   augroup END
 endif
 
