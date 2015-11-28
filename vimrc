@@ -228,8 +228,8 @@ if executable('ag')
   if PluginLoaded('grepper')
     nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
+    command! -nargs=* Ag Grepper -tool ag -query <args>
     command! Grep Grepper! -tool ag
-    command! Ag Grep
     command! GRep Grep
   endif
 
