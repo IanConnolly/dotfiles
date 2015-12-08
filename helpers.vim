@@ -63,7 +63,7 @@ function! GenerateSnapshot()
   execute 'PlugSnapshot ' . file_name
 endfunction
 
-function! s:try(cmd, default)
+function! TryWithDefault(cmd, default)
   if exists(':' . a:cmd) && !v:count
     let tick = b:changedtick
     execute a:cmd

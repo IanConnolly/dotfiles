@@ -8,12 +8,13 @@ else
 endif
 
 " Vim layout + window related fun
-Plug 'tpope/vim-vinegar'           " cleanup netrw
+Plug 'justinmk/vim-dirvish'        " Dirvish > netrw
 Plug 'mbbill/undotree'             " View undo history as tree
 Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
 Plug 'romainl/vim-qf'              " Tame quickfix
 Plug 'junegunn/vim-peekaboo'       " Hijack register mappings
 Plug 'mhinz/vim-grepper'           " Async grepprg
+Plug 'kopischke/vim-fetch'         " GNU line/column format!
 
 " FZF base + FZF vim helpers
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
@@ -202,8 +203,8 @@ function! RunCargo(subcommand)
 endfunction
 
 if PluginLoaded('splitjoin')
-  nnoremap <silent> J :<C-u>call <SID>try('SplitjoinJoin', 'J')<CR>
-  nnoremap <silent> S :<C-u>call <SID>try('SplitjoinSplit', "r\015")<CR>
+  nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
+  nnoremap <silent> S :<C-u>call TryWithDefault('SplitjoinSplit', "r\015")<CR>
 endif
 
 " god who uses this
@@ -271,6 +272,7 @@ if PluginLoaded('fzf.vim')
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
+nmap - :edit %%<CR>
 nmap <Leader>- :edit %%
 
 " vim-fugitive
@@ -415,6 +417,19 @@ if PluginLoaded('differ')
     autocmd!
     autocmd BufWritePost * call differ#Differ()
     autocmd BufReadPost * call differ#Differ()
+  augroup END
+endif
+
+if PluginLoaded('dirvish')
+  augroup Dirvish
+    autocmd!
+    autocmd FileType dirvish nnoremap <buffer> v
+        \ :vsp <C-R>=fnameescape(getline('.'))<CR><CR>
+    autocmd FileType dirvish nnoremap <buffer> s
+        \ :sp <C-R>=fnameescape(getline('.'))<CR><CR>
+    autocmd FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
+    autocmd FileType dirvish nnoremap <buffer> gh 
+        \ :set ma<bar>g@\v/\.[^\/]+/?$@d<cr>:set noma<cr>
   augroup END
 endif
 
