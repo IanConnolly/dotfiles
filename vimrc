@@ -227,7 +227,7 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
   if PluginLoaded('grepper')
-    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+    nnoremap <Leader>s :Grepper! -noswitch -tool ag -cword<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
     command! Grep Grepper! -tool ag
