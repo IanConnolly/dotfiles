@@ -23,5 +23,6 @@ rvm use 2.1.5
 [ -f ~/scribd.zsh ] && source ~/scribd.zsh
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export XDG_CONFIG_HOME=$HOME
 export EDITOR=nvim
