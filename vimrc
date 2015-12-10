@@ -108,7 +108,6 @@ let g:netrw_bufsettings .= ' buftype=nofile bufhidden=wipe'
 let g:racer_cmd = expand("$HOME/racer/target/release/racer")
 let g:cargo_command = "make <subcommand>"
 let $RUST_SRC_PATH = expand("$HOME/rust/src/")
-let g:syntastic_rust_clippy_post_args = ['--release', '--', '-Dclippy', '-Wclippy_pedantic']
 
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
@@ -197,10 +196,6 @@ if has("persistent_undo")
   let &undodir = undoDir
   set undofile
 endif
-
-function! RunCargo(subcommand)
-  execute substitute(g:cargo_command, "<subcommand>", a:subcommand, '')
-endfunction
 
 if PluginLoaded('splitjoin')
   nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
@@ -327,7 +322,9 @@ nnoremap <Leader>b :ls<cr>:b<space>
 inoremap ;; <Esc>:noh<CR>
 
 " Toggle case
-nnoremap <Leader>tc g~iw
+nnoremap <Leader>ct g~iw
+nnoremap <Leader>cu gUiw
+nnoremap <Leader>cl guiw
 
 " More logical
 map Y y$
