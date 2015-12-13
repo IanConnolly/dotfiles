@@ -16,7 +16,12 @@ gitme() {
 }
 
 dir() {
-  fd
+  if [[ "$1" != "" ]]
+  then
+    cd "$1"
+  else
+    fd
+  fi
 }
 
 fd() {
@@ -27,7 +32,12 @@ fd() {
 }
 
 edit() {
-  fe
+  if [[ "$@" != "" ]]
+  then
+    vim "$@"
+  else
+    fe
+  fi
 }
 
 fe() {
