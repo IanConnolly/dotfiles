@@ -20,39 +20,39 @@ Plug 'bronson/vim-visual-star-search'              " Search for visual selection
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
 " External integrations
-Plug 'IanConnolly/differ'                 " Async git gutter
-Plug 'tpope/vim-rails'                    " Helpful rails related shortcuts
-Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
-Plug 'tpope/vim-fugitive'                 " Git command wrappers
+Plug 'IanConnolly/differ'                          " Async git gutter
+Plug 'tpope/vim-rails'                             " Helpful rails related shortcuts
+Plug 'tpope/vim-rake'                              " The general ruby bits of vim-rails
+Plug 'tpope/vim-fugitive'                          " Git command wrappers
 
 " Tmux
 if executable('tmux')
-  Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
-  Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
+  Plug 'tmux-plugins/vim-tmux-focus-events'        " FocusGained etc. in tmux!
+  Plug 'benmills/vimux'                            " Use vimux to open commands in special tmux pane
 endif
 
 " Typing/Autocomplete support
-Plug 'benekastah/neomake'                  " Neovim async syntax checker
-Plug 'jiangmiao/auto-pairs'                " Automatically pair quotes, braces etc.
-Plug 'tpope/vim-endwise'                   " Insert 'end' in ruby as smartly as braces
-Plug 'ajh17/VimCompletesMe'                " Super lightweight smart-tab for ins-completion
-Plug 'unblevable/quick-scope'              " highlight in-line f/F/t/T motions
+Plug 'benekastah/neomake'                          " Neovim async syntax checker
+Plug 'jiangmiao/auto-pairs'                        " Automatically pair quotes, braces etc.
+Plug 'tpope/vim-endwise'                           " Insert 'end' in ruby as smartly as braces
+Plug 'ajh17/VimCompletesMe'                        " Super lightweight smart-tab for ins-completion
+Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
 
 " Movement/Text-alteration
-Plug 'tpope/vim-surround'          " Easily deal with surrounding quotes
-Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
-Plug 'tpope/vim-unimpaired'        " Collection of paired commands
-Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
-Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
-Plug 'tommcdo/vim-lion'            " Alignment motion
+Plug 'tpope/vim-surround'                          " Easily deal with surrounding quotes
+Plug 'tpope/vim-commentary'                        " Comment/uncomment textobjs
+Plug 'tpope/vim-unimpaired'                        " Collection of paired commands
+Plug 'tpope/vim-repeat'                            " repeat surround/comment/unimpaired actions
+Plug 'AndrewRadev/splitjoin.vim'                   " gS/gJ to switch single/multiline block
+Plug 'tommcdo/vim-lion'                            " Alignment motion
 
 " Text objs
-Plug 'wellle/targets.vim'          " New text objs
+Plug 'wellle/targets.vim'                          " New text objs
 " User-defined text objs + erb objs + ruby objs
 Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby'
 
 " Colors
-Plug 'IanConnolly/gruvbox'              " gruvbox fork for ruby
+Plug 'IanConnolly/gruvbox'                         " gruvbox fork for ruby
 
 " Daily work languages
 Plug 'kchmck/vim-coffee-script'
@@ -99,7 +99,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " Vim Settings
-let mapleader=" "                   " Space for leader is so satisfying
+let mapleader=" " " Space for leader is so satisfying
 syntax on
 
 call Load(Dotfiles("pairing.vim"))
@@ -109,7 +109,7 @@ set noshowcmd
 set laststatus=2
 
 " Text-y stuff
-set shiftround                      " 'h' and 'l' will wrap around lines
+set shiftround " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
 " Gutter number
@@ -149,7 +149,7 @@ set splitbelow
 set fillchars+=vert:\ 
 
 " Screen scrolling behaviour
-set scrolloff=10                    " keep cursor relatively centered
+set scrolloff=10 " keep cursor relatively centered
 set sidescrolloff=10
 
 " Tagfile
@@ -161,7 +161,7 @@ set showbreak=›››
 set list
 
 " Command tab-completion
-set wildmenu                        " command auto-completion
+set wildmenu " command auto-completion
 set wildmode=list:longest,full
 
 set complete+=kspell
