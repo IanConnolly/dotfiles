@@ -11,20 +11,21 @@ endif
 Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
 Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
-Plug 'romainl/vim-qf'                              " Tame quickfix
-Plug 'junegunn/vim-peekaboo'                       " Hijack register mappings
-Plug 'mhinz/vim-grepper'                           " Async grepprg
 Plug 'kopischke/vim-fetch'                         " GNU line/column format!
 
-" FZF base + FZF vim helpers
+" Searching related
+Plug 'mhinz/vim-grepper'                           " Async grepprg
+Plug 'romainl/vim-qf'                              " Tame quickfix
+Plug 'bronson/vim-visual-star-search'              " Search for visual selection with *
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
-" Integrations
+" External integrations
 Plug 'IanConnolly/differ'                 " Async git gutter
 Plug 'tpope/vim-rails'                    " Helpful rails related shortcuts
 Plug 'tpope/vim-rake'                     " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                 " Git command wrappers
 
+" Tmux
 if executable('tmux')
   Plug 'tmux-plugins/vim-tmux-focus-events' " FocusGained etc. in tmux!
   Plug 'benmills/vimux'                     " Use vimux to open commands in special tmux pane
@@ -43,6 +44,7 @@ Plug 'tpope/vim-commentary'        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'        " Collection of paired commands
 Plug 'tpope/vim-repeat'            " repeat surround/comment/unimpaired actions
 Plug 'AndrewRadev/splitjoin.vim'   " gS/gJ to switch single/multiline block
+Plug 'tommcdo/vim-lion'            " Alignment motion
 
 " Text objs
 Plug 'wellle/targets.vim'          " New text objs
@@ -79,9 +81,6 @@ let g:differ_always_show_sign_column = 1
 " vim-ruby highlight operators
 let ruby_operators = 1
 
-" Delay the peekaboo window a bit so we can yank without jank
-let g:peekaboo_delay = 250
-
 " Namespace FZF commands
 let g:fzf_command_prefix = 'Fzf'
 
@@ -114,7 +113,7 @@ set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
 " Gutter number
-set number                          " for easier movements
+set number
 set norelativenumber
 set nocursorline
 
