@@ -283,16 +283,11 @@ if PluginLoaded('neomake')
   nnoremap <Leader>e :Neomake<CR>:lopen<CR>
 endif
 
-set pastetoggle=<F2>
-" Don't allow paste mode in normal/visual modes
-nnoremap <F2> <NOP>
-xnoremap <F2> <NOP>
-
 " easily get rid of search highlights
-noremap <Esc> :noh<CR><Esc>
+nnoremap <CR> :nohl<CR>
 
 if PluginLoaded('fzf.vim')
-" For fuzzy finding thru buffers
+  " For fuzzy finding thru buffers
   nnoremap <Leader><Tab> :FzfBuffers<CR>
   " fuzzy tags
   nnoremap <Leader>tb :FzfBTags<CR>
@@ -300,13 +295,13 @@ if PluginLoaded('fzf.vim')
 endif
 
 " Switch to last active buffer
-noremap <Leader><Space> :buffer #<CR>
+noremap <Leader><Leader> :buffer #<CR>
 
 " Quick jump to buffers
 nnoremap <Leader>b :ls<cr>:b<space>
 
 " Quick Esc
-inoremap ;; <Esc>:noh<CR>
+inoremap ;; <Esc>
 
 " Toggle case
 nnoremap <Leader>ct g~iw
@@ -336,9 +331,9 @@ nnoremap gV `[v`]
 nnoremap vv ^vg_
 
 " Buhbye accidental help
-nnoremap <F1> :nohl<CR><Esc>
-xnoremap <F1> :nohl<CR><Esc>
-inoremap <F1> :nohl<CR><Esc>
+nnoremap <F1> <Esc>
+xnoremap <F1> <Esc>
+inoremap <F1> <Esc>
 
 " Change, highlight, repeat
 nnoremap ,, *``cgn
@@ -364,11 +359,6 @@ command! WQ wq
 command! W w
 command! Q q
 
-augroup NoPaste
-  autocmd!
-  autocmd InsertLeave * set nopaste
-augroup END
-
 augroup FileTypeSettings
   autocmd!
   autocmd FileType html setlocal ts=2 sw=2 expandtab
@@ -382,7 +372,7 @@ augroup FileTypeSettings
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
   autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
   autocmd BufEnter *.rs iunmap ;;
-  autocmd BufLeave *.rs inoremap ;; <Esc>:noh<CR>
+  autocmd BufLeave *.rs inoremap ;; <Esc>
 
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
