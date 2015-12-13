@@ -8,4 +8,9 @@ if has('nvim')
       autocmd BufWritePost * Neomake
     augroup END
   endif
+
+  augroup Terminal
+    autocmd!
+    autocmd TermOpen * setlocal nolist nospell
+  augroup END
 endif
