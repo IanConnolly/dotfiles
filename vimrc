@@ -8,13 +8,13 @@ else
 endif
 
 " Vim layout + window related fun
-Plug 'justinmk/vim-dirvish'        " Dirvish > netrw
-Plug 'mbbill/undotree'             " View undo history as tree
-Plug 'mhinz/vim-sayonara'          " Sanely quit buffers/windows etc.
-Plug 'romainl/vim-qf'              " Tame quickfix
-Plug 'junegunn/vim-peekaboo'       " Hijack register mappings
-Plug 'mhinz/vim-grepper'           " Async grepprg
-Plug 'kopischke/vim-fetch'         " GNU line/column format!
+Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
+Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
+Plug 'romainl/vim-qf'                              " Tame quickfix
+Plug 'junegunn/vim-peekaboo'                       " Hijack register mappings
+Plug 'mhinz/vim-grepper'                           " Async grepprg
+Plug 'kopischke/vim-fetch'                         " GNU line/column format!
 
 " FZF base + FZF vim helpers
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
@@ -99,16 +99,6 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " on OSX
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
-" Hide hidden files + folders
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_bufsettings = 'noma nomod nonu nobl nowrap ro'
-let g:netrw_bufsettings .= ' buftype=nofile bufhidden=wipe'
-
-" TODO: remove hardcoded paths
-let g:racer_cmd = expand("$HOME/racer/target/release/racer")
-let g:cargo_command = "make <subcommand>"
-let $RUST_SRC_PATH = expand("$HOME/rust/src/")
-
 " Vim Settings
 let mapleader=" "                   " Space for leader is so satisfying
 syntax on
@@ -184,7 +174,7 @@ set switchbuf=useopen
 set updatetime=750
 
 " statusline
-if !PluginLoaded('airline')
+if !PluginLoaded('vim-airline')
   " show which mode we're in
   set showmode
   call Load(Dotfiles("statusline.vim"))
@@ -197,7 +187,7 @@ if has("persistent_undo")
   set undofile
 endif
 
-if PluginLoaded('splitjoin')
+if PluginLoaded('splitjoin.vim')
   nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
   nnoremap <silent> S :<C-u>call TryWithDefault('SplitjoinSplit', "r\015")<CR>
 endif
@@ -221,24 +211,21 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-  if PluginLoaded('grepper')
-    nnoremap <Leader>s :Grepper! -noswitch -tool ag -cword<CR>
+  if PluginLoaded('vim-grepper')
+    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
     command! Grep Grepper! -tool ag
     command! GRep Grep
   endif
-
 endif
 
 " Undo mappings
-if PluginLoaded('undotree')
-  nnoremap <Leader>u :UndotreeToggle<CR>
-  nnoremap <Leader>du :call DeleteUndoFile()<CR>
-endif
+nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>du :call DeleteUndoFile()<CR>
 
 " Use Sayonara for quitting
-if PluginLoaded('sayonara')
+if PluginLoaded('vim-sayonara')
   nnoremap <Leader>x :Sayonara<CR>y<CR>
   nnoremap <Leader>q :w<CR>:Sayonara<CR>
 else
@@ -271,7 +258,7 @@ nmap - :edit %%<CR>
 nmap <Leader>- :edit %%
 
 " vim-fugitive
-if PluginLoaded('fugitive')
+if PluginLoaded('vim-fugitive')
   nnoremap <Leader>gb :Gblame<CR>
   nnoremap <Leader>gs :Gstatus<CR>
   nnoremap <Leader>gd :Gdiff<CR>
@@ -281,7 +268,7 @@ if PluginLoaded('fugitive')
 endif
 
 " FZF
-if PluginLoaded('fugitive') && PluginLoaded('fzf.vim')
+if PluginLoaded('vim-fugitive') && PluginLoaded('fzf.vim')
   nnoremap <Leader>gf :FzfGitFiles<CR>
   nnoremap <Leader>gh :FzfBCommits<CR>
 endif
@@ -417,7 +404,7 @@ if PluginLoaded('differ')
   augroup END
 endif
 
-if PluginLoaded('dirvish')
+if PluginLoaded('vim-dirvish')
   augroup Dirvish
     autocmd!
     autocmd FileType dirvish nnoremap <buffer> v

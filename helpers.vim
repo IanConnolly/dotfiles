@@ -13,8 +13,14 @@ function! Dotfiles(file)
 endfunction
 
 function! PluginLoaded(plugin)
-  if a:plugin == "vim-plug"
-    return exists("$HOME/.vim/autoload/plug.vim")
+  if a:plugin == 'vim-plug'
+    if has('nvim')
+      return exists("$HOME/nvim/autoload/plug.vim")
+    else
+      return exists("$HOME/.vim/autoload/plug.vim")
+    end
+  elseif PluginLoaded('vim-plug')
+    return has_key(g:plugs, a:plugin)
   else
     return &rtp =~ a:plugin
   endif
