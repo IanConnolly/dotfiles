@@ -13,6 +13,7 @@ export PATH="$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanis
 alias nv=nvim
 alias nvi=nvim
 alias vim=nvim
+alias view="nvim +\"set readonly\""
 alias devbox="ssh -A devbox.lo"
 alias show=ag
 export RUST_SRC_PATH=~/rust/src
