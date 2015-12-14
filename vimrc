@@ -211,7 +211,7 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
   if PluginLoaded('vim-grepper')
-    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<<CR>
+    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
     command! Grep Grepper! -tool ag
@@ -281,6 +281,23 @@ nnoremap <Leader>P "0P
 if PluginLoaded('neomake')
   nnoremap <Leader>e :Neomake<CR>:lopen<CR>
 endif
+
+if PluginLoaded('vim-surround')
+  " The 'y' mnemonic doesn't really make much sense
+  " and we can use the default `s` bind with `cl`
+  nmap s  <Plug>Ysurround
+  nmap S  <Plug>YSurround
+  nmap ss <Plug>Yssurround
+  nmap SS <Plug>YSsurround
+endif
+
+" arglist
+nnoremap <Leader>aa :argadd %<CR>
+nnoremap <Leader>ae :argedit %<CR>
+nnoremap <Leader>as :args<CR>
+nnoremap <Leader>ah :first<CR>
+nnoremap <Leader>af :first<CR>
+nnoremap <Leader>al :last<CR>
 
 " easily get rid of search highlights
 nnoremap <CR> :nohl<CR>
