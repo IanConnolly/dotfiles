@@ -294,6 +294,7 @@ endif
 " arglist
 nnoremap <Leader>aa :argadd %<CR>
 nnoremap <Leader>ae :argedit %<CR>
+nnoremap <Leader>ad :.argd<CR>
 nnoremap <Leader>as :args<CR>
 nnoremap <Leader>ah :first<CR>
 nnoremap <Leader>af :first<CR>
