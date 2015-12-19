@@ -16,7 +16,7 @@
 #include "action_layer.h"
 
 #define BASE 0 // default layer
-#define SYMB 2 // symbols
+#define SYMB 1 // symbols
 #define MDIA 2 // media keys
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
