@@ -25,6 +25,10 @@ Plug 'tpope/vim-rails'                             " Helpful rails related short
 Plug 'tpope/vim-rake'                              " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                          " Git command wrappers
 
+" Built-in improvement
+Plug 'tpope/vim-characterize'                      " Show unicode info
+Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
+
 " Tmux
 if executable('tmux')
   Plug 'tmux-plugins/vim-tmux-focus-events'        " FocusGained etc. in tmux!
@@ -36,7 +40,6 @@ Plug 'benekastah/neomake'                          " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                        " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                           " Insert 'end' in ruby as smartly as braces
 Plug 'ajh17/VimCompletesMe'                        " Super lightweight smart-tab for ins-completion
-Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'                          " Easily deal with surrounding quotes
@@ -49,7 +52,7 @@ Plug 'tommcdo/vim-lion'                            " Alignment motion
 " Text objs
 Plug 'wellle/targets.vim'                          " New text objs
 " User-defined text objs + erb objs + ruby objs
-Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby'
+Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument'
 
 " Colors
 Plug 'IanConnolly/gruvbox'                         " gruvbox fork for ruby
