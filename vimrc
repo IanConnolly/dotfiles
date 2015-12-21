@@ -379,6 +379,11 @@ command! WQ wq
 command! W w
 command! Q q
 
+augroup FixCRQuickfix
+  autocmd!
+  autocmd FileType qf nnoremap <buffer> <CR> <CR>
+augroup END
+
 augroup FileTypeSettings
   autocmd!
   autocmd FileType html setlocal ts=2 sw=2 expandtab
@@ -391,6 +396,7 @@ augroup FileTypeSettings
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
   autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
+  autocmd FileType yaml setlocal ts=2 sw=2 expandtab
   autocmd BufEnter *.rs iunmap ;;
   autocmd BufLeave *.rs inoremap ;; <Esc>
 
@@ -399,6 +405,8 @@ augroup FileTypeSettings
   autocmd BufNewFile,BufRead *.css set filetype=scss
   autocmd BufNewFile,BufRead Cargo.toml,Cargo.lock set filetype=rust
   autocmd BufNewFile,BufRead *.q set filetype=sql " Hive
+
+  autocmd BufNewFile,BufRead Fastfile,Appfile,Scanfile,Deliverfile set filetype=ruby
 
   " spell check git commit messages and markdown files
   autocmd FileType markdown setlocal spell
