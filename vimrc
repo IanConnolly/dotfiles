@@ -101,6 +101,14 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " on OSX
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
+let g:grepper = {
+  \ 'quickfix': 1,
+  \ 'open': 1,
+  \ 'switch': 1,
+  \ 'jump': 0,
+  \ 'tools': ['ag'],
+  \ }
+
 " Vim Settings
 let mapleader=" " " Space for leader is so satisfying
 syntax on
@@ -214,6 +222,9 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
   if PluginLoaded('vim-grepper')
+    nmap gs  <plug>(GrepperOperator)
+    xmap gs  <plug>(GrepperOperator)
+
     nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
     nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
