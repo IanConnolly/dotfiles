@@ -52,7 +52,10 @@ Plug 'tommcdo/vim-lion'                            " Alignment motion
 " Text objs
 Plug 'wellle/targets.vim'                          " New text objs
 " User-defined text objs + erb objs + ruby objs
-Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument'
+Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument' | Plug 'glts/vim-textobj-comment'
+
+" Operators
+Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
 Plug 'IanConnolly/gruvbox'                         " gruvbox fork for ruby
@@ -95,7 +98,7 @@ let g:neomake_open_list = 0
 let g:qf_mapping_ack_style = 1
 
 " Only enable quick-scope after f/F/t/T
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+"let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " AutoPairs binds to Meta by default for whatever reason, we don't want that
 " on OSX
@@ -123,10 +126,10 @@ set laststatus=2
 set shiftround " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
-" Gutter number
+" Line/line number
 set number
-set norelativenumber
-set nocursorline
+set relativenumber
+set cursorline
 
 " Tabs
 set expandtab
@@ -141,7 +144,7 @@ set nowritebackup
 set nrformats-=octal
 
 " Search
-set hlsearch
+set nohlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -233,8 +236,14 @@ if executable('ag')
   endif
 endif
 
+if PluginLoaded('vim-operator-user') && PluginLoaded('vim-operator-replace')
+  map r <Plug>(operator-replace)
+endif
+
 " Undo mappings
-nnoremap <Leader>u :UndotreeToggle<CR>
+if PluginLoaded('undotree')
+  nnoremap <Leader>u :UndotreeToggle<CR>
+endif
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
 
 " Use Sayonara for quitting
@@ -378,8 +387,6 @@ nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 " Because un-selecting is dumb
 xnoremap > >gv
 xnoremap < <gv
-
-nnoremap <Leader>l :echo line('.') . "/" . line('$')<CR>
 
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
