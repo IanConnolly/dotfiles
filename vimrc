@@ -376,7 +376,7 @@ xnoremap <F1> <Esc>
 inoremap <F1> <Esc>
 
 " Change, highlight, repeat
-nnoremap ,, *``cgn
+nnoremap <Leader>cw *``cgn
 
 " replace all occurences of current word
 nnoremap <Leader>ra :%s/\<<C-r>=expand('<cword>')<CR>\>/
