@@ -66,6 +66,9 @@ Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-ruby/vim-ruby'
 
+Plug 'rust-lang/rust.vim'
+Plug 'cespare/vim-toml'
+
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 call plug#end()
@@ -340,9 +343,6 @@ noremap <Leader><Leader> :buffer #<CR>
 " Quick jump to buffers
 nnoremap <Leader>b :ls<cr>:b<space>
 
-" Quick Esc
-inoremap ;; <Esc>
-
 " Toggle case
 nnoremap <Leader>ct g~iw
 nnoremap <Leader>cu gUiw
@@ -415,13 +415,10 @@ augroup FileTypeSettings
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
   autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
   autocmd FileType yaml setlocal ts=2 sw=2 expandtab
-  autocmd BufEnter *.rs iunmap ;;
-  autocmd BufLeave *.rs inoremap ;; <Esc>
 
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
-  autocmd BufNewFile,BufRead Cargo.toml,Cargo.lock set filetype=rust
   autocmd BufNewFile,BufRead *.q set filetype=sql " Hive
 
   autocmd BufNewFile,BufRead Fastfile,Appfile,Scanfile,Deliverfile set filetype=ruby
