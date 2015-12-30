@@ -39,7 +39,7 @@ endif
 Plug 'benekastah/neomake'                          " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                        " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                           " Insert 'end' in ruby as smartly as braces
-Plug 'ajh17/VimCompletesMe'                        " Super lightweight smart-tab for ins-completion
+Plug 'IanConnolly/VimCompletesMe'                  " Super lightweight smart-tab for ins-completion
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'                          " Easily deal with surrounding quotes
@@ -50,7 +50,7 @@ Plug 'AndrewRadev/splitjoin.vim'                   " gS/gJ to switch single/mult
 Plug 'tommcdo/vim-lion'                            " Alignment motion
 
 " Text objs
-Plug 'wellle/targets.vim'                          " New text objs
+Plug 'wellle/targets.vim'
 " User-defined text objs + erb objs + ruby objs
 Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument' | Plug 'glts/vim-textobj-comment'
 
@@ -67,7 +67,9 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-ruby/vim-ruby'
 
 Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 Plug 'cespare/vim-toml'
+Plug 'tmux-plugins/vim-tmux'
 
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
@@ -107,6 +109,9 @@ let g:qf_mapping_ack_style = 1
 " on OSX
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
+let g:racer_cmd = "racer"
+let $RUST_SRC_PATH=glob("~/rust/src/")
+
 let g:grepper = {
   \ 'quickfix': 1,
   \ 'open': 1,
@@ -131,8 +136,8 @@ set whichwrap+=<,>,h,l
 
 " Line/line number
 set number
-set relativenumber
-set cursorline
+set norelativenumber
+set nocursorline
 
 " Tabs
 set expandtab
