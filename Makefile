@@ -9,10 +9,11 @@ all:
 	@printf "\tgit\t\t - install git\n"
 	@printf "\tghci\t\t - install ghci\n"
 	@printf "\tzsh\t\t - install zsh\n"
+	@printf "\tbash\t\t - install bash\n"
 	@printf "\tctags\t\t - install ctags\n"
 	@printf "\thelp\t\t - print this message\n"
 
-install: zsh vim tmux git ghc tags
+install: zsh vim tmux git ghc tags bash
 
 vimdeps:
 	brew update && brew reinstall the_silver_searcher && brew reinstall ctags
@@ -48,6 +49,9 @@ ghc:
 zsh:
 	ln -sf $(ROOT_DIR)/zshrc $(HOME)/.zshrc
 	ln -sf $(ROOT_DIR)/zshenv $(HOME)/.zshenv
+
+bash:
+	ln -sf $(ROOT_DIR)/bashrc $(HOME)/.bashrc
 
 tags:
 	ln -sf $(ROOT_DIR)/ctags $(HOME)/.ctags
