@@ -105,6 +105,8 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 " Don't update as I type
 let g:gitgutter_realtime = 0
 
+let g:gitgutter_grep_command = 'grep --color=never -e'
+
 " Yup, perf again
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
