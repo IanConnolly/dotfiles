@@ -21,10 +21,11 @@ set_prompt () {
 
     # If root, just print the host in red. Otherwise, print the current user
     # and host in green.
+    PS1="\n"
     if [[ $EUID == 0 ]]; then
-        PS1="$Red\\h"
+        PS1+="$Red\\h"
     else
-        PS1="$Blue\\u"
+        PS1+="$Blue\\u"
     fi
 
     PS1+="$White in "
