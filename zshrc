@@ -18,8 +18,6 @@ alias devbox="ssh -A devbox.lo"
 alias show=ag
 export RUST_SRC_PATH=~/rust/src
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-rvm use 2.1.5
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/scribd.zsh ] && source ~/scribd.zsh
 
@@ -27,3 +25,7 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export XDG_CONFIG_HOME=$HOME
 export EDITOR=nvim
+
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+
+chruby 2.1.5

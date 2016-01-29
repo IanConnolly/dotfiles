@@ -20,14 +20,14 @@ Plug 'bronson/vim-visual-star-search'              " Search for visual selection
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
 " External integrations
-Plug 'IanConnolly/differ'                          " Async git gutter
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'                             " Helpful rails related shortcuts
 Plug 'tpope/vim-rake'                              " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                          " Git command wrappers
 
 " Built-in improvement
-Plug 'tpope/vim-characterize'                      " Show unicode info
 Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
+Plug 'Konfekt/FastFold'
 
 " Tmux
 if executable('tmux')
@@ -46,13 +46,12 @@ Plug 'tpope/vim-surround'                          " Easily deal with surroundin
 Plug 'tpope/vim-commentary'                        " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'                        " Collection of paired commands
 Plug 'tpope/vim-repeat'                            " repeat surround/comment/unimpaired actions
-Plug 'AndrewRadev/splitjoin.vim'                   " gS/gJ to switch single/multiline block
 Plug 'tommcdo/vim-lion'                            " Alignment motion
 
 " Text objs
 Plug 'wellle/targets.vim'
 " User-defined text objs + erb objs + ruby objs
-Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument' | Plug 'glts/vim-textobj-comment'
+Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument'
 
 " Operators
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
@@ -66,8 +65,8 @@ Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-ruby/vim-ruby'
 
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'cespare/vim-toml'
 Plug 'tmux-plugins/vim-tmux'
 
@@ -86,9 +85,6 @@ endif
 " Make vim friendlier for pairing if needed
 let g:pair_programming = 0
 
-" Always show sign column
-let g:differ_always_show_sign_column = 1
-
 " vim-ruby highlight operators
 let ruby_operators = 1
 
@@ -102,12 +98,15 @@ let g:neomake_open_list = 0
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
 
-" Only enable quick-scope after f/F/t/T
-"let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
 " AutoPairs binds to Meta by default for whatever reason, we don't want that
 " on OSX
 let g:AutoPairsShortcutFastWrap = '<C-e>'
+
+" Don't update as I type
+let g:gitgutter_realtime = 0
+
+" Yup, perf again
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 let g:racer_cmd = "racer"
 let $RUST_SRC_PATH=glob("~/rust/src/")
@@ -208,10 +207,12 @@ if has("persistent_undo")
   set undofile
 endif
 
-if PluginLoaded('splitjoin.vim')
-  nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
-  nnoremap <silent> S :<C-u>call TryWithDefault('SplitjoinSplit', "r\015")<CR>
-endif
+" Set fold info
+set foldmethod=indent
+set foldminlines=0
+set foldlevel=1
+set foldnestmax=2
+nmap <CR> za
 
 " god who uses this
 map q: :q
@@ -236,10 +237,10 @@ if executable('ag')
     nmap gs  <plug>(GrepperOperator)
     xmap gs  <plug>(GrepperOperator)
 
-    nnoremap <Leader>s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
-    nnoremap <Leader>ag :Grepper! -tool ag -query ''<Left>
+    nnoremap <Leader>s :Grepper -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+    nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
-    command! Grep Grepper! -tool ag
+    command! Grep Grepper -tool ag
     command! GRep Grep
   endif
 endif
@@ -322,18 +323,6 @@ if PluginLoaded('vim-surround')
   nmap SS <Plug>YSsurround
 endif
 
-" arglist
-nnoremap <Leader>aa :argadd %<CR>
-nnoremap <Leader>ae :argedit %<CR>
-nnoremap <Leader>ad :.argd<CR>
-nnoremap <Leader>as :args<CR>
-nnoremap <Leader>ah :first<CR>
-nnoremap <Leader>af :first<CR>
-nnoremap <Leader>al :last<CR>
-
-" easily get rid of search highlights
-nnoremap <CR> :nohl<CR>
-
 if PluginLoaded('fzf.vim')
   " For fuzzy finding thru buffers
   nnoremap <Leader><Tab> :FzfBuffers<CR>
@@ -347,11 +336,6 @@ noremap <Leader><Leader> :buffer #<CR>
 
 " Quick jump to buffers
 nnoremap <Leader>b :ls<cr>:b<space>
-
-" Toggle case
-nnoremap <Leader>ct g~iw
-nnoremap <Leader>cu gUiw
-nnoremap <Leader>cl guiw
 
 " More logical
 map Y y$
@@ -393,8 +377,21 @@ nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 xnoremap > >gv
 xnoremap < <gv
 
+" For when we're without a fuzzy finder
+nnoremap <Leader>f :find *
+nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
+nnoremap <Leader>v :vert sfind *
+nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
+
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+
+function! DiffFunc()
+  execute "GitGutterLineHighlightsToggle"
+  execute "QuickScopeToggle"
+endfunction
+
+command! Diff :call DiffFunc()
 
 " Because shift is hard to let go of okay
 command! Wq wq
@@ -434,13 +431,18 @@ augroup FileTypeSettings
   autocmd FileType text setlocal spell
 augroup END
 
-if PluginLoaded('differ')
-  augroup Gutter
-    autocmd!
-    autocmd BufWritePost * call differ#Differ()
-    autocmd BufReadPost * call differ#Differ()
-  augroup END
-endif
+augroup FixConcernFoldingRuby
+  autocmd!
+  autocmd BufRead,BufNewFile */concerns/* setlocal foldnestmax=3
+augroup END
+
+augroup RubyMarks
+  autocmd!
+  autocmd BufLeave app/models/*.rb normal! mM
+  autocmd BufLeave app/controllers/*.rb normal! mC
+  autocmd BufLeave app/views/*.rb normal! mV
+  autocmd BufLeave specs/*spec.rb normal! mS
+augroup END
 
 if PluginLoaded('vim-dirvish')
   augroup Dirvish
@@ -450,7 +452,7 @@ if PluginLoaded('vim-dirvish')
     autocmd FileType dirvish nnoremap <buffer> s
         \ :sp <C-R>=fnameescape(getline('.'))<CR><CR>
     autocmd FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
-    autocmd FileType dirvish nnoremap <buffer> gh 
+    autocmd FileType dirvish nnoremap <buffer> gh
         \ :set ma<bar>g@\v/\.[^\/]+/?$@d<cr>:set noma<cr>
   augroup END
 endif

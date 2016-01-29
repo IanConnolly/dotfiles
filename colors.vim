@@ -21,6 +21,7 @@ highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
 highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
 highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
 highlight User4 guibg=#282828 guifg=#fe8019
+highlight User5 guibg=#282828 guifg=#b8bb26
 
 let g:terminal_background = "#1d2021"
 let g:terminal_foreground = "#f9f5d7"

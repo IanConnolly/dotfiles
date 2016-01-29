@@ -30,7 +30,7 @@ function! FileModes()
   endif
 
   if bufname("%") =~ "scp://"
-      let fm.= '  '
+    let fm.= '  '
   endif
 
   let fm.= '%0*'
@@ -51,6 +51,18 @@ endfunction
 
 function! RightSide()
   let rs = ''
+
+  if g:vs_open
+    let rs .= '%5*'
+    let rs .= 'TP:Open'
+    let rs .= '%0*'
+    let rs .= ' '
+  elseif bufname("%") =~ '_spec.rb'
+    let rs .= '%4*'
+    let rs .= 'TP:Closed'
+    let rs .= '%0*'
+    let rs .= ' '
+  endif
 
   let errors = neomake#statusline#LoclistStatus()
   if errors =~ 'E'

@@ -1,5 +1,5 @@
 if has('nvim')
-  tnoremap <esc><esc> <C-\><C-n>
+  tnoremap <C-a> <C-\><C-n>
 
   let g:neomake_rust_cargo_maker = {
           \ 'args': ['check'],
