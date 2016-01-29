@@ -2,8 +2,15 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1 /'
 }
 
+parse_git_dirty() {
+  if [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]]; then
+    echo '\[\e[01;31m\]\342\234\227'
+  else
+    echo '\[\e[01;32m\]\342\234\223'
+  fi
+}
+
 set_prompt () {
-    Last_Command=$? # Must come first!
     Blue='\[\e[01;34m\]'
     White='\[\e[01;37m\]'
     Red='\[\e[01;31m\]'
@@ -12,20 +19,12 @@ set_prompt () {
     FancyX='\342\234\227'
     Checkmark='\342\234\223'
 
-    # If last comand was successful, print a green check mark. Otherwise, print
-    # a red X.
-    if [[ $Last_Command == 0 ]]; then
-        PS1="$Green$Checkmark "
-    else
-        PS1="$Red$FancyX "
-    fi
-
     # If root, just print the host in red. Otherwise, print the current user
     # and host in green.
     if [[ $EUID == 0 ]]; then
-        PS1+="$Red\\h"
+        PS1="$Red\\h"
     else
-        PS1+="$Blue\\u"
+        PS1="$Blue\\u"
     fi
 
     PS1+="$White in "
@@ -36,10 +35,11 @@ set_prompt () {
     if [ -n "$(parse_git_branch)" ]; then
       PS1+="$White on "
       PS1+="$Blue$(parse_git_branch)"
+      PS1+="$(parse_git_dirty)"
     else
       PS1+=" "
     fi
-    PS1+="$Red\\\$$Reset "
+    PS1+="\n$Red\\\$$Reset "
 }
 PROMPT_COMMAND='set_prompt'
 
