@@ -1,3 +1,7 @@
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1 /'
+}
+
 set_prompt () {
     Last_Command=$? # Must come first!
     Blue='\[\e[01;34m\]'
@@ -19,14 +23,23 @@ set_prompt () {
     # If root, just print the host in red. Otherwise, print the current user
     # and host in green.
     if [[ $EUID == 0 ]]; then
-        PS1+="$Red\\h "
+        PS1+="$Red\\h"
     else
-        PS1+="$Green\\u@\\h "
+        PS1+="$Blue\\u"
     fi
+
+    PS1+="$White in "
 
     # Print the working directory and prompt marker in blue, and reset
     # the text color to the default.
-    PS1+="$Blue\\w \\\$$Reset "
+    PS1+="$Green\\w"
+    if [ -n "$(parse_git_branch)" ]; then
+      PS1+="$White on "
+      PS1+="$Blue$(parse_git_branch)"
+    else
+      PS1+=" "
+    fi
+    PS1+="$Red\\\$$Reset "
 }
 PROMPT_COMMAND='set_prompt'
 
