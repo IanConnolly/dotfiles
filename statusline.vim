@@ -52,7 +52,7 @@ endfunction
 function! RightSide()
   let rs = ''
 
-  if g:vs_open
+  if get(g:, 'vs_open', 0)
     let rs .= '%5*'
     let rs .= 'TP:Open'
     let rs .= '%0*'
@@ -64,16 +64,18 @@ function! RightSide()
     let rs .= ' '
   endif
 
-  let errors = neomake#statusline#LoclistStatus()
-  if errors =~ 'E'
-    let rs .= "%2*"
-    let rs .= errors
-  else
-    let rs .= "%4*"
-    let rs .= errors
+  if exists ("neomake#statusline#LoclistStatus")
+    let errors = neomake#statusline#LoclistStatus()
+    if errors =~ 'E'
+      let rs .= "%2*"
+      let rs .= errors
+    else
+      let rs .= "%4*"
+      let rs .= errors
+    endif
+    let rs .= "%0*"
+    let rs .= " "
   endif
-  let rs .= "%0*"
-  let rs .= " "
 
   if exists('*fugitive#head')
     let head = fugitive#head()

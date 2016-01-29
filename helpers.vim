@@ -20,10 +20,22 @@ function! PluginLoaded(plugin)
       return exists("$HOME/.vim/autoload/plug.vim")
     end
   elseif PluginLoaded('vim-plug')
-    return has_key(g:plugs, a:plugin)
+    return has_key(g:plugs, a:plugin) && isdirectory(PluginDirectory(a:plugin))
   else
-    return &rtp =~ a:plugin
+    return &rtp =~ a:plugin && isdirectory(PluginDirectory(a:plugin))
   endif
+endfunction
+
+function! PluginDirectory(plugin)
+  let directories = split(&rtp, ",")
+
+  for dir in directories
+    if dir =~ a:plugin
+      return dir
+    endif
+  endfor
+
+  return ""
 endfunction
 
 function! NumberToggle()
