@@ -88,14 +88,15 @@ endif
 let g:pair_programming = 0
 
 " vim-ruby highlight operators
-let ruby_operators = 1
+let ruby_operators    = 1
+let ruby_no_expensive = 1
 
 " Namespace FZF commands
 let g:fzf_command_prefix = 'Fzf'
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
-let g:neomake_open_list = 0
+let g:neomake_open_list           = 0
 
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
@@ -109,6 +110,10 @@ let g:gitgutter_realtime = 0
 
 " Yup, perf again
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Undotree
+let g:undotree_WindowLayout = 2
+let g:undotree_SplitWidth   = 35
 
 let g:racer_cmd = "racer"
 let $RUST_SRC_PATH=glob("~/rust/src/")
@@ -374,8 +379,8 @@ xnoremap > >gv
 xnoremap < <gv
 
 " Make n always forward, N always backwards
-nnoremap <expr> n  'Nn'[v:searchforward]
-nnoremap <expr> N  'nN'[v:searchforward]
+nnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <expr> N 'nN'[v:searchforward]
 
 " Death to arrow keys
 cnoremap <c-n>  <down>

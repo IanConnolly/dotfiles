@@ -27,7 +27,7 @@ if has('nvim')
 
   augroup Terminal
     autocmd!
-    autocmd TermOpen * setlocal nolist nospell
+    autocmd TermOpen * setlocal nolist nospell noshowmode
   augroup END
 
   " set colors
