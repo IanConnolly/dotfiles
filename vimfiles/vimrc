@@ -2,10 +2,12 @@ filetype off
 runtime macros/matchit.vim
 
 if has('nvim')
-  call plug#begin('~/nvim/plugged')
+  let g:plugin_path = '~/nvim/plugged'
 else
-  call plug#begin('~/.vim/plugged')
+  let g:plugin_path = '~/.vim/plugged'
 endif
+
+call plug#begin(g:plugin_path)
 
 " Vim layout + window related fun
 Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
@@ -252,7 +254,7 @@ if PluginLoaded('vim-operator-user') && PluginLoaded('vim-operator-replace')
 endif
 
 " Undo mappings
-if PluginLoaded('undotree')
+if PluginInstalled('undotree')
   nnoremap <Leader>u :UndotreeToggle<CR>
 endif
 nnoremap <Leader>du :call DeleteUndoFile()<CR>

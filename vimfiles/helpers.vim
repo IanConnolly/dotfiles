@@ -20,10 +20,14 @@ function! PluginLoaded(plugin)
       return exists("$HOME/.vim/autoload/plug.vim")
     end
   elseif PluginLoaded('vim-plug')
-    return has_key(g:plugs, a:plugin) && isdirectory(PluginDirectory(a:plugin))
+    return has_key(g:plugs, a:plugin) && PluginInstalled(a:plugin)
   else
-    return &rtp =~ a:plugin && isdirectory(PluginDirectory(a:plugin))
+    return &rtp =~ a:plugin && PluginInstalled(a:plugin)
   endif
+endfunction
+
+function! PluginInstalled(plugin)
+  return isdirectory(glob(g:plugin_path . '/' . a:plugin))
 endfunction
 
 function! PluginDirectory(plugin)
