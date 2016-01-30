@@ -274,12 +274,6 @@ if PluginLoaded('vim-plug')
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 endif
 
-command! Reload :so ~/dotfiles/vimrc
-nnoremap <Leader>R :Reload<CR>
-" Edit the vimrc in a split
-command! EV vsplit ~/dotfiles/vimrc
-command! ES split ~/dotfiles/vimrc
-
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf.vim')
   nnoremap <C-p> :FzfFiles<CR>
@@ -467,6 +461,10 @@ if PluginLoaded('vim-dirvish')
         \ :set ma<bar>g@\v/\.[^\/]+/?$@d<cr>:set noma<cr>
   augroup END
 endif
+
+command! Reload :so ~/dotfiles/vimfiles/vimrc
+command! EV vsplit ~/dotfiles/vimfiles/vimrc
+command! ES split ~/dotfiles/vimfiles/vimrc
 
 call Load(Vimfiles("colors.vim"))
 call Load(Vimfiles("neo.vim"))
