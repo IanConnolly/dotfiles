@@ -27,8 +27,8 @@ neovim: vimdeps
 	rm -rf $(HOME)/nvim
 	mkdir -p $(HOME)/nvim
 	ln -sf $(ROOT_DIR)/vimrc $(HOME)/nvim/init.vim
+	ln -sf $(HOME)/nvim/ $(HOME)/.config/nvim
 	curl -fLo $(HOME)/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	ln -sf $(HOME)/nvim/plugged/differ/annotate-differ /usr/local/bin/annotate-differ
 	nvim -c PlugInstall -c quitall
 
 vimlinks:

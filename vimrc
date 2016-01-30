@@ -193,6 +193,8 @@ set completeopt=menu,menuone " Don't show scratch window
 set switchbuf=useopen
 set updatetime=750
 
+set guifont=Fira\ Code\ Retina
+
 " statusline
 if !PluginLoaded('vim-airline')
   " show which mode we're in
