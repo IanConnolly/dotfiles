@@ -274,9 +274,16 @@ if PluginLoaded('vim-plug')
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 endif
 
+set path=.,**
+nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
+nnoremap <Leader>v :vert sfind *
+nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
+
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf.vim')
-  nnoremap <C-p> :FzfFiles<CR>
+  nnoremap <Leader>f :FzfFiles<CR>
+else
+  nnoremap <Leader>f :find *
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -291,12 +298,6 @@ if PluginLoaded('vim-fugitive')
   nnoremap <Leader>gc :Gcommit<CR>
   nnoremap <Leader>gp :Gpush<CR>
   nnoremap <Leader>gl :Glog<CR>:copen<CR>
-endif
-
-" FZF
-if PluginLoaded('vim-fugitive') && PluginLoaded('fzf.vim')
-  nnoremap <Leader>gf :FzfGitFiles<CR>
-  nnoremap <Leader>gh :FzfBCommits<CR>
 endif
 
 " copy and paste
@@ -371,13 +372,6 @@ nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 " Because un-selecting is dumb
 xnoremap > >gv
 xnoremap < <gv
-
-" For when we're without a fuzzy finder
-set path=.,**
-nnoremap <Leader>f :find *
-nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
-nnoremap <Leader>v :vert sfind *
-nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
 
 " Make n always forward, N always backwards
 nnoremap <expr> n  'Nn'[v:searchforward]
