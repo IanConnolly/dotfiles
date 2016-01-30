@@ -385,6 +385,22 @@ nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
 nnoremap <Leader>v :vert sfind *
 nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
 
+" Make n always forward, N always backwards
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+
+" Death to arrow keys
+cnoremap <c-n>  <down>
+cnoremap <c-p>  <up>
+
+" Move lines up/down
+nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+
+" Add empty lines
+nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
