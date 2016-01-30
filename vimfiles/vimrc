@@ -382,6 +382,7 @@ xnoremap > >gv
 xnoremap < <gv
 
 " For when we're without a fuzzy finder
+set path=.,**
 nnoremap <Leader>f :find *
 nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
 nnoremap <Leader>v :vert sfind *
