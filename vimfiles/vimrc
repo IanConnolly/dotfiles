@@ -29,7 +29,7 @@ Plug 'tpope/vim-fugitive'                          " Git command wrappers
 
 " Built-in improvement
 Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
-Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'                            " Only update folds when necessary
 
 " Tmux
 if executable('tmux')
@@ -228,9 +228,6 @@ nnoremap <C-k> <C-u>
 
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
-
-" Toggle between relative and static numbering
-nnoremap <Leader>nu :call NumberToggle()<CR>
 
 if executable('ag')
   " Integrate with Ag

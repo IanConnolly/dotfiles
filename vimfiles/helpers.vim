@@ -42,18 +42,6 @@ function! PluginDirectory(plugin)
   return ""
 endfunction
 
-function! NumberToggle()
-  if (&relativenumber == 1)
-    set nocursorline
-    set norelativenumber
-    set number
-  else
-    set nonumber
-    set relativenumber
-    set cursorline
-  endif
-endfunction
-
 " Trim trailing whitespace
 function! TrimWhitespace()
   let l = line('.')
