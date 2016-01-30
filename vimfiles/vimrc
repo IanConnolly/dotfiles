@@ -76,8 +76,8 @@ call plug#end()
 
 filetype plugin indent on
 
-if filereadable(glob("~/dotfiles/helpers.vim"))
-  source ~/dotfiles/helpers.vim
+if filereadable(glob("~/dotfiles/vimfiles/helpers.vim"))
+  source ~/dotfiles/vimfiles/helpers.vim
 endif
 
 " Config for plugins
@@ -123,7 +123,7 @@ let g:grepper = {
 let mapleader=" " " Space for leader is so satisfying
 syntax on
 
-call Load(Dotfiles("pairing.vim"))
+call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
 set noshowcmd
@@ -199,7 +199,7 @@ set guifont=Fira\ Code\ Retina
 if !PluginLoaded('vim-airline')
   " show which mode we're in
   set showmode
-  call Load(Dotfiles("statusline.vim"))
+  call Load(Vimfiles("statusline.vim"))
 endif
 
 if has("persistent_undo")
@@ -475,8 +475,8 @@ if PluginLoaded('vim-dirvish')
   augroup END
 endif
 
-call Load(Dotfiles("colors.vim"))
-call Load(Dotfiles("neo.vim"))
-call Load(Dotfiles("mac.vim"))
+call Load(Vimfiles("colors.vim"))
+call Load(Vimfiles("neo.vim"))
+call Load(Vimfiles("mac.vim"))
 call Load("~/.vimrc.local")
 

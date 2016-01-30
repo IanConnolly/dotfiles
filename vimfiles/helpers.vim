@@ -4,12 +4,12 @@ function! Load(path)
   endif
 endfunction
 
-function! Dotfiles(file)
-  if exists("g:dotfiles_path")
-    return g:dotfiles_path . a:file
+function! Vimfiles(file)
+  if exists("g:vimfiles_path")
+    return g:vimfiles_path . a:file
   endif
 
-  return "~/dotfiles/" . a:file
+  return "~/dotfiles/vimfiles/" . a:file
 endfunction
 
 function! PluginLoaded(plugin)
