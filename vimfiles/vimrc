@@ -404,13 +404,6 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
-function! DiffFunc()
-  execute "GitGutterLineHighlightsToggle"
-  execute "QuickScopeToggle"
-endfunction
-
-command! Diff :call DiffFunc()
-
 " Because shift is hard to let go of okay
 command! Wq wq
 command! WQ wq
