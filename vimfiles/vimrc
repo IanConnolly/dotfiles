@@ -2,16 +2,21 @@ filetype off
 runtime macros/matchit.vim
 
 if has('nvim')
-  call plug#begin('~/nvim/plugged')
+  let g:plugin_path = '~/nvim/plugged'
 else
-  call plug#begin('~/.vim/plugged')
+  let g:plugin_path = '~/.vim/plugged'
 endif
+
+call plug#begin(g:plugin_path)
 
 " Vim layout + window related fun
 Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
 Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                         " GNU line/column format!
+
+" Improved /-search
+Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique'
 
 " Searching related
 Plug 'mhinz/vim-grepper'                           " Async grepprg
@@ -22,12 +27,13 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'juneg
 " External integrations
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'                             " Helpful rails related shortcuts
-Plug 'tpope/vim-rake'                              " The general ruby bits of vim-rails
-Plug 'tpope/vim-fugitive'                          " Git command wrappers
+
+" Git command wrappers
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 
 " Built-in improvement
 Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
-Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'                            " Only update folds when necessary
 
 " Tmux
 if executable('tmux')
@@ -76,56 +82,17 @@ call plug#end()
 
 filetype plugin indent on
 
-if filereadable(glob("~/dotfiles/helpers.vim"))
-  source ~/dotfiles/helpers.vim
+if filereadable(glob("~/dotfiles/vimfiles/helpers.vim"))
+  source ~/dotfiles/vimfiles/helpers.vim
 endif
 
-" Config for plugins
+" Vim Settings
+let mapleader="\<Space>" " Space for leader is so satisfying
+syntax on
 
 " Make vim friendlier for pairing if needed
 let g:pair_programming = 0
-
-" vim-ruby highlight operators
-let ruby_operators = 1
-
-" Namespace FZF commands
-let g:fzf_command_prefix = 'Fzf'
-
-" Neomake
-let g:neomake_ruby_enabled_makers = ['mri']
-let g:neomake_open_list = 0
-
-" Ack.vim style quickfix mappings
-let g:qf_mapping_ack_style = 1
-
-" AutoPairs binds to Meta by default for whatever reason, we don't want that
-" on OSX
-let g:AutoPairsShortcutFastWrap = '<C-e>'
-
-" Don't update as I type
-let g:gitgutter_realtime = 0
-
-let g:gitgutter_grep_command = 'grep --color=never -e'
-
-" Yup, perf again
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-let g:racer_cmd = "racer"
-let $RUST_SRC_PATH=glob("~/rust/src/")
-
-let g:grepper = {
-  \ 'quickfix': 1,
-  \ 'open': 1,
-  \ 'switch': 1,
-  \ 'jump': 0,
-  \ 'tools': ['ag'],
-  \ }
-
-" Vim Settings
-let mapleader=" " " Space for leader is so satisfying
-syntax on
-
-call Load(Dotfiles("pairing.vim"))
+call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
 set noshowcmd
@@ -143,8 +110,8 @@ set nocursorline
 " Tabs
 set expandtab
 set smarttab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 
 " File-system
 set autoread
@@ -169,7 +136,6 @@ set ttimeoutlen=50
 " Split opening positions
 set splitright
 set splitbelow
-set fillchars+=vert:\ 
 
 " Screen scrolling behaviour
 set scrolloff=10 " keep cursor relatively centered
@@ -179,27 +145,43 @@ set sidescrolloff=10
 set tags=./.tags;
 
 " Showing invisible characters
-set listchars=tab:»\ ,extends:›,eol:¬,trail:⋅ " textmate
+set listchars=tab:»\ ,extends:›,trail:⋅ " textmate
+set fillchars=stlnc:\-,vert:\|
 set showbreak=›››
 set list
 
 " Command tab-completion
-set wildmenu " command auto-completion
-set wildmode=list:longest,full
+set wildmenu
+set wildmode=list:full,full
+set wildignore=*.o,*.obj,*~,*.pyc,*.so,*.swp,tmp/
+set wildignore+=*.pdf,*.jpg,*.dmg,*.zip,*.png,*.gif,*DS_Store*
+
+set virtualedit=block
 
 set complete+=kspell
-set hidden
-
 set completeopt=menu,menuone " Don't show scratch window
 
+set hidden
 set switchbuf=useopen
+
 set updatetime=750
+set lazyredraw
+
+set guifont=Fira\ Code\ Retina
+"
+" Set fold info
+set foldmethod=indent
+set foldminlines=0
+set foldlevel=1
+set foldnestmax=2
+set foldopen+=jump
+nmap <CR> za
 
 " statusline
 if !PluginLoaded('vim-airline')
   " show which mode we're in
   set showmode
-  call Load(Dotfiles("statusline.vim"))
+  call Load(Vimfiles("statusline.vim"))
 endif
 
 if has("persistent_undo")
@@ -209,26 +191,68 @@ if has("persistent_undo")
   set undofile
 endif
 
-" Set fold info
-set foldmethod=indent
-set foldminlines=0
-set foldlevel=1
-set foldnestmax=2
-nmap <CR> za
+" PLUGINS
+
+" vim-ruby highlight operators
+let ruby_operators    = 1
+let ruby_no_expensive = 1
+
+" Namespace FZF commands
+let g:fzf_command_prefix = 'Fzf'
+
+" Neomake
+let g:neomake_ruby_enabled_makers = ['mri']
+let g:neomake_open_list           = 0
+
+" Ack.vim style quickfix mappings
+let g:qf_mapping_ack_style = 1
+
+" AutoPairs binds to Meta by default for whatever reason, we don't want that
+" on OSX
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+
+" Don't update as I type
+let g:gitgutter_realtime = 0
+
+" Yup, perf again
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Undotree
+let g:undotree_WindowLayout = 2
+let g:undotree_SplitWidth   = 35
+
+let g:racer_cmd = "racer"
+let $RUST_SRC_PATH=glob("~/rust/src/")
+
+let g:grepper = {
+  \ 'quickfix': 1,
+  \ 'open': 1,
+  \ 'switch': 1,
+  \ 'jump': 0,
+  \ 'tools': ['ag'],
+  \ }
+
+" MAPPINGS
 
 " god who uses this
-map q: :q
 nnoremap Q <NOP>
 
 " Fingers are already there...
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
 
+" Readline-style key bindings in command-line (excerpt from rsi.vim)
+cnoremap        <C-A> <Home>
+cnoremap        <C-B> <Left>
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
+cnoremap        <M-b> <S-Left>
+cnoremap        <M-f> <S-Right>
+silent! exe "set <S-Left>=\<Esc>b"
+silent! exe "set <S-Right>=\<Esc>f"
+
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
-
-" Toggle between relative and static numbering
-nnoremap <Leader>nu :call NumberToggle()<CR>
 
 if executable('ag')
   " Integrate with Ag
@@ -252,7 +276,7 @@ if PluginLoaded('vim-operator-user') && PluginLoaded('vim-operator-replace')
 endif
 
 " Undo mappings
-if PluginLoaded('undotree')
+if PluginInstalled('undotree')
   nnoremap <Leader>u :UndotreeToggle<CR>
 endif
 nnoremap <Leader>du :call DeleteUndoFile()<CR>
@@ -275,15 +299,16 @@ if PluginLoaded('vim-plug')
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 endif
 
-command! Reload :so ~/dotfiles/vimrc
-nnoremap <Leader>R :Reload<CR>
-" Edit the vimrc in a split
-command! EV vsplit ~/dotfiles/vimrc
-command! ES split ~/dotfiles/vimrc
+set path=.,**
+nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
+nnoremap <Leader>v :vert sfind *
+nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
 
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf.vim')
-  nnoremap <C-p> :FzfFiles<CR>
+  nnoremap <Leader>f :FzfFiles<CR>
+else
+  nnoremap <Leader>f :find *
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -298,12 +323,6 @@ if PluginLoaded('vim-fugitive')
   nnoremap <Leader>gc :Gcommit<CR>
   nnoremap <Leader>gp :Gpush<CR>
   nnoremap <Leader>gl :Glog<CR>:copen<CR>
-endif
-
-" FZF
-if PluginLoaded('vim-fugitive') && PluginLoaded('fzf.vim')
-  nnoremap <Leader>gf :FzfGitFiles<CR>
-  nnoremap <Leader>gh :FzfBCommits<CR>
 endif
 
 " copy and paste
@@ -379,21 +398,26 @@ nnoremap <Leader>ri :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 xnoremap > >gv
 xnoremap < <gv
 
-" For when we're without a fuzzy finder
-nnoremap <Leader>f :find *
-nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
-nnoremap <Leader>v :vert sfind *
-nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
+" Make n always forward, N always backwards
+nnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <expr> N 'nN'[v:searchforward]
+
+" Death to arrow keys
+cnoremap <c-n>  <down>
+cnoremap <c-p>  <up>
+
+" Move lines up/down
+nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+
+" Add empty lines
+nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+
+" COMMANDS
 
 " Debug colours
 command! SS echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-
-function! DiffFunc()
-  execute "GitGutterLineHighlightsToggle"
-  execute "QuickScopeToggle"
-endfunction
-
-command! Diff :call DiffFunc()
 
 " Because shift is hard to let go of okay
 command! Wq wq
@@ -401,9 +425,20 @@ command! WQ wq
 command! W w
 command! Q q
 
+command! Reload :so ~/dotfiles/vimfiles/vimrc
+command! EV vsplit ~/dotfiles/vimfiles/vimrc
+command! ES split ~/dotfiles/vimfiles/vimrc
+
+" AUTOCOMMANDS
+
 augroup FixCRQuickfix
   autocmd!
   autocmd FileType qf nnoremap <buffer> <CR> <CR>
+
+  " For some reason the `q:` command history window has &ft == 'vim'??
+  " Disabling folds in .vim files accordingly
+  autocmd FileType vim nnoremap <buffer> <CR> <CR>
+  autocmd FileType vim setlocal nofoldenable
 augroup END
 
 augroup FileTypeSettings
@@ -446,6 +481,18 @@ augroup RubyMarks
   autocmd BufLeave specs/*spec.rb normal! mS
 augroup END
 
+function! Help()
+  if &buftype == 'help'
+    wincmd T
+    nnoremap <buffer> q :q<CR>
+  endif
+endfunction
+
+augroup VimHelp
+  autocmd!
+  autocmd BufEnter *.txt call Help()
+augroup END
+
 if PluginLoaded('vim-dirvish')
   augroup Dirvish
     autocmd!
@@ -459,8 +506,17 @@ if PluginLoaded('vim-dirvish')
   augroup END
 endif
 
-call Load(Dotfiles("colors.vim"))
-call Load(Dotfiles("neo.vim"))
-call Load(Dotfiles("mac.vim"))
+" EXTRA VIMFILES
+
+call Load(Vimfiles("colors.vim"))
+
+if has('nvim')
+  call Load(Vimfiles("neo.vim"))
+end
+
+if has('mac')
+  call Load(Vimfiles("mac.vim"))
+endif
+
 call Load("~/.vimrc.local")
 

@@ -26,13 +26,13 @@ vim: vimlinks vimdeps
 neovim: vimdeps
 	rm -rf $(HOME)/nvim
 	mkdir -p $(HOME)/nvim
-	ln -sf $(ROOT_DIR)/vimrc $(HOME)/nvim/init.vim
+	ln -sf $(ROOT_DIR)/vimfiles/vimrc $(HOME)/nvim/init.vim
+	ln -sf $(HOME)/nvim/ $(HOME)/.config/nvim
 	curl -fLo $(HOME)/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	ln -sf $(HOME)/nvim/plugged/differ/annotate-differ /usr/local/bin/annotate-differ
 	nvim -c PlugInstall -c quitall
 
 vimlinks:
-	ln -sf $(ROOT_DIR)/vimrc $(HOME)/.vimrc
+	ln -sf $(ROOT_DIR)/vimfiles/vimrc $(HOME)/.vimrc
 
 tmux:
 	brew uninstall tmux
@@ -40,8 +40,8 @@ tmux:
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
 git:
-	ln -sf $(ROOT_DIR)/gitconfig $(HOME)/.gitconfig
-	ln -sf $(ROOT_DIR)/gitignore $(HOME)/.gitignore
+	ln -sf $(ROOT_DIR)/gitfiles/gitconfig $(HOME)/.gitconfig
+	ln -sf $(ROOT_DIR)/gitfiles/gitignore $(HOME)/.gitignore
 
 ghc:
 	ln -sf $(ROOT_DIR)/ghci $(HOME)/.ghci

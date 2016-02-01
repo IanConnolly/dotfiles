@@ -14,6 +14,8 @@ if has('nvim')
           \ }
   let g:neomake_rust_enabled_makers = ['cargo']
 
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+
   " don't want to do autocmd unless its async
   if PluginLoaded('neomake')
     augroup Neomake
@@ -25,7 +27,7 @@ if has('nvim')
 
   augroup Terminal
     autocmd!
-    autocmd TermOpen * setlocal nolist nospell
+    autocmd TermOpen * setlocal nolist nospell noshowmode
   augroup END
 
   " set colors

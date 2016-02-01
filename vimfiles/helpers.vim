@@ -4,12 +4,12 @@ function! Load(path)
   endif
 endfunction
 
-function! Dotfiles(file)
-  if exists("g:dotfiles_path")
-    return g:dotfiles_path . a:file
+function! Vimfiles(file)
+  if exists("g:vimfiles_path")
+    return g:vimfiles_path . a:file
   endif
 
-  return "~/dotfiles/" . a:file
+  return "~/dotfiles/vimfiles/" . a:file
 endfunction
 
 function! PluginLoaded(plugin)
@@ -20,10 +20,14 @@ function! PluginLoaded(plugin)
       return exists("$HOME/.vim/autoload/plug.vim")
     end
   elseif PluginLoaded('vim-plug')
-    return has_key(g:plugs, a:plugin) && isdirectory(PluginDirectory(a:plugin))
+    return has_key(g:plugs, a:plugin) && PluginInstalled(a:plugin)
   else
-    return &rtp =~ a:plugin && isdirectory(PluginDirectory(a:plugin))
+    return &rtp =~ a:plugin && PluginInstalled(a:plugin)
   endif
+endfunction
+
+function! PluginInstalled(plugin)
+  return isdirectory(glob(g:plugin_path . '/' . a:plugin))
 endfunction
 
 function! PluginDirectory(plugin)
@@ -36,18 +40,6 @@ function! PluginDirectory(plugin)
   endfor
 
   return ""
-endfunction
-
-function! NumberToggle()
-  if (&relativenumber == 1)
-    set nocursorline
-    set norelativenumber
-    set number
-  else
-    set nonumber
-    set relativenumber
-    set cursorline
-  endif
 endfunction
 
 " Trim trailing whitespace
