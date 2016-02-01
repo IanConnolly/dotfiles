@@ -132,7 +132,6 @@ set ttimeoutlen=50
 " Split opening positions
 set splitright
 set splitbelow
-set fillchars+=vert:\ 
 
 " Screen scrolling behaviour
 set scrolloff=10 " keep cursor relatively centered
@@ -142,12 +141,13 @@ set sidescrolloff=10
 set tags=./.tags;
 
 " Showing invisible characters
-set listchars=tab:»\ ,extends:›,eol:¬,trail:⋅ " textmate
+set listchars=tab:»\ ,extends:›,trail:⋅ " textmate
+set fillchars=stlnc:\-,vert:\|
 set showbreak=›››
 set list
 
 " Command tab-completion
-set wildmenu " command auto-completion
+set wildmenu
 set wildmode=list:full,full
 set wildignore=*.o,*.obj,*~,*.pyc,*.so,*.swp,tmp/
 set wildignore+=*.pdf,*.jpg,*.dmg,*.zip,*.png,*.gif,*DS_Store*
