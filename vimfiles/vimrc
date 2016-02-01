@@ -14,7 +14,6 @@ Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
 Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                         " GNU line/column format!
-Plug 'tpope/vim-rsi'                               " Readline mappings in command-line mode
 
 " Searching related
 Plug 'mhinz/vim-grepper'                           " Async grepprg
@@ -237,6 +236,16 @@ nnoremap Q <NOP>
 " Fingers are already there...
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
+
+" Readline-style key bindings in command-line (excerpt from rsi.vim)
+cnoremap        <C-A> <Home>
+cnoremap        <C-B> <Left>
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
+cnoremap        <M-b> <S-Left>
+cnoremap        <M-f> <S-Right>
+silent! exe "set <S-Left>=\<Esc>b"
+silent! exe "set <S-Right>=\<Esc>f"
 
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
