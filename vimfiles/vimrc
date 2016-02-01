@@ -15,6 +15,9 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
 Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                         " GNU line/column format!
 
+" Improved /-search
+Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique'
+
 " Searching related
 Plug 'mhinz/vim-grepper'                           " Async grepprg
 Plug 'romainl/vim-qf'                              " Tame quickfix
@@ -24,7 +27,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'juneg
 " External integrations
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'                             " Helpful rails related shortcuts
-Plug 'tpope/vim-fugitive'                          " Git command wrappers
+
+" Git command wrappers
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 
 " Built-in improvement
 Plug 'unblevable/quick-scope'                      " highlight in-line f/F/t/T motions
