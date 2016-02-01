@@ -14,6 +14,7 @@ Plug 'justinmk/vim-dirvish'                        " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " View undo history as tree
 Plug 'mhinz/vim-sayonara'                          " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                         " GNU line/column format!
+Plug 'tpope/vim-rsi'                               " Readline mappings in command-line mode
 
 " Searching related
 Plug 'mhinz/vim-grepper'                           " Async grepprg
@@ -24,7 +25,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'juneg
 " External integrations
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'                             " Helpful rails related shortcuts
-Plug 'tpope/vim-rake'                              " The general ruby bits of vim-rails
 Plug 'tpope/vim-fugitive'                          " Git command wrappers
 
 " Built-in improvement
