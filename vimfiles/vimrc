@@ -230,7 +230,6 @@ let g:grepper = {
 " MAPPINGS
 
 " god who uses this
-map q: :q
 nnoremap Q <NOP>
 
 " Fingers are already there...
@@ -430,6 +429,11 @@ command! ES split ~/dotfiles/vimfiles/vimrc
 augroup FixCRQuickfix
   autocmd!
   autocmd FileType qf nnoremap <buffer> <CR> <CR>
+
+  " For some reason the `q:` command history window has &ft == 'vim'??
+  " Disabling folds in .vim files accordingly
+  autocmd FileType vim nnoremap <buffer> <CR> <CR>
+  autocmd FileType vim setlocal nofoldenable
 augroup END
 
 augroup FileTypeSettings
@@ -470,6 +474,18 @@ augroup RubyMarks
   autocmd BufLeave app/controllers/*.rb normal! mC
   autocmd BufLeave app/views/*.rb normal! mV
   autocmd BufLeave specs/*spec.rb normal! mS
+augroup END
+
+function! Help()
+  if &buftype == 'help'
+    wincmd T
+    nnoremap <buffer> q :q<CR>
+  endif
+endfunction
+
+augroup VimHelp
+  autocmd!
+  autocmd BufEnter *.txt call Help()
 augroup END
 
 if PluginLoaded('vim-dirvish')
