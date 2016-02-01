@@ -81,14 +81,13 @@ filetype plugin indent on
 if filereadable(glob("~/dotfiles/vimfiles/helpers.vim"))
   source ~/dotfiles/vimfiles/helpers.vim
 endif
-"
-" Make vim friendlier for pairing if needed
-let g:pair_programming = 0
 
 " Vim Settings
 let mapleader="\<Space>" " Space for leader is so satisfying
 syntax on
 
+" Make vim friendlier for pairing if needed
+let g:pair_programming = 0
 call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
