@@ -479,7 +479,10 @@ endif
 " EXTRA VIMFILES
 
 call Load(Vimfiles("colors.vim"))
-call Load(Vimfiles("neo.vim"))
+
+if has('nvim')
+  call Load(Vimfiles("neo.vim"))
+end
 
 if has('mac')
   call Load(Vimfiles("mac.vim"))
