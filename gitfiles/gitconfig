@@ -43,3 +43,4 @@
     default = simple
 [core]
     excludesfile = /Users/ian/.gitignore
+	quotepath = false

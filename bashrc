@@ -44,6 +44,17 @@ set_prompt () {
 }
 PROMPT_COMMAND='set_prompt'
 
+shopt -s checkwinsize
+shopt -s histappend
+shopt -s cmdhist
+
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history"
+HISTTIMEFORMAT='%F %T '
+HISTCONTROL="erasedups:ignoreboth"
+HISTSIZE=500000
+HISTFILESIZE=100000
+
+
 export PATH="$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 # Neovim setup
