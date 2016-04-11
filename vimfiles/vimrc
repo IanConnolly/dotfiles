@@ -357,15 +357,6 @@ nnoremap <Leader>b :ls<cr>:b<space>
 " More logical
 map Y y$
 
-" Use matchit more (unbinds <C-i> as they're the same key)
-nmap <Tab> %
-xmap <Tab> %
-
-" Be able to jump 'in' jumplist after remap ^
-nnoremap <Leader>i <C-i>
-" Bind <C-o> for symmetry
-nnoremap <Leader>o <C-o>
-
 " Move up and down visual lines, not real (but not when given a count)
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
