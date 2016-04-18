@@ -10,6 +10,19 @@ function! RightSep()
   return '%1* « %0*'
 endfunction
 
+function! BranchSection()
+  let bs = ''
+
+  if exists('*fugitive#head')
+    let head = fugitive#head()
+
+    if !empty(head)
+      let bs .=  '%0* @ ' . head
+    endif
+  endif
+  return bs
+endfunction
+
 function! FileModes()
   let fm = '%2*'
 
@@ -42,7 +55,8 @@ function! LeftSide()
   let ls = ''
   let ls.= NumberSection()
   let ls.= LeftSep()
-  let ls.= '%f' " file name
+  let ls.= '%t' " file name
+  let ls.= BranchSection()
   let ls.= RightSep()
   let ls.= FileModes()
 
@@ -77,13 +91,7 @@ function! RightSide()
     let rs .= " "
   endif
 
-  if exists('*fugitive#head')
-    let head = fugitive#head()
-
-    if !empty(head)
-      let rs .= '%1* ' . "" . '%0* ' . head . ' '
-    endif
-  endif
+  let rs.= VisualPercent()
 
   return rs
 endfunction

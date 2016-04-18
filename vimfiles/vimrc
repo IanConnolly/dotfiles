@@ -71,6 +71,7 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'cespare/vim-toml'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'naddeoa/vim-visual-page-percent'
 
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
