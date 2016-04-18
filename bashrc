@@ -55,7 +55,7 @@ HISTSIZE=500000
 HISTFILESIZE=100000
 
 
-export PATH="$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 # Neovim setup
 export NVIM_TUI_ENABLE_TRUE_COLOR=1

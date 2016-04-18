@@ -8,6 +8,7 @@ set background=dark
 
 if PluginLoaded('gruvbox')
   let g:gruvbox_contrast_dark = 'hard'
+  let g:gruvbox_sign_column = "dark0"
   colorscheme gruvbox
 else
   colorscheme desert

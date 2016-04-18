@@ -17,8 +17,6 @@ Plug 'kopischke/vim-fetch'                                  " GNU line/column fo
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
-Plug 'romainl/vim-qf'                                       " Tame quickfix
-Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique' " Improved /-search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
 
 " External integrations
@@ -27,8 +25,11 @@ Plug 'tpope/vim-rails'                                      " Helpful rails rela
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'          " Git command wrappers
 
 " Built-in improvement
-Plug 'unblevable/quick-scope'                               " highlight in-line f/F/t/T motions
 Plug 'Konfekt/FastFold'                                     " Only update folds when necessary
+Plug 'Shougo/deoplete.nvim'                                 " Deoplete
+Plug 'romainl/vim-qf'                                       " Tame quickfix
+Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique' " Improved /-search
+Plug 'Shougo/echodoc.vim', { 'for': 'rust' }
 
 " Tmux
 if executable('tmux')
@@ -40,7 +41,6 @@ endif
 Plug 'benekastah/neomake'                                   " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                                 " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
-Plug 'IanConnolly/VimCompletesMe'                           " Super lightweight smart-tab for ins-completion
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'                                   " Easily deal with surrounding quotes
@@ -218,8 +218,25 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:undotree_WindowLayout = 2
 let g:undotree_SplitWidth   = 35
 
+" EchoDoc
+set cmdheight=2
+let g:echodoc_enable_at_startup = 1
+
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#max_menu_width = 40
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['buffer']
+let g:deoplete#sources.rust = ['buffer', 'racer']
+call deoplete#custom#set('_', 'converters',
+        \ ['converter_remove_paren'])
 let g:racer_cmd = "racer"
-let $RUST_SRC_PATH=glob("~/rust/src/")
+let $RUST_SRC_PATH = glob("~/rust/src/")
+inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ deoplete#mappings#manual_complete()
+
 
 let g:grepper = {
   \ 'quickfix': 1,
@@ -440,7 +457,7 @@ augroup FileTypeSettings
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
-  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo nofoldenable
   autocmd FileType yaml setlocal ts=2 sw=2 expandtab
 
   " Who uses modula2???
