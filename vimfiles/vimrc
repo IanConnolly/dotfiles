@@ -14,6 +14,7 @@ Plug 'justinmk/vim-dirvish'                                 " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }          " View undo history as tree
 Plug 'mhinz/vim-sayonara'                                   " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                                  " GNU line/column format!
+Plug 'junegunn/vim-peekaboo'
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
@@ -24,12 +25,9 @@ Plug 'airblade/vim-gitgutter'                               " Git symbols in gut
 Plug 'tpope/vim-rails'                                      " Helpful rails related shortcuts
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'          " Git command wrappers
 
-" Built-in improvement
-Plug 'Konfekt/FastFold'                                     " Only update folds when necessary
-Plug 'Shougo/deoplete.nvim'                                 " Deoplete
+" built-in improvement
 Plug 'romainl/vim-qf'                                       " Tame quickfix
 Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique' " Improved /-search
-Plug 'Shougo/echodoc.vim', { 'for': 'rust' }
 
 " Tmux
 if executable('tmux')
@@ -41,6 +39,11 @@ endif
 Plug 'benekastah/neomake'                                   " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                                 " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim'
+else
+  Plug 'IanConnolly/VimCompletesMe'
+endif
 
 " Movement/Text-alteration
 Plug 'tpope/vim-surround'                                   " Easily deal with surrounding quotes
@@ -48,14 +51,19 @@ Plug 'tpope/vim-commentary'                                 " Comment/uncomment 
 Plug 'tpope/vim-unimpaired'                                 " Collection of paired commands
 Plug 'tpope/vim-repeat'                                     " repeat surround/comment/unimpaired actions
 Plug 'tommcdo/vim-lion'                                     " Alignment motion
+Plug 'AndrewRadev/splitjoin.vim'                            " SplitJoin
 
 " New text objs
 Plug 'wellle/targets.vim'
-Plug 'kana/vim-textobj-user' | Plug 'tek/vim-textobj-ruby' | Plug 'gaving/vim-textobj-argument'
+Plug 'coderifous/textobj-word-column.vim'
 
 " Replace-from-register operator (eg. "0riw == replace inner word with content
 " from register 0)
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
+
+" todo-list/snippets
+Plug 'junegunn/vim-journal'
+Plug 'vitalk/vim-simple-todo'
 
 " Colors
 Plug 'IanConnolly/gruvbox'                                  " gruvbox fork for ruby
@@ -71,8 +79,6 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'cespare/vim-toml'
 Plug 'tmux-plugins/vim-tmux'
-Plug 'naddeoa/vim-visual-page-percent'
-
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 call plug#end()
@@ -93,7 +99,8 @@ call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
 set noshowcmd
-set laststatus=2
+set laststatus=0
+set noruler
 
 " Text-y stuff
 set shiftround " 'h' and 'l' will wrap around lines
@@ -145,7 +152,6 @@ set tags=./.tags;
 set listchars=tab:»\ ,extends:›,trail:⋅ " textmate
 set fillchars=stlnc:\-,vert:\|
 set showbreak=›››
-set list
 
 " Command tab-completion
 set wildmenu
@@ -165,21 +171,6 @@ set updatetime=750
 set lazyredraw
 
 set guifont=Fira\ Code\ Retina
-"
-" Set fold info
-set foldmethod=indent
-set foldminlines=0
-set foldlevel=1
-set foldnestmax=2
-set foldopen+=jump
-nmap <CR> za
-
-" statusline
-if !PluginLoaded('vim-airline')
-  " show which mode we're in
-  set showmode
-  call Load(Vimfiles("statusline.vim"))
-endif
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -209,23 +200,33 @@ let g:qf_mapping_ack_style = 1
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " Don't update as I type
-let g:gitgutter_realtime = 0
+let g:gitgutter_realtime           = 0
+let g:gitgutter_eager              = 0
+let g:gitgutter_sign_column_always = 1
 
 " Yup, perf again
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " Undotree
-let g:undotree_WindowLayout = 2
-let g:undotree_SplitWidth   = 35
+let g:undotree_WindowLayout       = 4
+let g:undotree_SplitWidth         = 35
+let g:undotree_SetFocusWhenToggle = 1
 
-" EchoDoc
-set cmdheight=2
-let g:echodoc_enable_at_startup = 1
+function! g:Undotree_CustomMap()
+  nmap <buffer> K <plug>UndotreeGoNextState
+  nmap <buffer> J <plug>UndotreeGoPreviousState
+  nmap <buffer> q <plug>UndotreeClose
+endfunction
+
+" Peekaboo
+let g:peekaboo_window = 'vertical botright 30new'
+let g:peekaboo_compact = 1"
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
-let g:deoplete#max_menu_width = 40
+let g:deoplete#max_menu_width = 60
+let g:deoplete#max_abbr_width = 150
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['buffer']
 let g:deoplete#sources.rust = ['buffer', 'racer']
@@ -235,8 +236,7 @@ let g:racer_cmd = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
 inoremap <silent><expr> <Tab>
     \ pumvisible() ? "\<C-n>" :
-    \ deoplete#mappings#manual_complete()
-
+    \ "\<Tab>"
 
 let g:grepper = {
   \ 'quickfix': 1,
@@ -245,6 +245,9 @@ let g:grepper = {
   \ 'jump': 0,
   \ 'tools': ['ag'],
   \ }
+
+" Journal/todo
+let g:simple_todo_map_keys = 0
 
 " MAPPINGS
 
@@ -277,12 +280,19 @@ if executable('ag')
     nmap gs  <plug>(GrepperOperator)
     xmap gs  <plug>(GrepperOperator)
 
-    nnoremap <Leader>s :Grepper -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+    nnoremap <Leader>s :Grepper -noswitch -tool ag -cword -noprompt<CR>
     nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args>
-    command! Grep Grepper -tool ag
-    command! GRep Grep
   endif
+endif
+
+if PluginLoaded('vim-surround')
+  " The 'y' mnemonic doesn't really make much sense
+  " and we can use the default `s` bind with `cl`
+  nmap s  <Plug>Ysurround
+  nmap S  <Plug>YSurround
+  nmap ss <Plug>Yssurround
+  nmap SS <Plug>YSsurround
 endif
 
 if PluginLoaded('vim-operator-user') && PluginLoaded('vim-operator-replace')
@@ -320,9 +330,9 @@ nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
 
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf.vim')
-  nnoremap <Leader>f :FzfFiles<CR>
+  nnoremap <Leader>fa :FzfFiles<CR>
 else
-  nnoremap <Leader>f :find *
+  nnoremap <Leader>fa :find *
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -349,15 +359,6 @@ if PluginLoaded('neomake')
   nnoremap <Leader>e :Neomake<CR>:lopen<CR>
 endif
 
-if PluginLoaded('vim-surround')
-  " The 'y' mnemonic doesn't really make much sense
-  " and we can use the default `s` bind with `cl`
-  nmap s  <Plug>Ysurround
-  nmap S  <Plug>YSurround
-  nmap ss <Plug>Yssurround
-  nmap SS <Plug>YSsurround
-endif
-
 if PluginLoaded('fzf.vim')
   " For fuzzy finding thru buffers
   nnoremap <Leader><Tab> :FzfBuffers<CR>
@@ -374,10 +375,6 @@ nnoremap <Leader>b :ls<cr>:b<space>
 
 " More logical
 map Y y$
-
-" Move up and down visual lines, not real (but not when given a count)
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Select last edited/pasted text
 nnoremap gV `[v`]
@@ -431,20 +428,13 @@ command! W w
 command! Q q
 
 command! Reload :so ~/dotfiles/vimfiles/vimrc
+command! EC edit ~/dotfiles/vimfiles/vimrc
 command! EV vsplit ~/dotfiles/vimfiles/vimrc
 command! ES split ~/dotfiles/vimfiles/vimrc
+command! Todo edit ~/.todo
+command! Snip edit ~/.snippets
 
 " AUTOCOMMANDS
-
-augroup FixCRQuickfix
-  autocmd!
-  autocmd FileType qf nnoremap <buffer> <CR> <CR>
-
-  " For some reason the `q:` command history window has &ft == 'vim'??
-  " Disabling folds in .vim files accordingly
-  autocmd FileType vim nnoremap <buffer> <CR> <CR>
-  autocmd FileType vim setlocal nofoldenable
-augroup END
 
 augroup FileTypeSettings
   autocmd!
@@ -457,25 +447,38 @@ augroup FileTypeSettings
   autocmd FileType coffee setlocal ts=2 sw=2 expandtab
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   autocmd FileType go setlocal ts=2 sw=2 noexpandtab
-  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo nofoldenable
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab makeprg=cargo
   autocmd FileType yaml setlocal ts=2 sw=2 expandtab
 
   " Who uses modula2???
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
   autocmd BufNewFile,BufRead *.q set filetype=sql " Hive
-
   autocmd BufNewFile,BufRead Fastfile,Appfile,Scanfile,Deliverfile set filetype=ruby
+
+  autocmd BufNewFile,BufRead *todo,*snippets set filetype=journal
+
+  autocmd BufNewFile,BufRead *todo setlocal spell nonumber
+  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>to
+      \ <Plug>(simple-todo-below)
+  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tn
+      \ <Plug>(simple-todo-new)
+  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tc
+      \ <Plug>(simple-todo-mark-as-done)
+  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tx
+      \ <Plug>(simple-todo-mark-as-undone)
+
+  autocmd BufNewFile,BufRead *snippets nnoremap <buffer> <Leader>jr
+      \ o```ruby<CR>```<Esc>O<Tab>
+  autocmd BufNewFile,BufRead *snippets nnoremap <buffer> <Leader>js
+      \ o```sql<CR>```<Esc>O<Tab>
+
+  autocmd CursorHold,CursorHoldI *todo,*snippets silent write
 
   " spell check git commit messages and markdown files
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
-augroup END
-
-augroup FixConcernFoldingRuby
-  autocmd!
-  autocmd BufRead,BufNewFile */concerns/* setlocal foldnestmax=3
 augroup END
 
 augroup RubyMarks
