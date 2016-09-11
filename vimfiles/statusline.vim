@@ -91,8 +91,6 @@ function! RightSide()
     let rs .= " "
   endif
 
-  let rs.= VisualPercent()
-
   return rs
 endfunction
 

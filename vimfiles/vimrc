@@ -1,3 +1,6 @@
+set termguicolors
+:let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
 filetype off
 runtime macros/matchit.vim
 
@@ -14,11 +17,16 @@ Plug 'justinmk/vim-dirvish'                                 " Dirvish > netrw
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }          " View undo history as tree
 Plug 'mhinz/vim-sayonara'                                   " Sanely quit buffers/windows etc.
 Plug 'kopischke/vim-fetch'                                  " GNU line/column format!
-Plug 'junegunn/vim-peekaboo'
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } | Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'FelikZ/ctrlp-py-matcher'
+
+" GUI-only plugins
+if has('gui')
+  Plug 'vim-airline/vim-airline'
+  Plug 'mhinz/vim-startify'
+end
 
 " External integrations
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
@@ -27,7 +35,7 @@ Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'          " Git command wrappe
 
 " built-in improvement
 Plug 'romainl/vim-qf'                                       " Tame quickfix
-Plug 'junegunn/vim-pseudocl' |  Plug 'junegunn/vim-oblique' " Improved /-search
+Plug 'IanConnolly/VimCompletesMe'
 
 " Tmux
 if executable('tmux')
@@ -39,13 +47,9 @@ endif
 Plug 'benekastah/neomake'                                   " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                                 " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-else
-  Plug 'IanConnolly/VimCompletesMe'
-endif
 
 " Movement/Text-alteration
+Plug 'justinmk/vim-sneak'                                   " 2 character jump motion
 Plug 'tpope/vim-surround'                                   " Easily deal with surrounding quotes
 Plug 'tpope/vim-commentary'                                 " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'                                 " Collection of paired commands
@@ -66,7 +70,7 @@ Plug 'junegunn/vim-journal'
 Plug 'vitalk/vim-simple-todo'
 
 " Colors
-Plug 'IanConnolly/gruvbox'                                  " gruvbox fork for ruby
+Plug 'IanConnolly/gruvbox'
 
 " Daily work languages
 Plug 'kchmck/vim-coffee-script'
@@ -99,7 +103,7 @@ call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
 set noshowcmd
-set laststatus=0
+set laststatus=2
 set noruler
 
 " Text-y stuff
@@ -108,8 +112,8 @@ set whichwrap+=<,>,h,l
 
 " Line/line number
 set number
-set norelativenumber
-set nocursorline
+set relativenumber
+set cursorline
 
 " Tabs
 set expandtab
@@ -170,7 +174,10 @@ set switchbuf=useopen
 set updatetime=750
 set lazyredraw
 
-set guifont=Fira\ Code\ Retina
+set guifont=Fantasque\ Sans\ Mono:h14
+set guioptions-=r
+set guioptions-=e
+set guioptions-=L
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -185,12 +192,13 @@ endif
 let ruby_operators    = 1
 let ruby_no_expensive = 1
 
-" Namespace FZF commands
-let g:fzf_command_prefix = 'Fzf'
-
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
 let g:neomake_open_list           = 0
+let g:neomake_error_sign = {'text': '!', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '?', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
@@ -218,26 +226,23 @@ function! g:Undotree_CustomMap()
   nmap <buffer> q <plug>UndotreeClose
 endfunction
 
-" Peekaboo
-let g:peekaboo_window = 'vertical botright 30new'
-let g:peekaboo_compact = 1"
-
 " Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#max_menu_width = 60
-let g:deoplete#max_abbr_width = 150
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer']
-let g:deoplete#sources.rust = ['buffer', 'racer']
-call deoplete#custom#set('_', 'converters',
-        \ ['converter_remove_paren'])
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_smart_case = 1
+" let g:deoplete#max_menu_width = 60
+" let g:deoplete#max_abbr_width = 150
+" let g:deoplete#sources = {}
+" let g:deoplete#sources._ = ['buffer']
+" let g:deoplete#sources.rust = ['buffer', 'racer']
+" call deoplete#custom#set('_', 'converters',
+"         \ ['converter_remove_paren'])
+"
+
+" Racer
 let g:racer_cmd = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
-inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ "\<Tab>"
 
+" Grepper
 let g:grepper = {
   \ 'quickfix': 1,
   \ 'open': 1,
@@ -249,6 +254,30 @@ let g:grepper = {
 " Journal/todo
 let g:simple_todo_map_keys = 0
 
+" CtrlP
+let g:ctrlp_user_command = {
+      \ 'types': {
+      \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
+      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+      \ },
+      \ 'fallback': 'ag %s -l --nocolor -g ""'
+      \ }
+"
+let g:ctrlp_map = ''
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
+let g:ctrlp_prompt_mappings = {
+    \ 'PrtSelectMove("j")':   ['<c-j>', '<c-n>'],
+    \ 'PrtSelectMove("k")':   ['<c-k>', '<c-p>'],
+    \ 'PrtHistory(-1)':       ['<down>'],
+    \ 'PrtHistory(1)':        ['<up>'],
+    \ }
+let g:ctrlp_use_caching = 0
+
+" Airline
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_extensions = ['branch', 'whitespace', 'wordcount', 'hunks', 'ctrlp', 'neomake']
+
 " MAPPINGS
 
 " god who uses this
@@ -257,6 +286,8 @@ nnoremap Q <NOP>
 " Fingers are already there...
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
+vnoremap <C-j> <C-d>
+vnoremap <C-k> <C-u>
 
 " Readline-style key bindings in command-line (excerpt from rsi.vim)
 cnoremap        <C-A> <Home>
@@ -282,18 +313,13 @@ if executable('ag')
 
     nnoremap <Leader>s :Grepper -noswitch -tool ag -cword -noprompt<CR>
     nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
-    command! -nargs=* Ag Grepper -tool ag -query <args>
+    command! -nargs=* Ag Grepper -tool ag -query <args><CR>
   endif
 endif
 
-if PluginLoaded('vim-surround')
-  " The 'y' mnemonic doesn't really make much sense
-  " and we can use the default `s` bind with `cl`
-  nmap s  <Plug>Ysurround
-  nmap S  <Plug>YSurround
-  nmap ss <Plug>Yssurround
-  nmap SS <Plug>YSsurround
-endif
+" SplitJoin Bindings
+nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
+nnoremap <silent> S :<C-u>call TryWithDefault('SplitjoinSplit', "r\015")<CR>
 
 if PluginLoaded('vim-operator-user') && PluginLoaded('vim-operator-replace')
   map r <Plug>(operator-replace)
@@ -303,7 +329,6 @@ endif
 if PluginInstalled('undotree')
   nnoremap <Leader>u :UndotreeToggle<CR>
 endif
-nnoremap <Leader>du :call DeleteUndoFile()<CR>
 
 " Use Sayonara for quitting
 if PluginLoaded('vim-sayonara')
@@ -329,8 +354,8 @@ nnoremap <Leader>v :vert sfind *
 nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
 
 " no need for this to be mac only; can compile from source
-if PluginLoaded('fzf.vim')
-  nnoremap <Leader>fa :FzfFiles<CR>
+if PluginLoaded('ctrlp.vim')
+  nnoremap <Leader>fa :CtrlP<CR>
 else
   nnoremap <Leader>fa :find *
 endif
@@ -347,10 +372,12 @@ if PluginLoaded('vim-fugitive')
   nnoremap <Leader>gc :Gcommit<CR>
   nnoremap <Leader>gp :Gpush<CR>
   nnoremap <Leader>gl :Glog<CR>:copen<CR>
+  nnoremap <Leader>gv :GV!<CR>
+  vnoremap <Leader>gv :GV!<CR>
 endif
 
-" copy and paste
-xnoremap <Leader>c "*y
+" yank and paste from clipboard
+xnoremap <Leader>y "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
@@ -359,12 +386,9 @@ if PluginLoaded('neomake')
   nnoremap <Leader>e :Neomake<CR>:lopen<CR>
 endif
 
-if PluginLoaded('fzf.vim')
+if PluginLoaded('ctrlp.vim')
   " For fuzzy finding thru buffers
-  nnoremap <Leader><Tab> :FzfBuffers<CR>
-  " fuzzy tags
-  nnoremap <Leader>tb :FzfBTags<CR>
-  nnoremap <Leader>ta :FzfTags<CR>
+  nnoremap <Leader><Tab> :CtrlPBuffer<CR>
 endif
 
 " Switch to last active buffer

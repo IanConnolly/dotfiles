@@ -39,6 +39,7 @@
     filelog = log -u
     open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
     branches = "!f() { fbr; };f"
+    mrc = branch --sort=-committerdate
 [push]
     default = simple
 [core]
