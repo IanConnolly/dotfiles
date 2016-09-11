@@ -3,7 +3,7 @@ parse_git_branch() {
 }
 
 parse_git_dirty() {
-  if [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]]; then
+  if [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]]; then
     echo '\[\e[01;31m\]\342\234\227'
   else
     echo '\[\e[01;32m\]\342\234\223'
