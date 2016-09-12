@@ -32,6 +32,7 @@ end
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
 Plug 'tpope/vim-rails'                                      " Helpful rails related shortcuts
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'          " Git command wrappers
+Plug 'tpope/vim-eunuch'                                     " Wrappers for UNIX
 
 " built-in improvement
 Plug 'romainl/vim-qf'                                       " Tame quickfix
@@ -174,7 +175,8 @@ set switchbuf=useopen
 set updatetime=750
 set lazyredraw
 
-set guifont=Fantasque\ Sans\ Mono:h14
+set guifont=PragmataPro:h15
+set macligatures
 set guioptions-=r
 set guioptions-=e
 set guioptions-=L
@@ -195,10 +197,10 @@ let ruby_no_expensive = 1
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
 let g:neomake_open_list           = 0
-let g:neomake_error_sign = {'text': '!', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': '?', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_error_sign          = {'text': '!', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign        = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign        = {'text': '?', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign           = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
@@ -211,9 +213,6 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:gitgutter_realtime           = 0
 let g:gitgutter_eager              = 0
 let g:gitgutter_sign_column_always = 1
-
-" Yup, perf again
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " Undotree
 let g:undotree_WindowLayout       = 4
@@ -239,8 +238,9 @@ endfunction
 "
 
 " Racer
-let g:racer_cmd = "racer"
+let g:racer_cmd    = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
+let $CARGO_HOME    = glob("~/cargo")
 
 " Grepper
 let g:grepper = {
@@ -255,27 +255,26 @@ let g:grepper = {
 let g:simple_todo_map_keys = 0
 
 " CtrlP
-let g:ctrlp_user_command = {
+let g:ctrlp_user_command    = {
       \ 'types': {
       \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
       \ 2: ['.hg', 'hg --cwd %s locate -I .'],
       \ },
       \ 'fallback': 'ag %s -l --nocolor -g ""'
       \ }
-"
-let g:ctrlp_map = ''
-let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
+let g:ctrlp_map             = ''
+let g:ctrlp_mruf_exclude    = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("j")':   ['<c-j>', '<c-n>'],
     \ 'PrtSelectMove("k")':   ['<c-k>', '<c-p>'],
     \ 'PrtHistory(-1)':       ['<down>'],
     \ 'PrtHistory(1)':        ['<up>'],
     \ }
-let g:ctrlp_use_caching = 0
+let g:ctrlp_use_caching     = 0
 
 " Airline
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+let g:airline_left_sep   = ''
+let g:airline_right_sep  = ''
 let g:airline_extensions = ['branch', 'whitespace', 'wordcount', 'hunks', 'ctrlp', 'neomake']
 
 " MAPPINGS
