@@ -1,4 +1,3 @@
-set termguicolors
 :let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 filetype off
@@ -20,7 +19,7 @@ Plug 'kopischke/vim-fetch'                                  " GNU line/column fo
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
-Plug 'ctrlpvim/ctrlp.vim' | Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'ctrlpvim/ctrlp.vim', { 'branch': 'asynchronized' } | Plug 'FelikZ/ctrlp-py-matcher'
 
 " GUI-only plugins
 if has('gui')
@@ -36,16 +35,16 @@ Plug 'tpope/vim-eunuch'                                     " Wrappers for UNIX
 
 " built-in improvement
 Plug 'romainl/vim-qf'                                       " Tame quickfix
-Plug 'IanConnolly/VimCompletesMe'
+Plug 'maralla/completor.vim'                                " lightweight autocomplete
 
 " Tmux
-if executable('tmux')
+if exists('$TMUX') && !has('gui')
   Plug 'tmux-plugins/vim-tmux-focus-events'                 " FocusGained etc. in tmux!
   Plug 'benmills/vimux'                                     " Use vimux to open commands in special tmux pane
 endif
 
 " Typing/Autocomplete support
-Plug 'benekastah/neomake'                                   " Neovim async syntax checker
+Plug 'neomake/neomake'                                      " Neovim async syntax checker
 Plug 'jiangmiao/auto-pairs'                                 " Automatically pair quotes, braces etc.
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
 
@@ -65,10 +64,6 @@ Plug 'coderifous/textobj-word-column.vim'
 " Replace-from-register operator (eg. "0riw == replace inner word with content
 " from register 0)
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
-
-" todo-list/snippets
-Plug 'junegunn/vim-journal'
-Plug 'vitalk/vim-simple-todo'
 
 " Colors
 Plug 'IanConnolly/gruvbox'
@@ -104,8 +99,13 @@ call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
 set noshowcmd
-set laststatus=2
 set noruler
+
+if has('gui')
+  set laststatus=2
+else
+  set laststatus=0
+end
 
 " Text-y stuff
 set shiftround " 'h' and 'l' will wrap around lines
@@ -175,8 +175,11 @@ set switchbuf=useopen
 set updatetime=750
 set lazyredraw
 
+if has('mac') && has('gui')
+  set macligatures
+endif
+
 set guifont=PragmataPro:h15
-set macligatures
 set guioptions-=r
 set guioptions-=e
 set guioptions-=L
@@ -196,11 +199,23 @@ let ruby_no_expensive = 1
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
-let g:neomake_open_list           = 0
+let g:neomake_open_list           = 2
 let g:neomake_error_sign          = {'text': '!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign        = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign        = {'text': '?', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign           = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_rust_cargo_maker = {
+      \ 'args': ['check'],
+      \ 'errorformat':
+      \ '%-G%f:%s:,' .
+      \ '%f:%l:%c: %trror: %m,' .
+      \ '%f:%l:%c: %tarning: %m,' .
+      \ '%f:%l:%c: %m,'.
+      \ '%f:%l: %trror: %m,'.
+      \ '%f:%l: %tarning: %m,'.
+      \ '%f:%l: %m',
+      \ }
+let g:neomake_rust_enabled_makers = ['cargo']
 
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style = 1
@@ -211,8 +226,14 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " Don't update as I type
 let g:gitgutter_realtime           = 0
-let g:gitgutter_eager              = 0
+let g:gitgutter_eager              = 1
 let g:gitgutter_sign_column_always = 1
+
+if executable('rg')
+  let g:gitgutter_grep_command = 'rg --color never'
+elseif executable('ag')
+  let g:gitgutter_grep_command = 'ag --nocolor'
+endif
 
 " Undotree
 let g:undotree_WindowLayout       = 4
@@ -225,22 +246,14 @@ function! g:Undotree_CustomMap()
   nmap <buffer> q <plug>UndotreeClose
 endfunction
 
-" Deoplete
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_smart_case = 1
-" let g:deoplete#max_menu_width = 60
-" let g:deoplete#max_abbr_width = 150
-" let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['buffer']
-" let g:deoplete#sources.rust = ['buffer', 'racer']
-" call deoplete#custom#set('_', 'converters',
-"         \ ['converter_remove_paren'])
-"
-
 " Racer
 let g:racer_cmd    = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
 let $CARGO_HOME    = glob("~/cargo")
+
+let g:completor_racer_binary = g:racer_cmd
+let g:completor_ruby_omni_trigger = '([^. *\t]\.\w*|[a-zA-Z_]\w*::)'
+let g:completor_css_omni_trigger = "([\w-]+|@[\w-]*|[\w-]+:\s*[\w-]*)$"
 
 " Grepper
 let g:grepper = {
@@ -248,11 +261,8 @@ let g:grepper = {
   \ 'open': 1,
   \ 'switch': 1,
   \ 'jump': 0,
-  \ 'tools': ['ag'],
+  \ 'tools': ['rg', 'ag'],
   \ }
-
-" Journal/todo
-let g:simple_todo_map_keys = 0
 
 " CtrlP
 let g:ctrlp_user_command    = {
@@ -276,6 +286,9 @@ let g:ctrlp_use_caching     = 0
 let g:airline_left_sep   = ''
 let g:airline_right_sep  = ''
 let g:airline_extensions = ['branch', 'whitespace', 'wordcount', 'hunks', 'ctrlp', 'neomake']
+
+" vim-sneak
+let g:sneak#s_next = 1
 
 " MAPPINGS
 
@@ -302,17 +315,19 @@ silent! exe "set <S-Right>=\<Esc>f"
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
 if executable('ag')
-  " Integrate with Ag
-  set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
+  " Integrate with ripgrep
+  set grepprg=rg\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
   if PluginLoaded('vim-grepper')
     nmap gs  <plug>(GrepperOperator)
     xmap gs  <plug>(GrepperOperator)
 
-    nnoremap <Leader>s :Grepper -noswitch -tool ag -cword -noprompt<CR>
+    nnoremap <Leader>s :Grepper -noswitch -tool rg -cword -noprompt<CR>
     nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
+    nnoremap <Leader>rg :Grepper -tool rg -query ''<Left>
     command! -nargs=* Ag Grepper -tool ag -query <args><CR>
+    command! -nargs=* Rg Grepper -tool rg -query <args><CR>
   endif
 endif
 
@@ -380,6 +395,8 @@ xnoremap <Leader>y "*y
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
 
+nnoremap <Leader>cp :let @+ = expand("%")<CR>
+
 " Neomake errors
 if PluginLoaded('neomake')
   nnoremap <Leader>e :Neomake<CR>:lopen<CR>
@@ -439,6 +456,10 @@ nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
 nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 
+if has('gui')
+  nnoremap <Leader>re :bufdo bd<CR>:Startify<CR>
+endif
+
 " COMMANDS
 
 " Debug colours
@@ -454,8 +475,6 @@ command! Reload :so ~/dotfiles/vimfiles/vimrc
 command! EC edit ~/dotfiles/vimfiles/vimrc
 command! EV vsplit ~/dotfiles/vimfiles/vimrc
 command! ES split ~/dotfiles/vimfiles/vimrc
-command! Todo edit ~/.todo
-command! Snip edit ~/.snippets
 
 " AUTOCOMMANDS
 
@@ -479,29 +498,19 @@ augroup FileTypeSettings
   autocmd BufNewFile,BufRead *.q set filetype=sql " Hive
   autocmd BufNewFile,BufRead Fastfile,Appfile,Scanfile,Deliverfile set filetype=ruby
 
-  autocmd BufNewFile,BufRead *todo,*snippets set filetype=journal
-
-  autocmd BufNewFile,BufRead *todo setlocal spell nonumber
-  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>to
-      \ <Plug>(simple-todo-below)
-  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tn
-      \ <Plug>(simple-todo-new)
-  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tc
-      \ <Plug>(simple-todo-mark-as-done)
-  autocmd BufNewFile,BufRead *todo nmap <buffer> <Leader>tx
-      \ <Plug>(simple-todo-mark-as-undone)
-
-  autocmd BufNewFile,BufRead *snippets nnoremap <buffer> <Leader>jr
-      \ o```ruby<CR>```<Esc>O<Tab>
-  autocmd BufNewFile,BufRead *snippets nnoremap <buffer> <Leader>js
-      \ o```sql<CR>```<Esc>O<Tab>
-
-  autocmd CursorHold,CursorHoldI *todo,*snippets silent write
 
   " spell check git commit messages and markdown files
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
+
+  autocmd FileType git nnoremap <buffer> q :Sayonara<CR>
+
+  autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_include_objectspace = 1
 augroup END
 
 augroup RubyMarks
@@ -523,6 +532,14 @@ augroup VimHelp
   autocmd!
   autocmd BufEnter *.txt call Help()
 augroup END
+
+if PluginLoaded('neomake')
+  augroup Neomake
+    autocmd!
+    autocmd BufWritePost *.rb Neomake
+    autocmd BufWritePost *.rs Neomake! cargo
+  augroup END
+endif
 
 if PluginLoaded('vim-dirvish')
   augroup Dirvish

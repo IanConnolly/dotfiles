@@ -55,21 +55,19 @@ HISTSIZE=500000
 HISTFILESIZE=100000
 
 
-export PATH="$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/.bin:$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 # Neovim setup
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export XDG_CONFIG_HOME=$HOME
-export EDITOR=nvim
+export EDITOR=vim
 
 # Aliases
 alias nv=nvim
 alias nvi=nvim
-alias vim=nvim
-alias view="nvim +\"set readonly\""
 alias devbox="ssh -A devbox.lo"
-alias show=ag
+alias show=rg
 
 # Setup for racer/rust
 export RUST_SRC_PATH=~/rust/src
@@ -79,3 +77,20 @@ export RUST_SRC_PATH=~/rust/src
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 source /usr/local/opt/chruby/share/chruby/auto.sh
 
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+fcoc() {
+  local commits commit
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}

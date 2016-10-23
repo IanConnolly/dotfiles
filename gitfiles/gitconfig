@@ -40,6 +40,9 @@
     open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
     branches = "!f() { fbr; };f"
     mrc = branch --sort=-committerdate
+    toggle = checkout -
+    tg = checkout -
+    finish = merge @{-1}
 [push]
     default = simple
 [core]
