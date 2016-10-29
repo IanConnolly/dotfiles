@@ -1,5 +1,3 @@
-:let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
 filetype off
 runtime macros/matchit.vim
 
@@ -19,33 +17,18 @@ Plug 'kopischke/vim-fetch'                                  " GNU line/column fo
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
+Plug 'IanConnolly/vim-qf'                                   " Tame quickfix 
 Plug 'ctrlpvim/ctrlp.vim', { 'branch': 'asynchronized' } | Plug 'FelikZ/ctrlp-py-matcher'
-
-" GUI-only plugins
-if has('gui')
-  Plug 'vim-airline/vim-airline'
-  Plug 'mhinz/vim-startify'
-end
 
 " External integrations
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
 Plug 'tpope/vim-rails'                                      " Helpful rails related shortcuts
-Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'          " Git command wrappers
+Plug 'tpope/vim-fugitive' | Plug 'shumphrey/fugitive-gitlab.vim' | Plug 'junegunn/gv.vim' " Git command wrappers
 Plug 'tpope/vim-eunuch'                                     " Wrappers for UNIX
 
-" built-in improvement
-Plug 'romainl/vim-qf'                                       " Tame quickfix
-Plug 'maralla/completor.vim'                                " lightweight autocomplete
-
-" Tmux
-if exists('$TMUX') && !has('gui')
-  Plug 'tmux-plugins/vim-tmux-focus-events'                 " FocusGained etc. in tmux!
-  Plug 'benmills/vimux'                                     " Use vimux to open commands in special tmux pane
-endif
-
-" Typing/Autocomplete support
+" " Typing/Autocomplete support
 Plug 'neomake/neomake'                                      " Neovim async syntax checker
-Plug 'jiangmiao/auto-pairs'                                 " Automatically pair quotes, braces etc.
+Plug 'IanConnolly/VimCompletesMe'
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
@@ -56,6 +39,7 @@ Plug 'tpope/vim-unimpaired'                                 " Collection of pair
 Plug 'tpope/vim-repeat'                                     " repeat surround/comment/unimpaired actions
 Plug 'tommcdo/vim-lion'                                     " Alignment motion
 Plug 'AndrewRadev/splitjoin.vim'                            " SplitJoin
+Plug 'kana/vim-niceblock'                                   " No more barrier between visual/visual block
 
 " New text objs
 Plug 'wellle/targets.vim'
@@ -66,7 +50,7 @@ Plug 'coderifous/textobj-word-column.vim'
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
-Plug 'IanConnolly/gruvbox'
+Plug 'joshdick/onedark.vim'
 
 " Daily work languages
 Plug 'kchmck/vim-coffee-script'
@@ -98,14 +82,9 @@ let g:pair_programming = 0
 call Load(Vimfiles("pairing.vim"))
 
 " Command behaviour
-set noshowcmd
-set noruler
-
-if has('gui')
-  set laststatus=2
-else
-  set laststatus=0
-end
+set showcmd
+set ruler
+set laststatus=1
 
 " Text-y stuff
 set shiftround " 'h' and 'l' will wrap around lines
@@ -113,8 +92,14 @@ set whichwrap+=<,>,h,l
 
 " Line/line number
 set number
-set relativenumber
-set cursorline
+
+if has('gui')
+  set relativenumber
+  set cursorline
+else
+  set norelativenumber
+  set nocursorline
+end
 
 " Tabs
 set expandtab
@@ -175,10 +160,6 @@ set switchbuf=useopen
 set updatetime=750
 set lazyredraw
 
-if has('mac') && has('gui')
-  set macligatures
-endif
-
 set guifont=PragmataPro:h15
 set guioptions-=r
 set guioptions-=e
@@ -199,7 +180,8 @@ let ruby_no_expensive = 1
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ['mri']
-let g:neomake_open_list           = 2
+let g:neomake_vim_enabled_makers  = ['vint']
+let g:neomake_open_list           = 0
 let g:neomake_error_sign          = {'text': '!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign        = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign        = {'text': '?', 'texthl': 'NeomakeMessageSign'}
@@ -218,11 +200,9 @@ let g:neomake_rust_cargo_maker = {
 let g:neomake_rust_enabled_makers = ['cargo']
 
 " Ack.vim style quickfix mappings
-let g:qf_mapping_ack_style = 1
-
-" AutoPairs binds to Meta by default for whatever reason, we don't want that
-" on OSX
-let g:AutoPairsShortcutFastWrap = '<C-e>'
+let g:qf_mapping_ack_style  = 1
+let g:qf_auto_open_quickfix = 0
+let g:qf_auto_open_loclist  = 0
 
 " Don't update as I type
 let g:gitgutter_realtime           = 0
@@ -251,10 +231,6 @@ let g:racer_cmd    = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
 let $CARGO_HOME    = glob("~/cargo")
 
-let g:completor_racer_binary = g:racer_cmd
-let g:completor_ruby_omni_trigger = '([^. *\t]\.\w*|[a-zA-Z_]\w*::)'
-let g:completor_css_omni_trigger = "([\w-]+|@[\w-]*|[\w-]+:\s*[\w-]*)$"
-
 " Grepper
 let g:grepper = {
   \ 'quickfix': 1,
@@ -282,13 +258,14 @@ let g:ctrlp_prompt_mappings = {
     \ }
 let g:ctrlp_use_caching     = 0
 
-" Airline
-let g:airline_left_sep   = ''
-let g:airline_right_sep  = ''
-let g:airline_extensions = ['branch', 'whitespace', 'wordcount', 'hunks', 'ctrlp', 'neomake']
-
 " vim-sneak
 let g:sneak#s_next = 1
+
+" fugitive/gitlab
+let g:fugitive_gitlab_domains = ['https://git.lo']
+
+" targets.vim
+let g:targets_aiAI = 'ai  ' " Disable A and I because it's used by niceblock
 
 " MAPPINGS
 
@@ -456,9 +433,10 @@ nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
 nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 
-if has('gui')
-  nnoremap <Leader>re :bufdo bd<CR>:Startify<CR>
-endif
+" Handle matching pairs correctly
+inoremap {<CR> {<CR>}<C-o>O
+inoremap (<CR> (<CR>)<C-o>O
+inoremap [<CR> [<CR>]<C-o>O
 
 " COMMANDS
 

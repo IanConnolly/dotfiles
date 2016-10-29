@@ -1,5 +1,11 @@
 if has('mac')
   " Otherwise vim will get nasty escape codes
+  if has('gui')
+    set macligatures
+    set macthinstrokes
+    set antialias
+  endif
+
   if $TERM == 'xterm-256color' || $TERM == 'screen-256color'
     map <Esc>OP <F1>
     map <Esc>OQ <F2>
