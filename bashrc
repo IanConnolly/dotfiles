@@ -69,6 +69,9 @@ alias nvi=nvim
 alias devbox="ssh -A devbox.lo"
 alias show=rg
 
+alias utc="sudo systemsetup -settimezone GMT"
+alias sf="sudo systemsetup -settimezone America/Los_Angeles"
+
 # Setup for racer/rust
 export RUST_SRC_PATH=~/rust/src
 
