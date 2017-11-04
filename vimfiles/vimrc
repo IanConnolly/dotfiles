@@ -17,18 +17,18 @@ Plug 'kopischke/vim-fetch'                                  " GNU line/column fo
 
 " Searching related
 Plug 'mhinz/vim-grepper'                                    " Async grepprg
-Plug 'IanConnolly/vim-qf'                                   " Tame quickfix 
-Plug 'ctrlpvim/ctrlp.vim', { 'branch': 'asynchronized' } | Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'romainl/vim-qf'                                       " Tame quickfix
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-slash'
 
 " External integrations
+Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
-Plug 'tpope/vim-rails'                                      " Helpful rails related shortcuts
-Plug 'tpope/vim-fugitive' | Plug 'shumphrey/fugitive-gitlab.vim' | Plug 'junegunn/gv.vim' " Git command wrappers
+Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb' | Plug 'junegunn/gv.vim' " Git command wrappers
 Plug 'tpope/vim-eunuch'                                     " Wrappers for UNIX
 
-" " Typing/Autocomplete support
-Plug 'neomake/neomake'                                      " Neovim async syntax checker
-Plug 'IanConnolly/VimCompletesMe'
+" Typing/Autocomplete support
+Plug 'ajh17/VimCompletesMe'
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
@@ -50,13 +50,20 @@ Plug 'coderifous/textobj-word-column.vim'
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
-Plug 'joshdick/onedark.vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'itchyny/lightline.vim'
 
-" Daily work languages
+" Web
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-ruby/vim-ruby'
+
+" Ocaml + Elm
+Plug 'rgrinberg/vim-ocaml'
+Plug 'let-def/ocp-indent-vim'
+Plug 'ElmCast/elm-vim'
+Plug '~/.opam/system/share/merlin', { 'for': ['ocaml', 'merlin' ], 'rtp': 'vim' }
 
 " Other stuff
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
@@ -81,10 +88,12 @@ syntax on
 let g:pair_programming = 0
 call Load(Vimfiles("pairing.vim"))
 
+
 " Command behaviour
-set showcmd
+set noshowcmd
+set noshowmode
 set ruler
-set laststatus=1
+set laststatus=2
 
 " Text-y stuff
 set shiftround " 'h' and 'l' will wrap around lines
@@ -178,27 +187,6 @@ endif
 let ruby_operators    = 1
 let ruby_no_expensive = 1
 
-" Neomake
-let g:neomake_ruby_enabled_makers = ['mri']
-let g:neomake_vim_enabled_makers  = ['vint']
-let g:neomake_open_list           = 0
-let g:neomake_error_sign          = {'text': '!', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign        = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign        = {'text': '?', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign           = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
-let g:neomake_rust_cargo_maker = {
-      \ 'args': ['check'],
-      \ 'errorformat':
-      \ '%-G%f:%s:,' .
-      \ '%f:%l:%c: %trror: %m,' .
-      \ '%f:%l:%c: %tarning: %m,' .
-      \ '%f:%l:%c: %m,'.
-      \ '%f:%l: %trror: %m,'.
-      \ '%f:%l: %tarning: %m,'.
-      \ '%f:%l: %m',
-      \ }
-let g:neomake_rust_enabled_makers = ['cargo']
-
 " Ack.vim style quickfix mappings
 let g:qf_mapping_ack_style  = 1
 let g:qf_auto_open_quickfix = 0
@@ -207,7 +195,28 @@ let g:qf_auto_open_loclist  = 0
 " Don't update as I type
 let g:gitgutter_realtime           = 0
 let g:gitgutter_eager              = 1
-let g:gitgutter_sign_column_always = 1
+set signcolumn=yes
+
+" Elm
+let g:elm_jump_to_error = 0
+let g:elm_make_show_warnings = 1
+let g:elm_syntastic_show_warnings = 0
+let g:elm_browser_command = ""
+let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 0
+let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 0
+
+" ALE
+let g:ale_elm_make_executable = 'elm-make'
+let g:ale_elm_make_use_global = 1
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed  = 0
 
 if executable('rg')
   let g:gitgutter_grep_command = 'rg --color never'
@@ -240,32 +249,13 @@ let g:grepper = {
   \ 'tools': ['rg', 'ag'],
   \ }
 
-" CtrlP
-let g:ctrlp_user_command    = {
-      \ 'types': {
-      \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
-      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-      \ },
-      \ 'fallback': 'ag %s -l --nocolor -g ""'
-      \ }
-let g:ctrlp_map             = ''
-let g:ctrlp_mruf_exclude    = '/tmp/.*\|/temp/.*' " MacOSX/Linux
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtSelectMove("j")':   ['<c-j>', '<c-n>'],
-    \ 'PrtSelectMove("k")':   ['<c-k>', '<c-p>'],
-    \ 'PrtHistory(-1)':       ['<down>'],
-    \ 'PrtHistory(1)':        ['<up>'],
-    \ }
-let g:ctrlp_use_caching     = 0
-
 " vim-sneak
 let g:sneak#s_next = 1
 
-" fugitive/gitlab
-let g:fugitive_gitlab_domains = ['https://git.lo']
-
 " targets.vim
 let g:targets_aiAI = 'ai  ' " Disable A and I because it's used by niceblock
+
+let g:fzf_command_prefix = 'Fzf'
 
 " MAPPINGS
 
@@ -291,10 +281,11 @@ silent! exe "set <S-Right>=\<Esc>f"
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
-if executable('ag')
+if executable('rg') && executable('ag')
   " Integrate with ripgrep
   set grepprg=rg\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
+  nnoremap <Leader>/ :FzfAg<CR>
 
   if PluginLoaded('vim-grepper')
     nmap gs  <plug>(GrepperOperator)
@@ -303,8 +294,6 @@ if executable('ag')
     nnoremap <Leader>s :Grepper -noswitch -tool rg -cword -noprompt<CR>
     nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
     nnoremap <Leader>rg :Grepper -tool rg -query ''<Left>
-    command! -nargs=* Ag Grepper -tool ag -query <args><CR>
-    command! -nargs=* Rg Grepper -tool rg -query <args><CR>
   endif
 endif
 
@@ -339,14 +328,9 @@ if PluginLoaded('vim-plug')
   nnoremap <Leader>S :call GenerateSnapshot()<CR>
 endif
 
-set path=.,**
-nnoremap <Leader>F :find <C-R>=expand('%:p:h').'/**/*'<CR>
-nnoremap <Leader>v :vert sfind *
-nnoremap <Leader>V :vert sfind <C-R>=expand('%:p:h').'/**/*'<CR>
-
 " no need for this to be mac only; can compile from source
-if PluginLoaded('ctrlp.vim')
-  nnoremap <Leader>fa :CtrlP<CR>
+if PluginLoaded('fzf.vim')
+  nnoremap <Leader>fa :FzfFiles<CR>
 else
   nnoremap <Leader>fa :find *
 endif
@@ -374,21 +358,17 @@ nnoremap <Leader>P "0P
 
 nnoremap <Leader>cp :let @+ = expand("%")<CR>
 
-" Neomake errors
-if PluginLoaded('neomake')
-  nnoremap <Leader>e :Neomake<CR>:lopen<CR>
-endif
-
-if PluginLoaded('ctrlp.vim')
-  " For fuzzy finding thru buffers
-  nnoremap <Leader><Tab> :CtrlPBuffer<CR>
-endif
-
 " Switch to last active buffer
 noremap <Leader><Leader> :buffer #<CR>
+nnoremap <Leader><Tab> :buffer #<CR>
 
-" Quick jump to buffers
-nnoremap <Leader>b :ls<cr>:b<space>
+if PluginLoaded('fzf.vim')
+  " For fuzzy finding thru buffers
+  nnoremap <Leader>b :FzfBuffers<CR>
+else
+  " Quick jump to buffers
+  nnoremap <Leader>b :ls<cr>:b<space>
+end
 
 " More logical
 map Y y$
@@ -489,6 +469,19 @@ augroup FileTypeSettings
   autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
   autocmd FileType ruby,eruby let g:rubycomplete_include_object = 1
   autocmd FileType ruby,eruby let g:rubycomplete_include_objectspace = 1
+
+  autocmd FileType ocaml setlocal indentexpr=ocpindent#OcpIndentLine()
+  autocmd FileType ocaml nnoremap <buffer> <Leader>mt :MerlinTypeOf<CR>
+  autocmd FileType ocaml nnoremap <buffer> <Leader>mg :MerlinGrowEnclosing<CR>
+  autocmd FileType ocaml nnoremap <buffer> <Leader>ms :MerlinShrinkEnclosing<CR>
+  autocmd FileType ocaml nnoremap <buffer> <Leader>mc :MerlinClearEnclosing<CR>
+  autocmd FileType ocaml setlocal indentexpr=ocpindent#OcpIndentLine()
+  autocmd FileType ocaml setlocal indentexpr=ocpindent#OcpIndentLine()
+augroup END
+
+augroup Trim
+  autocmd!
+  autocmd BufWritePre * call TrimWhitespace()
 augroup END
 
 augroup RubyMarks
@@ -511,14 +504,6 @@ augroup VimHelp
   autocmd BufEnter *.txt call Help()
 augroup END
 
-if PluginLoaded('neomake')
-  augroup Neomake
-    autocmd!
-    autocmd BufWritePost *.rb Neomake
-    autocmd BufWritePost *.rs Neomake! cargo
-  augroup END
-endif
-
 if PluginLoaded('vim-dirvish')
   augroup Dirvish
     autocmd!
@@ -535,6 +520,7 @@ endif
 " EXTRA VIMFILES
 
 call Load(Vimfiles("colors.vim"))
+call Load(Vimfiles("statusline.vim"))
 
 if has('nvim')
   call Load(Vimfiles("neo.vim"))
@@ -545,4 +531,44 @@ if has('mac')
 endif
 
 call Load("~/.vimrc.local")
+
+function! CCR()
+    let cmdline = getcmdline()
+    command! -bar Z silent set more|delcommand Z
+    if cmdline =~ '\v\C^(ls|files|buffers)'
+        " like :ls but prompts for a buffer command
+        return "\<CR>:b"
+    elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+        " like :g//# but prompts for a command
+        return "\<CR>:"
+    elseif cmdline =~ '\v\C^(dli|il)'
+        " like :dlist or :ilist but prompts for a count for :djump or :ijump
+        return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+    elseif cmdline =~ '\v\C^(cli|lli)'
+        " like :clist or :llist but prompts for an error/location number
+        return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
+    elseif cmdline =~ '\C^old'
+        " like :oldfiles but prompts for an old file to edit
+        set nomore
+        return "\<CR>:Z|e #<"
+    elseif cmdline =~ '\C^changes'
+        " like :changes but prompts for a change to jump to
+        set nomore
+        return "\<CR>:Z|norm! g;\<S-Left>"
+    elseif cmdline =~ '\C^ju'
+        " like :jumps but prompts for a position to jump to
+        set nomore
+        return "\<CR>:Z|norm! \<C-o>\<S-Left>"
+    elseif cmdline =~ '\C^marks'
+        " like :marks but prompts for a mark to jump to
+        return "\<CR>:norm! `"
+    elseif cmdline =~ '\C^undol'
+        " like :undolist but prompts for a change to undo
+        return "\<CR>:u "
+    else
+        return "\<CR>"
+    endif
+endfunction
+
+cnoremap <expr> <CR> CCR()
 
