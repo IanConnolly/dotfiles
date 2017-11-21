@@ -35,8 +35,8 @@ vimlinks:
 	ln -sf $(ROOT_DIR)/vimfiles/vimrc $(HOME)/.vimrc
 
 tmux:
-	brew uninstall tmux
-	brew update && brew reinstall https://raw.githubusercontent.com/choppsv1/homebrew-term24/master/tmux.rb && brew reinstall reattach-to-user-namespace && brew reinstall jq
+	# brew uninstall tmux
+	# brew update && brew reinstall https://raw.githubusercontent.com/choppsv1/homebrew-term24/master/tmux.rb && brew reinstall reattach-to-user-namespace && brew reinstall jq
 	ln -sf $(ROOT_DIR)/tmux.conf $(HOME)/.tmux.conf
 
 git:

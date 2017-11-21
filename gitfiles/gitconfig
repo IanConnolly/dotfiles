@@ -1,6 +1,6 @@
 [user]
     name = Ian Connolly
-    email = ian@scribd.com
+    email = ian@connolly.io
 [credential]
     helper = osxkeychain
 [color]
@@ -43,8 +43,23 @@
     toggle = checkout -
     tg = checkout -
     finish = merge @{-1}
+    a = add
+    ap = add -p
+    c = commit --verbose
+    ca = commit -a --verbose
+    cam = commit --amend --verbose
+
+    d = diff
+    ds = diff --stat
+    dc = diff --cached
+
+    s = status -s
+    co = checkout
+    cob = checkout -b
 [push]
     default = simple
 [core]
-    excludesfile = /Users/ian/.gitignore
-	quotepath = false
+    excludesfile = /Users/ianconnolly/.gitignore
+    quotepath = false
+[commit]
+    verbose = true

@@ -55,7 +55,6 @@ HISTSIZE=500000
 HISTFILESIZE=100000
 
 
-export PATH="$HOME/.bin:$HOME/.multirust/toolchains/nightly/cargo/bin:$HOME/arcinst/arcanist/bin:$HOME/.fzf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 # Neovim setup
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -66,7 +65,6 @@ export EDITOR=vim
 # Aliases
 alias nv=nvim
 alias nvi=nvim
-alias devbox="ssh -A devbox.lo"
 alias show=rg
 
 alias utc="sudo systemsetup -settimezone GMT"
@@ -77,8 +75,6 @@ export RUST_SRC_PATH=~/rust/src
 
 # Source integrations
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-source /usr/local/opt/chruby/share/chruby/auto.sh
 
 fshow() {
   git log --graph --color=always \
@@ -97,3 +93,30 @@ fcoc() {
   commit=$(echo "$commits" | fzf --tac +s +m -e) &&
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
+
+_gen_fzf_default_opts() {
+  local base03="234"
+  local base02="235"
+  local base01="240"
+  local base00="241"
+  local base0="244"
+  local base1="245"
+  local base2="254"
+  local base3="230"
+  local yellow="136"
+  local orange="166"
+  local red="160"
+  local magenta="125"
+  local violet="61"
+  local blue="33"
+  local cyan="37"
+  local green="64"
+
+  export FZF_DEFAULT_OPTS="
+    --color fg:-1,bg:-1,hl:$blue,fg+:$base02,bg+:$base2,hl+:$blue
+    --color info:$yellow,prompt:$yellow,pointer:$base03,marker:$base03,spinner:$yellow
+  "
+}
+_gen_fzf_default_opts
+
+export FZF_DEFAULT_COMMAND='fd'

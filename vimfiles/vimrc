@@ -40,6 +40,7 @@ Plug 'tpope/vim-repeat'                                     " repeat surround/co
 Plug 'tommcdo/vim-lion'                                     " Alignment motion
 Plug 'AndrewRadev/splitjoin.vim'                            " SplitJoin
 Plug 'kana/vim-niceblock'                                   " No more barrier between visual/visual block
+Plug 'ap/vim-css-color'
 
 " New text objs
 Plug 'wellle/targets.vim'
@@ -51,6 +52,7 @@ Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
 Plug 'lifepillar/vim-solarized8'
+Plug 'owickstrom/vim-colors-paramount'
 Plug 'itchyny/lightline.vim'
 
 " Web
@@ -65,11 +67,14 @@ Plug 'let-def/ocp-indent-vim'
 Plug 'ElmCast/elm-vim'
 Plug '~/.opam/system/share/merlin', { 'for': ['ocaml', 'merlin' ], 'rtp': 'vim' }
 
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tmux-plugins/vim-tmux'
+
 " Other stuff
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'cespare/vim-toml'
-Plug 'tmux-plugins/vim-tmux'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 call plug#end()
@@ -101,12 +106,17 @@ set whichwrap+=<,>,h,l
 
 " Line/line number
 set number
+set norelativenumber
 
 if has('gui')
-  set relativenumber
   set cursorline
+  set guifont=Fira\ Code\ Retina:h15
+  set list
+  set linespace=1
+  set guioptions-=r
+  set guioptions-=e
+  set guioptions-=L
 else
-  set norelativenumber
   set nocursorline
 end
 
@@ -169,10 +179,6 @@ set switchbuf=useopen
 set updatetime=750
 set lazyredraw
 
-set guifont=PragmataPro:h15
-set guioptions-=r
-set guioptions-=e
-set guioptions-=L
 
 if has("persistent_undo")
   let undoDir = expand('$HOME/.undodir')
@@ -211,8 +217,9 @@ let g:elm_setup_keybindings = 0
 let g:ale_elm_make_executable = 'elm-make'
 let g:ale_elm_make_use_global = 1
 
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_highlights = 0
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -255,18 +262,16 @@ let g:sneak#s_next = 1
 " targets.vim
 let g:targets_aiAI = 'ai  ' " Disable A and I because it's used by niceblock
 
+" Fzf
 let g:fzf_command_prefix = 'Fzf'
+
+" tmux
+let g:tmux_navigator_disable_when_zoomed = 1
 
 " MAPPINGS
 
 " god who uses this
 nnoremap Q <NOP>
-
-" Fingers are already there...
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
-vnoremap <C-j> <C-d>
-vnoremap <C-k> <C-u>
 
 " Readline-style key bindings in command-line (excerpt from rsi.vim)
 cnoremap        <C-A> <Home>
@@ -330,9 +335,10 @@ endif
 
 " no need for this to be mac only; can compile from source
 if PluginLoaded('fzf.vim')
-  nnoremap <Leader>fa :FzfFiles<CR>
+  nnoremap <Leader>ff :FzfFiles<CR>
+  nnoremap <Leader>fd :FzfBTags<CR>
 else
-  nnoremap <Leader>fa :find *
+  nnoremap <Leader>ff :find *
 endif
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -571,4 +577,3 @@ function! CCR()
 endfunction
 
 cnoremap <expr> <CR> CCR()
-

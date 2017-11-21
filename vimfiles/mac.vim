@@ -1,8 +1,8 @@
 if has('mac')
   " Otherwise vim will get nasty escape codes
   if has('gui')
-    set macligatures
-    set macthinstrokes
+    set nomacligatures
+    set nomacthinstrokes
     set antialias
   endif
 
