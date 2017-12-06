@@ -16,23 +16,23 @@ Plug 'mhinz/vim-sayonara'                                   " Sanely quit buffer
 Plug 'kopischke/vim-fetch'                                  " GNU line/column format!
 
 " Searching related
-Plug 'mhinz/vim-grepper'                                    " Async grepprg
 Plug 'romainl/vim-qf'                                       " Tame quickfix
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-slash'
+Plug 'xtal8/traces.vim'
 
 " External integrations
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
-Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb' | Plug 'junegunn/gv.vim' " Git command wrappers
-Plug 'tpope/vim-eunuch'                                     " Wrappers for UNIX
+
+" Git command wrappers
+Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb' | Plug 'junegunn/gv.vim'
 
 " Typing/Autocomplete support
 Plug 'ajh17/VimCompletesMe'
 Plug 'tpope/vim-endwise'                                    " Insert 'end' in ruby as smartly as braces
 
 " Movement/Text-alteration
-Plug 'justinmk/vim-sneak'                                   " 2 character jump motion
 Plug 'tpope/vim-surround'                                   " Easily deal with surrounding quotes
 Plug 'tpope/vim-commentary'                                 " Comment/uncomment textobjs
 Plug 'tpope/vim-unimpaired'                                 " Collection of paired commands
@@ -40,7 +40,6 @@ Plug 'tpope/vim-repeat'                                     " repeat surround/co
 Plug 'tommcdo/vim-lion'                                     " Alignment motion
 Plug 'AndrewRadev/splitjoin.vim'                            " SplitJoin
 Plug 'kana/vim-niceblock'                                   " No more barrier between visual/visual block
-Plug 'ap/vim-css-color'
 
 " New text objs
 Plug 'wellle/targets.vim'
@@ -51,8 +50,8 @@ Plug 'coderifous/textobj-word-column.vim'
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
-Plug 'lifepillar/vim-solarized8'
-Plug 'owickstrom/vim-colors-paramount'
+Plug 'rakr/vim-one'
+Plug 'ap/vim-css-color'
 Plug 'itchyny/lightline.vim'
 
 " Web
@@ -93,11 +92,9 @@ syntax on
 let g:pair_programming = 0
 call Load(Vimfiles("pairing.vim"))
 
-
 " Command behaviour
 set noshowcmd
-set noshowmode
-set ruler
+set noruler
 set laststatus=2
 
 " Text-y stuff
@@ -108,16 +105,19 @@ set whichwrap+=<,>,h,l
 set number
 set norelativenumber
 
+" GUI
 if has('gui')
   set cursorline
-  set guifont=Fira\ Code\ Retina:h15
+  set guifont=Fira\ Code:h15
   set list
   set linespace=1
   set guioptions-=r
   set guioptions-=e
   set guioptions-=L
+  set noshowmode
 else
   set nocursorline
+  set showmode
 end
 
 " Tabs
@@ -247,18 +247,6 @@ let g:racer_cmd    = "racer"
 let $RUST_SRC_PATH = glob("~/rust/src/")
 let $CARGO_HOME    = glob("~/cargo")
 
-" Grepper
-let g:grepper = {
-  \ 'quickfix': 1,
-  \ 'open': 1,
-  \ 'switch': 1,
-  \ 'jump': 0,
-  \ 'tools': ['rg', 'ag'],
-  \ }
-
-" vim-sneak
-let g:sneak#s_next = 1
-
 " targets.vim
 let g:targets_aiAI = 'ai  ' " Disable A and I because it's used by niceblock
 
@@ -286,21 +274,12 @@ silent! exe "set <S-Right>=\<Esc>f"
 " Trim trailing whitespace
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
-if executable('rg') && executable('ag')
+if executable('rg')
   " Integrate with ripgrep
   set grepprg=rg\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
-  nnoremap <Leader>/ :FzfAg<CR>
-
-  if PluginLoaded('vim-grepper')
-    nmap gs  <plug>(GrepperOperator)
-    xmap gs  <plug>(GrepperOperator)
-
-    nnoremap <Leader>s :Grepper -noswitch -tool rg -cword -noprompt<CR>
-    nnoremap <Leader>ag :Grepper -tool ag -query ''<Left>
-    nnoremap <Leader>rg :Grepper -tool rg -query ''<Left>
-  endif
-endif
+end
+command! -nargs=+ Grep execute 'silent grep! <args>' | copen
 
 " SplitJoin Bindings
 nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
@@ -510,6 +489,11 @@ augroup VimHelp
   autocmd BufEnter *.txt call Help()
 augroup END
 
+augroup Resized
+  autocmd!
+  autocmd VimResized * wincmd =
+augroup END
+
 if PluginLoaded('vim-dirvish')
   augroup Dirvish
     autocmd!
@@ -538,42 +522,3 @@ endif
 
 call Load("~/.vimrc.local")
 
-function! CCR()
-    let cmdline = getcmdline()
-    command! -bar Z silent set more|delcommand Z
-    if cmdline =~ '\v\C^(ls|files|buffers)'
-        " like :ls but prompts for a buffer command
-        return "\<CR>:b"
-    elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
-        " like :g//# but prompts for a command
-        return "\<CR>:"
-    elseif cmdline =~ '\v\C^(dli|il)'
-        " like :dlist or :ilist but prompts for a count for :djump or :ijump
-        return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
-    elseif cmdline =~ '\v\C^(cli|lli)'
-        " like :clist or :llist but prompts for an error/location number
-        return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
-    elseif cmdline =~ '\C^old'
-        " like :oldfiles but prompts for an old file to edit
-        set nomore
-        return "\<CR>:Z|e #<"
-    elseif cmdline =~ '\C^changes'
-        " like :changes but prompts for a change to jump to
-        set nomore
-        return "\<CR>:Z|norm! g;\<S-Left>"
-    elseif cmdline =~ '\C^ju'
-        " like :jumps but prompts for a position to jump to
-        set nomore
-        return "\<CR>:Z|norm! \<C-o>\<S-Left>"
-    elseif cmdline =~ '\C^marks'
-        " like :marks but prompts for a mark to jump to
-        return "\<CR>:norm! `"
-    elseif cmdline =~ '\C^undol'
-        " like :undolist but prompts for a change to undo
-        return "\<CR>:u "
-    else
-        return "\<CR>"
-    endif
-endfunction
-
-cnoremap <expr> <CR> CCR()

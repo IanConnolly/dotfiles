@@ -10,6 +10,7 @@
 --exclude=dist
 --exclude=\*.min.\*
 --exclude=\*.native
+--exclude=_build
 --exclude=\*.map
 --exclude=\*.swp
 --exclude=\*.bak
