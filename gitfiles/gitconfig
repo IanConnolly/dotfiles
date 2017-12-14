@@ -74,7 +74,7 @@
 [push]
     default = simple
 [core]
-    excludesfile = /Users/ianconnolly/.gitignore
+  excludesfile = ~/.gitignore
     quotepath = false
 	whitespace = trailing-space,space-before-tab
 [commit]
