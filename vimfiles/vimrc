@@ -25,6 +25,7 @@ Plug 'xtal8/traces.vim'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
 
+
 " Git command wrappers
 Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb' | Plug 'junegunn/gv.vim'
 
@@ -51,6 +52,7 @@ Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
 Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
 Plug 'ap/vim-css-color'
 Plug 'itchyny/lightline.vim'
 
@@ -107,14 +109,17 @@ set norelativenumber
 
 " GUI
 if has('gui')
-  set cursorline
-  set guifont=Fira\ Code:h15
+  " set cursorline
+  set guifont=Fantasque\ Sans\ Mono\ Regular:h15
   set list
   set linespace=1
   set guioptions-=r
   set guioptions-=e
   set guioptions-=L
   set noshowmode
+
+  " Toggle tabs, but only in GUI due to key sequence conflict
+  nnoremap <Tab> za
 else
   set nocursorline
   set showmode
@@ -186,6 +191,8 @@ if has("persistent_undo")
   let &undodir = undoDir
   set undofile
 endif
+
+call Load(Vimfiles("abbreviations.vim"))
 
 " PLUGINS
 
@@ -280,6 +287,8 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 end
 command! -nargs=+ Grep execute 'silent grep! <args>' | copen
+command! -nargs=+ Help execute 'silent helpgrep <args>' | copen
+nnoremap <Leader>/ :Grep ""<Left>
 
 " SplitJoin Bindings
 nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
@@ -506,6 +515,12 @@ if PluginLoaded('vim-dirvish')
         \ :set ma<bar>g@\v/\.[^\/]+/?$@d<cr>:set noma<cr>
   augroup END
 endif
+
+augroup CursorLineOnlyInActiveWindow
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
 
 " EXTRA VIMFILES
 

@@ -4,14 +4,14 @@ endif
 
 augroup Colors
   autocmd!
-  autocmd ColorScheme * highlight CursorLineNr gui=bold | highlight Statement gui=bold | highlight Type gui=bold
+  " autocmd ColorScheme * highlight CursorLineNr gui=bold | highlight Statement gui=bold | highlight Type gui=bold
 augroup END
 
 set background=dark
 let g:solarized_enable_extra_hi_groups = 0
 let g:solarized_term_italics = 0
 let g:two_firewatch_italics=1
-colorscheme one
+colorscheme gruvbox
 
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
