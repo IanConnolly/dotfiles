@@ -20,6 +20,8 @@
     changed = green
     untracked = blue
     branch = blue
+[pretty]
+    reflg = %C(red)%h%C(reset) %C(green)%ci%C(reset) %s %C(bold blue)-- %an%C(reset) %C(yellow)(%gd)%C(reset)
 [alias]
     publish = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
     amend = commit -a --amend
@@ -28,6 +30,7 @@
     hist = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     summary = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     sum = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    standup=log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --since=1.weeks --author='Ian Connolly'
     update = pull --rebase
     todo = ! git status --porcelain | sed "s/^...//" | xargs ag "TODO" -B 3 -A 10
     up = pull --rebase
@@ -57,10 +60,33 @@
     s = status -s
     co = checkout
     cob = checkout -b
+    st = status -sb
+
+    stashes=stash list --pretty=reflg
+
+    unstage = reset --
+    stage = '!f () { if (( $# > 0 )); then git add -- "$@"; else git add -u; fi }; f'
+
+    staged = diff --cached
+    unstaged = diff
+    both = diff HEAD
+
 [push]
     default = simple
 [core]
     excludesfile = /Users/ianconnolly/.gitignore
     quotepath = false
+	whitespace = trailing-space,space-before-tab
 [commit]
     verbose = true
+[rerere]
+	enabled = true
+[merge]
+	stat = true
+[diff]
+	renames = copies
+[advice]
+	statusHints = false
+	pushNonFastForward = false
+[pull]
+  rebase = true

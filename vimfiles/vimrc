@@ -17,6 +17,7 @@ Plug 'kopischke/vim-fetch'                                  " GNU line/column fo
 
 " Searching related
 Plug 'romainl/vim-qf'                                       " Tame quickfix
+Plug 'romainl/vim-qlist'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-slash'
 Plug 'xtal8/traces.vim'
@@ -24,7 +25,6 @@ Plug 'xtal8/traces.vim'
 " External integrations
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'                               " Git symbols in gutter
-
 
 " Git command wrappers
 Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb' | Plug 'junegunn/gv.vim'
@@ -51,10 +51,9 @@ Plug 'coderifous/textobj-word-column.vim'
 Plug 'kana/vim-operator-user' | Plug 'kana/vim-operator-replace'
 
 " Colors
-Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox'
 Plug 'ap/vim-css-color'
 Plug 'itchyny/lightline.vim'
+Plug 'lifepillar/vim-solarized8'
 
 " Web
 Plug 'kchmck/vim-coffee-script'
@@ -226,11 +225,14 @@ let g:ale_elm_make_use_global = 1
 
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
-let g:ale_set_highlights = 0
+let g:ale_set_highlights =0
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed  = 0
+
+let g:ale_linters = {'rust': ['cargo']}
+let g:ale_rust_rls_toolchain = 'stable'
 
 if executable('rg')
   let g:gitgutter_grep_command = 'rg --color never'
@@ -286,9 +288,10 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 end
-command! -nargs=+ Grep execute 'silent grep! <args>' | copen
+command! -nargs=+ Grep execute 'silent grep! <args>' | copen | redraw!
 command! -nargs=+ Help execute 'silent helpgrep <args>' | copen
 nnoremap <Leader>/ :Grep ""<Left>
+command! TODO execute 'Grep "TODO\(ian\)"'
 
 " SplitJoin Bindings
 nnoremap <silent> J :<C-u>call TryWithDefault('SplitjoinJoin', 'J')<CR>
@@ -366,6 +369,9 @@ end
 
 " More logical
 map Y y$
+
+nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 
 " Select last edited/pasted text
 nnoremap gV `[v`]
@@ -516,12 +522,6 @@ if PluginLoaded('vim-dirvish')
   augroup END
 endif
 
-augroup CursorLineOnlyInActiveWindow
-  autocmd!
-  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
-augroup END
-
 " EXTRA VIMFILES
 
 call Load(Vimfiles("colors.vim"))
@@ -536,4 +536,23 @@ if has('mac')
 endif
 
 call Load("~/.vimrc.local")
+
+" I add .elm at the end so Html.elm is not skipped when the directory Html/
+" exists in the same directory...
+function! GetElmFilenameFix(word)
+  let l:word = a:word
+  " replace module dots with slash
+  let l:word = substitute(l:word,'\.','/','g') .'.elm'
+  return l:word
+endfunction
+
+" go to the definition of the function under the cursoer
+" Ilist is the ilist variant from romainl/vim-qlist
+augroup ElmDef
+  autocmd!
+  autocmd FileType elm nnoremap <buffer> <leader>] yiw:Ilist ^\s*<c-r>"\s.*=$<cr>
+  autocmd FileType elm setlocal includeexpr=GetElmFilenameFix(v:fname)
+augroup END
+
+
 

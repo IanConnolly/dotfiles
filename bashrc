@@ -1,48 +1,10 @@
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1 /'
-}
+[ -z "$PS1" ] && return
 
-parse_git_dirty() {
-  if [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]]; then
-    echo '\[\e[01;31m\]\342\234\227'
-  else
-    echo '\[\e[01;32m\]\342\234\223'
-  fi
-}
-
-set_prompt () {
-    Blue='\[\e[01;34m\]'
-    White='\[\e[01;37m\]'
-    Red='\[\e[01;31m\]'
-    Green='\[\e[01;32m\]'
-    Reset='\[\e[00m\]'
-    FancyX='\342\234\227'
-    Checkmark='\342\234\223'
-
-    # If root, just print the host in red. Otherwise, print the current user
-    # and host in green.
-    PS1="\n"
-    if [[ $EUID == 0 ]]; then
-        PS1+="$Red\\h"
-    else
-        PS1+="$Blue\\u"
-    fi
-
-    PS1+="$White in "
-
-    # Print the working directory and prompt marker in blue, and reset
-    # the text color to the default.
-    PS1+="$Green\\w"
-    if [ -n "$(parse_git_branch)" ]; then
-      PS1+="$White on "
-      PS1+="$Blue$(parse_git_branch)"
-      PS1+="$(parse_git_dirty)"
-    else
-      PS1+=" "
-    fi
-    PS1+="\n$Red\\\$$Reset "
-}
-PROMPT_COMMAND='set_prompt'
+source /usr/local/etc/bash_completion.d/git-prompt.sh
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWDIRTYSTATE=1
+PROMPT_COMMAND='__git_ps1 "\w" " \\\$ "'
+# PS1='[\w $(__git_ps1 " (%s)")] \$ '
 
 shopt -s checkwinsize
 shopt -s histappend
@@ -54,45 +16,16 @@ HISTCONTROL="erasedups:ignoreboth"
 HISTSIZE=500000
 HISTFILESIZE=100000
 
-
-
-# Neovim setup
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export XDG_CONFIG_HOME=$HOME
 export EDITOR=vim
 
-# Aliases
-alias nv=nvim
-alias nvi=nvim
-alias show=rg
-
-alias utc="sudo systemsetup -settimezone GMT"
-alias sf="sudo systemsetup -settimezone America/Los_Angeles"
+alias ls='ls -lFG'
 
 # Setup for racer/rust
 export RUST_SRC_PATH=~/rust/src
 
 # Source integrations
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
-}
-
-fcoc() {
-  local commits commit
-  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
-  git checkout $(echo "$commit" | sed "s/ .*//")
-}
 
 _gen_fzf_default_opts() {
   local base03="234"
@@ -120,3 +53,11 @@ _gen_fzf_default_opts() {
 _gen_fzf_default_opts
 
 export FZF_DEFAULT_COMMAND='fd'
+
+export PATH=/Users/ianconnolly/.local/bin/luna-studio:$PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ianconnolly/google-cloud-sdk/path.bash.inc' ]; then source '/Users/ianconnolly/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ianconnolly/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/ianconnolly/google-cloud-sdk/completion.bash.inc'; fi

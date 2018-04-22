@@ -9,9 +9,9 @@ cleararc() {
 gitme() {
   if [ "$1" != "" ]
   then
-    git log --author="$1" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2  } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc  }' -
+    git log --since=1.weeks --author="$1" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2  } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc  }' -
   else
-    git log --author="Ian Connolly" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2  } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc  }' -
+    git log --date=relative --since=1.week --author="Ian Connolly" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2  } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc  }' -
   fi
 }
 
