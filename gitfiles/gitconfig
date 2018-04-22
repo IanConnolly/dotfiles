@@ -1,92 +1,92 @@
 [user]
-    name = Ian Connolly
-    email = ian@connolly.io
+  name = Ian Connolly
+  email = ian@connolly.io
 [credential]
-    helper = osxkeychain
+  helper = osxkeychain
 [color]
-    ui = auto
+  ui = auto
 [color "branch"]
-    current = red
-    local = blue
-    remote = yellow
+  current = red
+  local = blue
+  remote = yellow
 [color "diff"]
-    meta = yellow bold
-    frag = cyan bold
-    old = red reverse
-    new = green reverse
-    whitespace = white reverse
+  meta = yellow bold
+  frag = cyan bold
+  old = red reverse
+  new = green reverse
+  whitespace = white reverse
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = blue
-    branch = blue
+  added = yellow
+  changed = green
+  untracked = blue
+  branch = blue
 [pretty]
-    reflg = %C(red)%h%C(reset) %C(green)%ci%C(reset) %s %C(bold blue)-- %an%C(reset) %C(yellow)(%gd)%C(reset)
+  reflg = %C(red)%h%C(reset) %C(green)%ci%C(reset) %s %C(bold blue)-- %an%C(reset) %C(yellow)(%gd)%C(reset)
 [alias]
-    publish = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
-    amend = commit -a --amend
-    conf = config --global -e
-    history = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    hist = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    summary = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    sum = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    standup=log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --since=1.weeks --author='Ian Connolly'
-    update = pull --rebase
-    todo = ! git status --porcelain | sed "s/^...//" | xargs ag "TODO" -B 3 -A 10
-    up = pull --rebase
-    cm = commit -m
-    rmbranch = "!f(){ git branch -D ${1} && git push origin --delete ${1}; };f"
-    files = "!f() { git diff --name-status $1^ $1; }; f"
-    pluck = "!f() { git checkout $2 -- $1; }; f"
-    alias = "!git config -l | grep alias | cut -c 7-"
-    destroy = reset --hard HEAD
-    filelog = log -u
-    open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
-    branches = "!f() { fbr; };f"
-    mrc = branch --sort=-committerdate
-    toggle = checkout -
-    tg = checkout -
-    finish = merge @{-1}
-    a = add
-    ap = add -p
-    c = commit --verbose
-    ca = commit -a --verbose
-    cam = commit --amend --verbose
+  publish = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
+  amend = commit -a --amend
+  conf = config --global -e
+  history = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  hist = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  summary = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  sum = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  standup=log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --since=1.weeks --author='Ian Connolly'
+  update = pull --rebase
+  todo = ! git status --porcelain | sed "s/^...//" | xargs ag "TODO" -B 3 -A 10
+  up = pull --rebase
+  cm = commit -m
+  rmbranch = "!f(){ git branch -D ${1} && git push origin --delete ${1}; };f"
+  files = "!f() { git diff --name-status $1^ $1; }; f"
+  pluck = "!f() { git checkout $2 -- $1; }; f"
+  alias = "!git config -l | grep alias | cut -c 7-"
+  destroy = reset --hard HEAD
+  filelog = log -u
+  open = "!f() { vim `git status --porcelain | sed -ne 's/^ M //p'`; };f"
+  branches = "!f() { fbr; };f"
+  mrc = branch --sort=-committerdate
+  toggle = checkout -
+  tg = checkout -
+  finish = merge @{-1}
+  a = add
+  ap = add -p
+  c = commit --verbose
+  ca = commit -a --verbose
+  cam = commit --amend --verbose
 
-    d = diff
-    ds = diff --stat
-    dc = diff --cached
+  d = diff
+  ds = diff --stat
+  dc = diff --cached
 
-    s = status -s
-    co = checkout
-    cob = checkout -b
-    st = status -sb
+  s = status -s
+  co = checkout
+  cob = checkout -b
+  st = status -sb
 
-    stashes=stash list --pretty=reflg
+  stashes=stash list --pretty=reflg
 
-    unstage = reset --
-    stage = '!f () { if (( $# > 0 )); then git add -- "$@"; else git add -u; fi }; f'
+  unstage = reset --
+  stage = '!f () { if (( $# > 0 )); then git add -- "$@"; else git add -u; fi }; f'
 
-    staged = diff --cached
-    unstaged = diff
-    both = diff HEAD
+  staged = diff --cached
+  unstaged = diff
+  both = diff HEAD
 
 [push]
-    default = simple
+  default = simple
 [core]
   excludesfile = ~/.gitignore
-    quotepath = false
-	whitespace = trailing-space,space-before-tab
+  quotepath = false
+  whitespace = trailing-space,space-before-tab
 [commit]
-    verbose = true
+  verbose = true
 [rerere]
-	enabled = true
+  enabled = true
 [merge]
-	stat = true
+  stat = true
 [diff]
-	renames = copies
+  renames = copies
 [advice]
-	statusHints = false
-	pushNonFastForward = false
+  statusHints = false
+  pushNonFastForward = false
 [pull]
   rebase = true
