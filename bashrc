@@ -54,10 +54,10 @@ _gen_fzf_default_opts
 
 export FZF_DEFAULT_COMMAND='fd'
 
-export PATH=/Users/ianconnolly/.local/bin/luna-studio:$PATH
+export PATH=/Users/ian/.local/bin/luna-studio:/home/dark/.opam/4.04.2/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ianconnolly/google-cloud-sdk/path.bash.inc' ]; then source '/Users/ianconnolly/google-cloud-sdk/path.bash.inc'; fi
+if [ -f '/Users/ian/google-cloud-sdk/path.bash.inc' ]; then source '/Users/ian/google-cloud-sdk/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ianconnolly/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/ianconnolly/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f '/Users/ian/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/ian/google-cloud-sdk/completion.bash.inc'; fi
